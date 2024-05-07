@@ -3,6 +3,7 @@ import { DataSource } from "typeorm";
 import { User } from "./entity/User";
 import { Roles } from "./entity/Roles";
 import { Permisos } from "./entity/Permisos";
+import { Comunas } from "./entity/Comunas";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
