@@ -7,7 +7,8 @@ Steps to run this project:
 2. Setup database settings inside `data-source.ts` file
 3. Run `npm start` command
 
-
+# Ejecutar Servidor:
+npm run dev
 
 servidor 
 node js -> express
