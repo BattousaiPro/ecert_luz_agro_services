@@ -1,6 +1,7 @@
 import { ComunasController } from "./controller/ComunasController"
 import { PermisosController } from "./controller/PermisosController"
 import { RolesController } from "./controller/RolesController"
+import { SectorController } from "./controller/SectorController"
 import { UserController } from "./controller/UserController"
 
 export const Routes = [
@@ -98,6 +99,30 @@ export const Routes = [
         method: "delete",
         route: "/comunas/:id",
         controller: ComunasController,
+        action: "remove"
+    }
+
+
+
+    , {
+        method: "get",
+        route: "/sector",
+        controller: SectorController,
+        action: "all"
+    }, {
+        method: "get",
+        route: "/sector/:id",
+        controller: SectorController,
+        action: "one"
+    }, {
+        method: "post",
+        route: "/sector",
+        controller: SectorController,
+        action: "save"
+    }, {
+        method: "delete",
+        route: "/sector/:id",
+        controller: SectorController,
         action: "remove"
     }
 

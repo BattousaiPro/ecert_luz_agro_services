@@ -4,6 +4,7 @@ import { User } from "./entity/User";
 import { Roles } from "./entity/Roles";
 import { Permisos } from "./entity/Permisos";
 import { Comunas } from "./entity/Comunas";
+import { Sector } from "./entity/Sector";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
     database: "test",
     synchronize: true,
     logging: false,
-    entities: [User, Roles, Permisos, Comunas],
+    entities: [User, Roles, Permisos, Comunas, Sector],
     migrations: [],
     subscribers: [],
 })
