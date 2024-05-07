@@ -22,11 +22,11 @@ export class ComunasController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { id, codigo, descip } = request.body;
+        const { id, codigo, descrip } = request.body;
         const comunas = Object.assign(new Comunas(), {
             id,
             codigo,
-            descip
+            descrip
         })
         return this.ComunasRepository.save(comunas)
     }
