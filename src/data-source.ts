@@ -1,9 +1,10 @@
-import "reflect-metadata"
-import { DataSource } from "typeorm"
-import { User } from "./entity/User"
+import "reflect-metadata";
+import { DataSource } from "typeorm";
+import { User } from "./entity/User";
+import { Roles } from "./entity/Roles";
+import { Permisos } from "./entity/Permisos";
 
-export const AppDataSource = new DataSource(
-    {
+export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
     port: 3306,
@@ -12,8 +13,7 @@ export const AppDataSource = new DataSource(
     database: "test",
     synchronize: true,
     logging: false,
-    entities: [User],
+    entities: [User, Roles, Permisos, Comunas],
     migrations: [],
     subscribers: [],
-}
-)
+})
