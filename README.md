@@ -19,6 +19,7 @@ typeOrm para la conección a BBDD.
 
 MY sql (para la bbdd)
 
+npm run dev
 
 para la autenticación 
 JWT
