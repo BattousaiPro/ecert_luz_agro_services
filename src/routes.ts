@@ -2,6 +2,7 @@ import { ComunasController } from "./controller/ComunasController"
 import { PermisosController } from "./controller/PermisosController"
 import { RolesController } from "./controller/RolesController"
 import { SectorController } from "./controller/SectorController"
+import { TipCteController } from "./controller/TipCteController"
 import { UserController } from "./controller/UserController"
 
 export const Routes = [
@@ -123,6 +124,30 @@ export const Routes = [
         method: "delete",
         route: "/sector/:id",
         controller: SectorController,
+        action: "remove"
+    }
+
+
+
+    , {
+        method: "get",
+        route: "/tipCte",
+        controller: TipCteController,
+        action: "all"
+    }, {
+        method: "get",
+        route: "/tipCte/:id",
+        controller: TipCteController,
+        action: "one"
+    }, {
+        method: "post",
+        route: "/tipCte",
+        controller: TipCteController,
+        action: "save"
+    }, {
+        method: "delete",
+        route: "/tipCte/:id",
+        controller: TipCteController,
         action: "remove"
     }
 
