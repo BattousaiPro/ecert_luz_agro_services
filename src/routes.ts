@@ -5,6 +5,8 @@ import { SectorController } from "./controller/SectorController"
 import { TipCteController } from "./controller/TipCteController"
 import { UserController } from "./controller/UserController"
 
+import { EjemploController } from "./controller/EjemploController"
+
 export const Routes = [
     {
         method: "get",
@@ -148,6 +150,33 @@ export const Routes = [
         method: "delete",
         route: "/tipCte/:id",
         controller: TipCteController,
+        action: "remove"
+    }
+
+
+
+
+
+
+    , {
+        method: "get",
+        route: "/ejemplo",
+        controller: EjemploController,
+        action: "all"
+    }, {
+        method: "get",
+        route: "/ejemplo/:id",
+        controller: EjemploController,
+        action: "one"
+    }, {
+        method: "post",
+        route: "/ejemplo",
+        controller: EjemploController,
+        action: "save"
+    }, {
+        method: "delete",
+        route: "/ejemplo/:id",
+        controller: EjemploController,
         action: "remove"
     }
 

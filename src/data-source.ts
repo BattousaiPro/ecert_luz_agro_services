@@ -6,6 +6,7 @@ import { Permisos } from "./entity/Permisos";
 import { Comunas } from "./entity/Comunas";
 import { Sector } from "./entity/Sector";
 import { TipCte } from "./entity/TipCte";
+import { Ejemplo } from "./entity/Ejemplo";
 
 export const AppDataSource = new DataSource({
     host: "localhost",
@@ -16,7 +17,15 @@ export const AppDataSource = new DataSource({
     port: 3306,
     synchronize: false,
     logging: false,
-    entities: [User, Roles, Permisos, Comunas, Sector, TipCte],
+    entities: [
+        Ejemplo,
+        User,
+        Roles,
+        Permisos,
+        Comunas,
+        Sector,
+        TipCte,
+    ],
     migrations: [],
     subscribers: [],
 })
