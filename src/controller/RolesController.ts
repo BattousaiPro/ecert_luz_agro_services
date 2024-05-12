@@ -23,11 +23,12 @@ export class RolesController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { id, name, descrip } = request.body;
+        const { id, name, descrip, estado } = request.body;
         const roles = Object.assign(new Roles(), {
             id,
             name,
-            descrip
+            descrip,
+            estado
         })
         return this.rolesRepository.save(roles)
     }

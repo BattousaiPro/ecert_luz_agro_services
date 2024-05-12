@@ -1,21 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
-@Entity('sector')
+@Entity('SECTOR')
 export class Sector {
 
-    @PrimaryGeneratedColumn()
-    id: number
+    @PrimaryGeneratedColumn({name: 'id'})
+    id: number;
 
-    @Column()
-    codigo: number
+    @Column({name: 'codigo'})
+    codigo: number;
 
-    @Column()
-    descrip: string
+    @Column({name: 'descrip'})
+    descrip: string;
 
-    @Column()
-    dia_car: number
+    @Column({name: 'dia_car'})
+    diaCar: number;
 
-    @Column()
-    cod_cob: number
+    @Column({name: 'cod_cob'})
+    codCob: number;
 
 }

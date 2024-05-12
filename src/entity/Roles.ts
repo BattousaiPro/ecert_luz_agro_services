@@ -1,15 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
-@Entity('roles')
+@Entity('ROLES')
 export class Roles {
 
-    @PrimaryGeneratedColumn()
-    id: number
+    @PrimaryGeneratedColumn({name: 'id'})
+    id: number;
 
-    @Column()
-    name: string
+    @Column({name: 'name'})
+    name: string;
 
-    @Column()
-    descrip: string
+    @Column({name: 'descrip'})
+    descrip: string;
+
+    @Column({name: 'estado'})
+    estado: boolean;
 
 }

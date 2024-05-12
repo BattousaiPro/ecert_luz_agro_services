@@ -22,13 +22,13 @@ export class SectorController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { id, codigo, descrip, dia_car, cod_cob } = request.body;
+        const { id, codigo, descrip, diaCar, codCob } = request.body;
         const sector = Object.assign(new Sector(), {
             id,
             codigo,
             descrip,
-            dia_car,
-            cod_cob
+            diaCar,
+            codCob
         })
         return this.SectorRepository.save(sector)
     }

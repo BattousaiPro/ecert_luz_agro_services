@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "./entity/User";
+import { Usuarios } from "./entity/Usuarios";
 import { Roles } from "./entity/Roles";
 import { Permisos } from "./entity/Permisos";
 import { Comunas } from "./entity/Comunas";
@@ -19,7 +19,7 @@ export const AppDataSource = new DataSource({
     logging: false,
     entities: [
         Ejemplo,
-        User,
+        Usuarios,
         Roles,
         Permisos,
         Comunas,

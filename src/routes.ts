@@ -3,7 +3,7 @@ import { PermisosController } from "./controller/PermisosController"
 import { RolesController } from "./controller/RolesController"
 import { SectorController } from "./controller/SectorController"
 import { TipCteController } from "./controller/TipCteController"
-import { UserController } from "./controller/UserController"
+import { UsuariosController } from "./controller/UsuariosController"
 
 import { EjemploController } from "./controller/EjemploController"
 
@@ -11,22 +11,22 @@ export const Routes = [
     {
         method: "get",
         route: "/users",
-        controller: UserController,
+        controller: UsuariosController,
         action: "all"
     }, {
         method: "get",
         route: "/users/:id",
-        controller: UserController,
+        controller: UsuariosController,
         action: "one"
     }, {
         method: "post",
         route: "/users",
-        controller: UserController,
+        controller: UsuariosController,
         action: "save"
     }, {
         method: "delete",
         route: "/users/:id",
-        controller: UserController,
+        controller: UsuariosController,
         action: "remove"
     }
 

@@ -1,15 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
-@Entity('permisos')
+@Entity('PERMISOS')
 export class Permisos {
 
-    @PrimaryGeneratedColumn()
-    id: number
+    @PrimaryGeneratedColumn({name: 'id'})
+    id: number;
 
-    @Column()
-    name: string
+    @Column({name: 'name'})
+    name: string;
 
-    @Column()
-    descrip: string
+    @Column({name: 'descrip'})
+    descrip: string;
 
 }
