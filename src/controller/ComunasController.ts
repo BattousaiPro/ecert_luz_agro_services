@@ -9,17 +9,17 @@ export class ComunasController {
 
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
-        let comunasList: Comunas[] = [];
+        let dataResponse: Comunas[] = [];
         resp.code = '0';
         try {
-            comunasList = await this.ComunasRepository.find();
+            dataResponse = await this.ComunasRepository.find();
         } catch (error) {
             console.log(JSON.stringify(error))
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
-            comunasList = null;
+            dataResponse = null;
         }
-        resp.data = comunasList;
+        resp.data = dataResponse;
         return resp;
     }
 
