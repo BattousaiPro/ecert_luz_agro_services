@@ -1,16 +1,19 @@
 import { AppDataSource } from "../data-source"
 import { NextFunction, Request, Response } from "express"
 import { Roles } from "../entity/Roles"
+import { GenericResponse } from "./model/GenericResponse";
 
 export class RolesController {
 
     private rolesRepository = AppDataSource.getRepository(Roles)
 
-    async all(request: Request, response: Response, next: NextFunction) {
+    async all(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         return this.rolesRepository.find()
     }
 
-    async one(request: Request, response: Response, next: NextFunction) {
+    async one(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id)
         const roles = await this.rolesRepository.findOne({
             where: { id }
@@ -22,7 +25,8 @@ export class RolesController {
         return roles
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async save(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const { id, name, descrip, estado } = request.body;
         const roles = Object.assign(new Roles(), {
             id,
@@ -33,7 +37,8 @@ export class RolesController {
         return this.rolesRepository.save(roles)
     }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
+    async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id)
         let rolesToRemove = await this.rolesRepository.findOneBy({ id })
         if (!rolesToRemove) {

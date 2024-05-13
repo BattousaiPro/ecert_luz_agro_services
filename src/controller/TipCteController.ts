@@ -1,16 +1,19 @@
 import { AppDataSource } from "../data-source"
 import { NextFunction, Request, Response } from "express"
 import { TipCte } from "../entity/TipCte"
+import { GenericResponse } from "./model/GenericResponse";
 
 export class TipCteController {
 
     private tipCteRepository = AppDataSource.getRepository(TipCte)
 
-    async all(request: Request, response: Response, next: NextFunction) {
+    async all(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         return this.tipCteRepository.find()
     }
 
-    async one(request: Request, response: Response, next: NextFunction) {
+    async one(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id)
         const tipCte = await this.tipCteRepository.findOne({
             where: { id }
@@ -21,7 +24,8 @@ export class TipCteController {
         return tipCte
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async save(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const { id, codCte, desCte } = request.body;
         const tipCte = Object.assign(new TipCte(), {
             id,
@@ -31,7 +35,8 @@ export class TipCteController {
         return this.tipCteRepository.save(tipCte)
     }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
+    async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id)
         let tipCteToRemove = await this.tipCteRepository.findOneBy({ id })
         if (!tipCteToRemove) {

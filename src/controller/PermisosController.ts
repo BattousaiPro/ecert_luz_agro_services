@@ -1,16 +1,19 @@
 import { AppDataSource } from "../data-source"
 import { NextFunction, Request, Response } from "express"
 import { Permisos } from "../entity/Permisos"
+import { GenericResponse } from "./model/GenericResponse";
 
 export class PermisosController {
 
     private permisosRepository = AppDataSource.getRepository(Permisos)
 
-    async all(request: Request, response: Response, next: NextFunction) {
+    async all(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         return this.permisosRepository.find()
     }
 
-    async one(request: Request, response: Response, next: NextFunction) {
+    async one(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id)
         const permisos = await this.permisosRepository.findOne({
             where: { id }
@@ -21,7 +24,8 @@ export class PermisosController {
         return permisos
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async save(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const { id, name, descrip } = request.body;
         const permisos = Object.assign(new Permisos(), {
             id,
@@ -31,7 +35,8 @@ export class PermisosController {
         return this.permisosRepository.save(permisos)
     }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
+    async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
+        let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id)
         let permisosToRemove = await this.permisosRepository.findOneBy({ id })
         if (!permisosToRemove) {
