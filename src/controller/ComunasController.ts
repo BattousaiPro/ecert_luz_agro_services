@@ -5,13 +5,14 @@ import { GenericResponse, StatusCode } from "./model/GenericResponse";
 
 export class ComunasController {
 
-    private ComunasRepository = AppDataSource.getRepository(Comunas)
+    private repository = AppDataSource.getRepository(Comunas);
 
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method all');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas[] = [];
         try {
-            dataResponse = await this.ComunasRepository.find();
+            dataResponse = await this.repository.find();
         } catch (error) {
             console.log(JSON.stringify(error))
             resp.code = '-1';
@@ -23,12 +24,12 @@ export class ComunasController {
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method One')
+        // console.log('method one');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Comunas = await this.ComunasRepository.findOne({ where: { id } });
+            const dataResponse: Comunas = await this.repository.findOne({ where: { id } });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
@@ -45,6 +46,7 @@ export class ComunasController {
     }
 
     async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method save');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
         try {
@@ -54,7 +56,7 @@ export class ComunasController {
                 codigo,
                 descrip
             });
-            dataResponse = await this.ComunasRepository.save(comuna);
+            dataResponse = await this.repository.save(comuna);
         } catch (error) {
             console.log(JSON.stringify(error))
             resp.code = '-1';
@@ -65,12 +67,13 @@ export class ComunasController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method remove');
         let resp: GenericResponse = new GenericResponse();
-        let ComunasToRemove: Comunas = new Comunas();
+        let comunasToRemove: Comunas = new Comunas();
         try {
             const id = parseInt(request.params.id);
-            ComunasToRemove = await this.ComunasRepository.findOneBy({ id });
-            if (!ComunasToRemove) {
+            comunasToRemove = await this.repository.findOneBy({ id });
+            if (!comunasToRemove) {
                 //return "this comunas not exist";
                 resp.code = '1';
                 resp.data = new Comunas();
@@ -86,7 +89,7 @@ export class ComunasController {
         }
 
         try {
-            const removeVal: Comunas = await this.ComunasRepository.remove(ComunasToRemove);
+            const removeVal: Comunas = await this.repository.remove(comunasToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error))
