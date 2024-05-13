@@ -1,49 +1,105 @@
 import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { Sector } from "../entity/Sector";
-import { GenericResponse } from "./model/GenericResponse";
+import { GenericResponse, StatusCode } from "./model/GenericResponse";
 
 export class SectorController {
 
     private repository = AppDataSource.getRepository(Sector)
 
-    async all(request: Request, response: Response, next: NextFunction): Promise<any> {
+    async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method all');
         let resp: GenericResponse = new GenericResponse();
-        return this.repository.find();
-    }
-
-    async one(request: Request, response: Response, next: NextFunction): Promise<any> {
-        let resp: GenericResponse = new GenericResponse();
-        const id = parseInt(request.params.id);
-        const sector = await this.repository.findOne({ where: { id } });
-        if (!sector) {
-            return "unregistered sector";
+        let dataResponse: Sector[] = [];
+        try {
+            dataResponse = await this.repository.find();
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            dataResponse = null;
         }
-        return sector;
+        resp.data = dataResponse;
+        return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<any> {
+    async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method one');
         let resp: GenericResponse = new GenericResponse();
-        const { id, codigo, descrip, diaCar, codCob } = request.body;
-        const sector = Object.assign(new Sector(), {
-            id,
-            codigo,
-            descrip,
-            diaCar,
-            codCob
-        });
-        return this.repository.save(sector);
-    }
-
-    async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
-        let resp: GenericResponse = new GenericResponse();
-        const id = parseInt(request.params.id);
-        let SectorToRemove = await this.repository.findOneBy({ id });
-        if (!SectorToRemove) {
-            return "this sector not exist";
+        let dataResponse: Sector = new Sector();
+        try {
+            const id = parseInt(request.params.id);
+            const dataResponse: Sector = await this.repository.findOne({ where: { id } });
+            resp.data = dataResponse;
+            if (!dataResponse) {
+                resp.code = '1';
+                resp.data = new Sector();
+                console.log('Sin Data');
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
         }
-        await this.repository.remove(SectorToRemove);
-        return "sector has been removed";
+        return resp;
+    }
+
+    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method save');
+        let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Sector = new Sector();
+        try {
+            const { id, codigo, descrip, diaCar, codCob } = request.body;
+            const sector = Object.assign(new Sector(), {
+                id,
+                codigo,
+                descrip,
+                diaCar,
+                codCob
+            });
+            dataResponse = await this.repository.save(sector);
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
+    }
+
+    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method remove');
+        let resp: GenericResponse = new GenericResponse();
+        let comunasToRemove: Sector = new Sector();
+        try {
+            const id = parseInt(request.params.id);
+            comunasToRemove = await this.repository.findOneBy({ id });
+            if (!comunasToRemove) {
+                //return "this Sector not exist";
+                resp.code = '1';
+                resp.data = new Sector();
+                console.log('Sin Data');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const removeVal: Sector = await this.repository.remove(comunasToRemove);
+            resp.data = null;
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
     }
 
 }
