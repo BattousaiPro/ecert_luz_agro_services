@@ -10,7 +10,6 @@ export class ComunasController {
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas[] = [];
-        resp.code = '0';
         try {
             dataResponse = await this.ComunasRepository.find();
         } catch (error) {
@@ -23,36 +22,79 @@ export class ComunasController {
         return resp;
     }
 
-    async one(request: Request, response: Response, next: NextFunction): Promise<any> {
+    async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method One')
         let resp: GenericResponse = new GenericResponse();
-        const id = parseInt(request.params.id);
-        const dataResponse = await this.ComunasRepository.findOne({ where: { id } });
-        if (!dataResponse) {
-            return "unregistered comunas";
+        let dataResponse: Comunas = new Comunas();
+        try {
+            const id = parseInt(request.params.id);
+            const dataResponse: Comunas = await this.ComunasRepository.findOne({ where: { id } });
+            resp.data = dataResponse;
+            if (!dataResponse) {
+                resp.code = '1';
+                resp.data = new Comunas();
+                console.log('Sin Data');
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
         }
-        return dataResponse;
+        return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<any> {
+    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
-        const { id, codigo, descrip } = request.body;
-        const comuna = Object.assign(new Comunas(), {
-            id,
-            codigo,
-            descrip
-        });
-        return this.ComunasRepository.save(comuna);
+        let dataResponse: Comunas = new Comunas();
+        try {
+            const { id, codigo, descrip } = request.body;
+            const comuna = Object.assign(new Comunas(), {
+                id,
+                codigo,
+                descrip
+            });
+            dataResponse = await this.ComunasRepository.save(comuna);
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
     }
 
-    async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
+    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
-        const id = parseInt(request.params.id);
-        let ComunasToRemove = await this.ComunasRepository.findOneBy({ id });
-        if (!ComunasToRemove) {
-            return "this comunas not exist";
+        let ComunasToRemove: Comunas = new Comunas();
+        try {
+            const id = parseInt(request.params.id);
+            ComunasToRemove = await this.ComunasRepository.findOneBy({ id });
+            if (!ComunasToRemove) {
+                //return "this comunas not exist";
+                resp.code = '1';
+                resp.data = new Comunas();
+                console.log('Sin Data');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
         }
-        const removeVal = await this.ComunasRepository.remove(ComunasToRemove);
-        return "comunas has been removed";
+
+        try {
+            const removeVal: Comunas = await this.ComunasRepository.remove(ComunasToRemove);
+            resp.data = null;
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
     }
 
 }

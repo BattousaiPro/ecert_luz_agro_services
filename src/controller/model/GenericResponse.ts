@@ -7,6 +7,7 @@ export interface GenericResponse {
 export class GenericResponse implements GenericResponse {
     constructor() {
         this.message = StatusCode.SUCCESS;
+        this.code = '0';
     }
 }
 
