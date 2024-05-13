@@ -14,7 +14,7 @@ export class UsuariosController {
         try {
             dataResponse = await this.repository.find();
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             dataResponse = null;
@@ -37,11 +37,18 @@ export class UsuariosController {
                 console.log('Sin Data');
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
+        return resp;
+    }
+
+    async userAccess(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method userAccess');
+        let resp: GenericResponse = new GenericResponse();
+        let userLogin: Usuarios = new Usuarios();
         return resp;
     }
 
@@ -63,7 +70,7 @@ export class UsuariosController {
             });
             dataResponse = await this.repository.save(usuarios);
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -86,7 +93,7 @@ export class UsuariosController {
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -97,7 +104,7 @@ export class UsuariosController {
             const removeVal: Usuarios = await this.repository.remove(comunasToRemove);
             resp.data = null;
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;

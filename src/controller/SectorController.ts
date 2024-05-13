@@ -14,7 +14,7 @@ export class SectorController {
         try {
             dataResponse = await this.repository.find();
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             dataResponse = null;
@@ -37,7 +37,7 @@ export class SectorController {
                 console.log('Sin Data');
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -60,7 +60,7 @@ export class SectorController {
             });
             dataResponse = await this.repository.save(sector);
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -83,7 +83,7 @@ export class SectorController {
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -94,7 +94,7 @@ export class SectorController {
             const removeVal: Sector = await this.repository.remove(comunasToRemove);
             resp.data = null;
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;

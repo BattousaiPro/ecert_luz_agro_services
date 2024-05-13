@@ -14,7 +14,7 @@ export class ComunasController {
         try {
             dataResponse = await this.repository.find();
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             dataResponse = null;
@@ -37,7 +37,7 @@ export class ComunasController {
                 console.log('Sin Data');
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -58,7 +58,7 @@ export class ComunasController {
             });
             dataResponse = await this.repository.save(comuna);
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -81,7 +81,7 @@ export class ComunasController {
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -92,7 +92,7 @@ export class ComunasController {
             const removeVal: Comunas = await this.repository.remove(comunasToRemove);
             resp.data = null;
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;

@@ -14,7 +14,7 @@ export class RolesController {
         try {
             dataResponse = await this.repository.find();
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             dataResponse = null;
@@ -37,7 +37,7 @@ export class RolesController {
                 console.log('Sin Data');
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -59,7 +59,7 @@ export class RolesController {
             });
             dataResponse = await this.repository.save(roles);
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -82,7 +82,7 @@ export class RolesController {
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -93,7 +93,7 @@ export class RolesController {
             const removeVal: Roles = await this.repository.remove(rolesToRemove);
             resp.data = null;
         } catch (error) {
-            console.log(JSON.stringify(error))
+            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
