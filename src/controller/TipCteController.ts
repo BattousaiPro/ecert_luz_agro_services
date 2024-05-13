@@ -5,17 +5,17 @@ import { GenericResponse } from "./model/GenericResponse";
 
 export class TipCteController {
 
-    private tipCteRepository = AppDataSource.getRepository(TipCte)
+    private repository = AppDataSource.getRepository(TipCte)
 
     async all(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        return this.tipCteRepository.find();
+        return this.repository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        const tipCte = await this.tipCteRepository.findOne({ where: { id } });
+        const tipCte = await this.repository.findOne({ where: { id } });
         if (!tipCte) {
             return "unregistered tipCte";
         }
@@ -30,17 +30,17 @@ export class TipCteController {
             codCte,
             desCte
         });
-        return this.tipCteRepository.save(tipCte);
+        return this.repository.save(tipCte);
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        let tipCteToRemove = await this.tipCteRepository.findOneBy({ id });
+        let tipCteToRemove = await this.repository.findOneBy({ id });
         if (!tipCteToRemove) {
             return "this tipCte not exist";
         }
-        await this.tipCteRepository.remove(tipCteToRemove);
+        await this.repository.remove(tipCteToRemove);
         return "tipCte has been removed";
     }
 

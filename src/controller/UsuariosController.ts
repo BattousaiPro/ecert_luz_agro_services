@@ -5,17 +5,17 @@ import { GenericResponse } from "./model/GenericResponse";
 
 export class UsuariosController {
 
-    private usuariosRepository = AppDataSource.getRepository(Usuarios)
+    private repository = AppDataSource.getRepository(Usuarios)
 
     async all(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        return this.usuariosRepository.find();
+        return this.repository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        const usuarios = await this.usuariosRepository.findOne({ where: { id } });
+        const usuarios = await this.repository.findOne({ where: { id } });
         if (!usuarios) {
             return "unregistered usuarios";
         }
@@ -35,17 +35,17 @@ export class UsuariosController {
             chkRut,
             estCed
         });
-        return this.usuariosRepository.save(usuarios);
+        return this.repository.save(usuarios);
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        let usuariosToRemove = await this.usuariosRepository.findOneBy({ id });
+        let usuariosToRemove = await this.repository.findOneBy({ id });
         if (!usuariosToRemove) {
             return "this usuarios not exist";
         }
-        await this.usuariosRepository.remove(usuariosToRemove);
+        await this.repository.remove(usuariosToRemove);
         return "usuarios has been removed";
     }
 

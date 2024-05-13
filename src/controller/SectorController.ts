@@ -5,17 +5,17 @@ import { GenericResponse } from "./model/GenericResponse";
 
 export class SectorController {
 
-    private SectorRepository = AppDataSource.getRepository(Sector)
+    private repository = AppDataSource.getRepository(Sector)
 
     async all(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        return this.SectorRepository.find();
+        return this.repository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        const sector = await this.SectorRepository.findOne({ where: { id } });
+        const sector = await this.repository.findOne({ where: { id } });
         if (!sector) {
             return "unregistered sector";
         }
@@ -32,17 +32,17 @@ export class SectorController {
             diaCar,
             codCob
         });
-        return this.SectorRepository.save(sector);
+        return this.repository.save(sector);
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        let SectorToRemove = await this.SectorRepository.findOneBy({ id });
+        let SectorToRemove = await this.repository.findOneBy({ id });
         if (!SectorToRemove) {
             return "this sector not exist";
         }
-        await this.SectorRepository.remove(SectorToRemove);
+        await this.repository.remove(SectorToRemove);
         return "sector has been removed";
     }
 
