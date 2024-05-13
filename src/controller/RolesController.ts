@@ -75,7 +75,7 @@ export class RolesController {
             const id = parseInt(request.params.id);
             rolesToRemove = await this.repository.findOneBy({ id });
             if (!rolesToRemove) {
-                //return "this comunas not exist";
+                //return "this Roles not exist";
                 resp.code = '1';
                 resp.data = new Roles();
                 console.log('Sin Data');

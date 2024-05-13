@@ -74,7 +74,7 @@ export class ComunasController {
             const id = parseInt(request.params.id);
             comunasToRemove = await this.repository.findOneBy({ id });
             if (!comunasToRemove) {
-                //return "this comunas not exist";
+                //return "this Comunas not exist";
                 resp.code = '1';
                 resp.data = new Comunas();
                 console.log('Sin Data');
