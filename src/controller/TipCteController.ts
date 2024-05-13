@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source"
-import { NextFunction, Request, Response } from "express"
-import { TipCte } from "../entity/TipCte"
+import { AppDataSource } from "../data-source";
+import { NextFunction, Request, Response } from "express";
+import { TipCte } from "../entity/TipCte";
 import { GenericResponse } from "./model/GenericResponse";
 
 export class TipCteController {
@@ -9,19 +9,17 @@ export class TipCteController {
 
     async all(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        return this.tipCteRepository.find()
+        return this.tipCteRepository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        const id = parseInt(request.params.id)
-        const tipCte = await this.tipCteRepository.findOne({
-            where: { id }
-        })
+        const id = parseInt(request.params.id);
+        const tipCte = await this.tipCteRepository.findOne({ where: { id } });
         if (!tipCte) {
-            return "unregistered tipCte"
+            return "unregistered tipCte";
         }
-        return tipCte
+        return tipCte;
     }
 
     async save(request: Request, response: Response, next: NextFunction): Promise<any> {
@@ -31,19 +29,19 @@ export class TipCteController {
             id,
             codCte,
             desCte
-        })
-        return this.tipCteRepository.save(tipCte)
+        });
+        return this.tipCteRepository.save(tipCte);
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        const id = parseInt(request.params.id)
-        let tipCteToRemove = await this.tipCteRepository.findOneBy({ id })
+        const id = parseInt(request.params.id);
+        let tipCteToRemove = await this.tipCteRepository.findOneBy({ id });
         if (!tipCteToRemove) {
-            return "this tipCte not exist"
+            return "this tipCte not exist";
         }
-        await this.tipCteRepository.remove(tipCteToRemove)
-        return "tipCte has been removed"
+        await this.tipCteRepository.remove(tipCteToRemove);
+        return "tipCte has been removed";
     }
 
 }

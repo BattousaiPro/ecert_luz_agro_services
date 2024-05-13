@@ -15,13 +15,11 @@ export class SectorController {
     async one(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        const sector = await this.SectorRepository.findOne({
-            where: { id }
-        })
+        const sector = await this.SectorRepository.findOne({ where: { id } });
         if (!sector) {
             return "unregistered sector";
         }
-        return sector
+        return sector;
     }
 
     async save(request: Request, response: Response, next: NextFunction): Promise<any> {
@@ -33,8 +31,8 @@ export class SectorController {
             descrip,
             diaCar,
             codCob
-        })
-        return this.SectorRepository.save(sector)
+        });
+        return this.SectorRepository.save(sector);
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<any> {

@@ -26,24 +26,22 @@ export class ComunasController {
     async one(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id);
-        const comunas = await this.ComunasRepository.findOne({
-            where: { id }
-        })
-        if (!comunas) {
+        const dataResponse = await this.ComunasRepository.findOne({ where: { id } });
+        if (!dataResponse) {
             return "unregistered comunas";
         }
-        return comunas
+        return dataResponse;
     }
 
     async save(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const { id, codigo, descrip } = request.body;
-        const comunas = Object.assign(new Comunas(), {
+        const comuna = Object.assign(new Comunas(), {
             id,
             codigo,
             descrip
-        })
-        return this.ComunasRepository.save(comunas)
+        });
+        return this.ComunasRepository.save(comuna);
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
@@ -53,7 +51,7 @@ export class ComunasController {
         if (!ComunasToRemove) {
             return "this comunas not exist";
         }
-        await this.ComunasRepository.remove(ComunasToRemove);
+        const removeVal = await this.ComunasRepository.remove(ComunasToRemove);
         return "comunas has been removed";
     }
 

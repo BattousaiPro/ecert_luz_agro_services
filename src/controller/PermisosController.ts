@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source"
-import { NextFunction, Request, Response } from "express"
-import { Permisos } from "../entity/Permisos"
+import { AppDataSource } from "../data-source";
+import { NextFunction, Request, Response } from "express";
+import { Permisos } from "../entity/Permisos";
 import { GenericResponse } from "./model/GenericResponse";
 
 export class PermisosController {
@@ -9,19 +9,17 @@ export class PermisosController {
 
     async all(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        return this.permisosRepository.find()
+        return this.permisosRepository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
         const id = parseInt(request.params.id)
-        const permisos = await this.permisosRepository.findOne({
-            where: { id }
-        })
+        const permisos = await this.permisosRepository.findOne({ where: { id } });
         if (!permisos) {
-            return "unregistered permisos"
+            return "unregistered permisos";
         }
-        return permisos
+        return permisos;
     }
 
     async save(request: Request, response: Response, next: NextFunction): Promise<any> {
@@ -31,19 +29,19 @@ export class PermisosController {
             id,
             name,
             descrip
-        })
-        return this.permisosRepository.save(permisos)
+        });
+        return this.permisosRepository.save(permisos);
     }
 
     async remove(request: Request, response: Response, next: NextFunction): Promise<any> {
         let resp: GenericResponse = new GenericResponse();
-        const id = parseInt(request.params.id)
-        let permisosToRemove = await this.permisosRepository.findOneBy({ id })
+        const id = parseInt(request.params.id);
+        let permisosToRemove = await this.permisosRepository.findOneBy({ id });
         if (!permisosToRemove) {
-            return "this permisos not exist"
+            return "this permisos not exist";
         }
-        await this.permisosRepository.remove(permisosToRemove)
-        return "permisos has been removed"
+        const removeVal = await this.permisosRepository.remove(permisosToRemove);
+        return "permisos has been removed";
     }
 
 }
