@@ -5,7 +5,7 @@ import { GenericResponse, StatusCode } from "./model/GenericResponse";
 
 export class PermisosController {
 
-    private repository = AppDataSource.getRepository(Permisos)
+    private repository = AppDataSource.getRepository(Permisos);
 
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method all');

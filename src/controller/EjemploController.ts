@@ -4,7 +4,7 @@ import { Ejemplo } from "../entity/Ejemplo"
 
 export class EjemploController {
 
-    private ejemploRepository = AppDataSource.getRepository(Ejemplo)
+    private ejemploRepository = AppDataSource.getRepository(Ejemplo);
 
     async all(request: Request, response: Response, next: NextFunction) {
         return this.ejemploRepository.find()

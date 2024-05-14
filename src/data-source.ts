@@ -7,6 +7,7 @@ import { Comunas } from "./entity/Comunas";
 import { Sector } from "./entity/Sector";
 import { TipCte } from "./entity/TipCte";
 import { Ejemplo } from "./entity/Ejemplo";
+import { Kapmae } from "./entity/Kapmae";
 
 export const AppDataSource = new DataSource({
     host: "localhost",
@@ -25,6 +26,7 @@ export const AppDataSource = new DataSource({
         Comunas,
         Sector,
         TipCte,
+        Kapmae,
     ],
     migrations: [],
     subscribers: [],

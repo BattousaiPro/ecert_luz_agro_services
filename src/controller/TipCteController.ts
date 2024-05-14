@@ -5,7 +5,7 @@ import { GenericResponse, StatusCode } from "./model/GenericResponse";
 
 export class TipCteController {
 
-    private repository = AppDataSource.getRepository(TipCte)
+    private repository = AppDataSource.getRepository(TipCte);
 
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method all');

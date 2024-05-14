@@ -5,7 +5,7 @@ import { GenericResponse, StatusCode } from "./model/GenericResponse";
 
 export class UsuariosController {
 
-    private repository = AppDataSource.getRepository(Usuarios)
+    private repository = AppDataSource.getRepository(Usuarios);
 
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method all');
