@@ -2,6 +2,7 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { Usuarios } from "../entity/Usuarios";
 import { GenericResponse, StatusCode } from "./model/GenericResponse";
+import { UsuariosVO } from "../vo/UsuariosVO";
 
 export class UsuariosController {
 
@@ -19,8 +20,22 @@ export class UsuariosController {
             resp.message = StatusCode.ERROR;
             dataResponse = null;
         }
-        resp.data = dataResponse;
+        resp.data = this.convertTOVO(dataResponse);
         return resp;
+    }
+
+    private convertTOVO(inputUser: Usuarios[]): UsuariosVO[] {
+        let salidaUser: UsuariosVO[] = [];
+        let itemUser: UsuariosVO = new UsuariosVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            const element = inputUser[index];
+            itemUser = new UsuariosVO();
+            itemUser.id = element.id;
+            itemUser.ctaUsr = element.ctaUsr;
+            itemUser.ctaEmail = element.ctaEmail;
+            salidaUser.push(itemUser);
+        }
+        return salidaUser;
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
@@ -57,10 +72,11 @@ export class UsuariosController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         try {
-            const { ctaUsr, ctaPass, tipUsr, estImp, estCop, estCar, chkRut, estCed } = request.body;
+            const { ctaUsr, ctaPass, ctaEmail, tipUsr, estImp, estCop, estCar, chkRut, estCed } = request.body;
             const usuarios = Object.assign(new Usuarios(), {
                 ctaUsr,
                 ctaPass,
+                ctaEmail,
                 tipUsr,
                 estImp,
                 estCop,

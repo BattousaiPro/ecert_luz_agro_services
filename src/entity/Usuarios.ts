@@ -12,6 +12,9 @@ export class Usuarios {
     @Column({name: 'cta_pass'})
     ctaPass: string;
 
+    @Column({name: 'cta_email'})
+    ctaEmail: string;
+
     @Column({name: 'tip_usr'})
     tipUsr: number;
 
