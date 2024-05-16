@@ -9,4 +9,5 @@ export class UsuariosVO {
     //estCar: number;
     //chkRut: number;
     //estCed: number;
+    estado: boolean;
 }
