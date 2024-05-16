@@ -1,7 +1,7 @@
 export class UsuariosVO {
     id: number;
     ctaUsr: string;
-    //ctaPass: string;
+    ctaPass: string;
     ctaEmail: string;
     //tipUsr: number;
     //estImp: number;
