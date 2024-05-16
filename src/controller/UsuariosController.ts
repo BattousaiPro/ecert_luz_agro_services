@@ -20,23 +20,27 @@ export class UsuariosController {
             resp.message = StatusCode.ERROR;
             dataResponse = null;
         }
-        resp.data = this.convertTOVO(dataResponse);
+        resp.data = this.convertToVOs(dataResponse);
         return resp;
     }
 
-    private convertTOVO(inputUser: Usuarios[]): UsuariosVO[] {
+    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
         let salidaUser: UsuariosVO[] = [];
         let itemUser: UsuariosVO = new UsuariosVO();
         for (let index = 0; index < inputUser.length; index++) {
-            const element = inputUser[index];
-            itemUser = new UsuariosVO();
-            itemUser.id = element.id;
-            itemUser.ctaUsr = element.ctaUsr;
-            itemUser.ctaEmail = element.ctaEmail;
-            itemUser.estado = element.estado;
-            salidaUser.push(itemUser);
+            salidaUser.push(this.convertToVO(inputUser[index]));
         }
         return salidaUser;
+    }
+
+    private convertToVO(inputUser: Usuarios): UsuariosVO {
+        let itemUser: UsuariosVO = new UsuariosVO();
+        itemUser = new UsuariosVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
@@ -65,6 +69,27 @@ export class UsuariosController {
         console.log('method userAccess');
         let resp: GenericResponse = new GenericResponse();
         let userLogin: Usuarios = new Usuarios();
+        try {
+            //console.log(JSON.stringify(request));
+            //const { ctaUsr, ctaPass } = await request.params;
+            let ctaUsr = 'Batto';
+            let ctaPass = 'Batto123';
+            userLogin = await this.repository.findOneOrFail({ where: { ctaUsr: ctaUsr, ctaPass: ctaPass } });
+            if (!userLogin) {
+                //return "this Usuarios not exist";
+                resp.code = '1';
+                resp.data = new Usuarios();
+                console.log('Sin Data');
+                return resp;
+            }
+            resp.data = this.convertToVO(userLogin);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+
         return resp;
     }
 
