@@ -33,6 +33,7 @@ export class UsuariosController {
             itemUser.id = element.id;
             itemUser.ctaUsr = element.ctaUsr;
             itemUser.ctaEmail = element.ctaEmail;
+            itemUser.estado = element.estado;
             salidaUser.push(itemUser);
         }
         return salidaUser;
