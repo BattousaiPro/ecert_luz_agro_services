@@ -72,7 +72,7 @@ export class UsuariosController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         try {
-            const { ctaUsr, ctaPass, ctaEmail, tipUsr, estImp, estCop, estCar, chkRut, estCed } = request.body;
+            const { ctaUsr, ctaPass, ctaEmail, tipUsr, estImp, estCop, estCar, chkRut, estCed, estado } = request.body;
             const usuarios = Object.assign(new Usuarios(), {
                 ctaUsr,
                 ctaPass,
@@ -82,7 +82,8 @@ export class UsuariosController {
                 estCop,
                 estCar,
                 chkRut,
-                estCed
+                estCed,
+                estado
             });
             dataResponse = await this.repository.save(usuarios);
         } catch (error) {

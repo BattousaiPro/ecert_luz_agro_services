@@ -33,4 +33,7 @@ export class Usuarios {
     @Column({name: 'est_ced'})
     estCed: number;
 
+    @Column({name: 'estado'})
+    estado: boolean;
+
 }
