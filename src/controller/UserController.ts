@@ -6,11 +6,10 @@ import { UsuariosVO } from "../vo/UsuariosVO";
 
 export class UserController {
 
-    private static repository = AppDataSource.getRepository(Usuarios);
+    private repository = AppDataSource.getRepository(Usuarios);
 
-   static getAll = async (request: Request, response: Response, next: NextFunction): Promise<GenericResponse> => {
-
-       console.log('method getAll');
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let users: Usuarios[] = [];
         try {
@@ -31,7 +30,7 @@ export class UserController {
         return resp;
     }
 
-    private static convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
+    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
         let salidaUser: UsuariosVO[] = [];
         let itemUser: UsuariosVO = new UsuariosVO();
         for (let index = 0; index < inputUser.length; index++) {
