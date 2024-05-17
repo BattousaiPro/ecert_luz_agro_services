@@ -5,6 +5,7 @@ import { GenericResponse, StatusCode } from "./model/GenericResponse";
 
 import { getRepository } from 'typeorm';
 import { Usuarios } from "../entity/Usuarios";
+import { UsuariosVO } from "../vo/UsuariosVO";
 //import { Request, Response } from 'express';
 //import { Users } from '../entity/Users';
 //import * as jwt from 'jsonwebtoken';
@@ -13,21 +14,31 @@ import { Usuarios } from "../entity/Usuarios";
 
 export class AuthController {
 
-    private static repository = AppDataSource.getRepository(Usuarios);
+    private repository = AppDataSource.getRepository(Usuarios);
 
-    static login = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    //static login = async (req: Request, res: Response) => {
+
+    async login(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
+        let resp: GenericResponse = new GenericResponse();
         const { ctaUsr, ctaPass } = req.body;
-
         if (!(ctaUsr && ctaPass)) {
-            return res.status(400).json({ message: ' Username & Password are required!' });
+            //return res.status(400).json({ message: ' Username & Password are required!' });
+            resp.code = '1';
+            resp.data = new Usuarios();
+            console.log('Username & Password are required!');
+            return resp;
         }
 
         let user: Usuarios;
         try {
             user = await this.repository.findOneOrFail({ where: { ctaUsr: ctaUsr, ctaPass: ctaPass } });
+            resp.data = user;
+            resp.data = this.convertToVO(user);
         } catch (e) {
-            return res.status(400).json({ message: ' Username or password incorecct!' });
+            //return res.status(400).json({ message: ' Username or password incorecct!' });
+            console.log(JSON.stringify(e));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ' Username or password incorecct!';
+            resp.data = null;
         }
 
         // Check password
@@ -40,11 +51,12 @@ export class AuthController {
 
         res.json({ message: 'OK', token, userId: user.id, role: user.role });
 */
-        res.send(user);
-
+        //res.send(user);
+        return resp;
     }
 
-    static changePassword = async (req: Request, res: Response) => {
+    async changePassword(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
+        let resp: GenericResponse = new GenericResponse();
         const { userId } = res.locals.jwtPayload;
         const { oldPassword, newPassword } = req.body;
 
@@ -63,6 +75,17 @@ export class AuthController {
             return res.status(401).json({ message: 'Check your old Password' });
         }
         */
+        return resp;
+    }
+
+    private convertToVO(inputUser: Usuarios): UsuariosVO {
+        let itemUser: UsuariosVO = new UsuariosVO();
+        itemUser = new UsuariosVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
     }
 
 }
