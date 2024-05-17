@@ -1,24 +1,26 @@
 import { TipCteController } from "../controller/TipCteController";
 
+const basePath = '/tipCte';
+
 export const RoutesTipCte = [
     {
         method: "get",
-        route: "/tipCte",
+        route: basePath,
         controller: TipCteController,
         action: "all"
     }, {
         method: "get",
-        route: "/tipCte/:id",
+        route: basePath + "/:id",
         controller: TipCteController,
         action: "one"
     }, {
         method: "post",
-        route: "/tipCte",
+        route: basePath,
         controller: TipCteController,
         action: "save"
     }, {
         method: "delete",
-        route: "/tipCte/:id",
+        route: basePath + "/:id",
         controller: TipCteController,
         action: "remove"
     }

@@ -1,24 +1,26 @@
 import { PermisosController } from "../controller/PermisosController";
 
+const basePath = '/permisos';
+
 export const RoutesPermisos = [
     {
         method: "get",
-        route: "/permisos",
+        route: basePath,
         controller: PermisosController,
         action: "all"
     }, {
         method: "get",
-        route: "/permisos/:id",
+        route: basePath + "/:id",
         controller: PermisosController,
         action: "one"
     }, {
         method: "post",
-        route: "/permisos",
+        route: basePath,
         controller: PermisosController,
         action: "save"
     }, {
         method: "delete",
-        route: "/permisos/:id",
+        route: basePath + "/:id",
         controller: PermisosController,
         action: "remove"
     }

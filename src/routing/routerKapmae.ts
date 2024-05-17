@@ -1,24 +1,26 @@
 import { KapmaeController } from "../controller/KapmaeController";
 
+const basePath = '/kapmae';
+
 export const RoutesKapmae = [
     {
         method: "get",
-        route: "/kapmae",
+        route: basePath,
         controller: KapmaeController,
         action: "all"
     }, {
         method: "get",
-        route: "/kapmae/:id",
+        route: basePath + "/:id",
         controller: KapmaeController,
         action: "one"
     }, {
         method: "post",
-        route: "/kapmae",
+        route: basePath,
         controller: KapmaeController,
         action: "save"
     }, {
         method: "delete",
-        route: "/kapmae/:id",
+        route: basePath + "/:id",
         controller: KapmaeController,
         action: "remove"
     }

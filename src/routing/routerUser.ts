@@ -1,6 +1,36 @@
 import { UserController } from "../controller/UserController";
 
+const basePath ='/user';
+
 export const RoutesUser = [
+    {
+        method: "get",
+        route: basePath,
+        controller: UserController,
+        action: "getAll"
+    }, {
+        method: "get",
+        route: basePath + "/:id",
+        controller: UserController,
+        action: "getById"
+    }, {
+        method: "post",
+        route: basePath,
+        controller: UserController,
+        action: "newUser"
+    }, {
+        method: "patch",
+        route:  basePath + "/:id",
+        controller: UserController,
+        action: "editUser"
+    }, {
+        method: "delete",
+        route:  basePath + "/:id",
+        controller: UserController,
+        action: "deleteUser"
+    },
+
+    /*
     {
         method: "get",
         route: "/users",
@@ -27,4 +57,5 @@ export const RoutesUser = [
         controller: UserController,
         action: "remove"
     }
+    */
 ];

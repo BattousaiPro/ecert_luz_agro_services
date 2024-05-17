@@ -3,14 +3,19 @@ import { RoutesPermisos } from "./routing/routerPermisos";
 import { RoutesRoles } from "./routing/routerRoles";
 import { RoutesSector } from "./routing/routerSector";
 import { RoutesKapmae } from "./routing/routerKapmae";
+import { RoutesAuth } from "./routing/routerAuth";
+import { RoutesTipCte } from "./routing/routerTipCte";
+import { RoutesUser } from "./routing/routerUser";
 
 export const Routes: any[] = [
-    ...RoutesSector,
+    ...RoutesAuth,
     ...RoutesComunas,
+    ...RoutesKapmae,
     ...RoutesPermisos,
     ...RoutesRoles,
     ...RoutesSector,
-    ...RoutesKapmae,
+    ...RoutesTipCte,
+    ...RoutesUser,
 ];
 
 /*

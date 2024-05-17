@@ -1,24 +1,26 @@
 import { SectorController } from "../controller/SectorController";
 
+const basePath = '/sector';
+
 export const RoutesSector = [
     {
         method: "get",
-        route: "/sector",
+        route: basePath,
         controller: SectorController,
         action: "all"
     }, {
         method: "get",
-        route: "/sector/:id",
+        route: basePath + "/:id",
         controller: SectorController,
         action: "one"
     }, {
         method: "post",
-        route: "/sector",
+        route: basePath,
         controller: SectorController,
         action: "save"
     }, {
         method: "delete",
-        route: "/sector/:id",
+        route: basePath + "/:id",
         controller: SectorController,
         action: "remove"
     }
