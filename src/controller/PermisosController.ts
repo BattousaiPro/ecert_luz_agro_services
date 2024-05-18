@@ -50,11 +50,12 @@ export class PermisosController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
         try {
-            const { id, name, descrip } = request.body;
+            const { name, descrip, code, estado } = request.body;
             const permisos = Object.assign(new Permisos(), {
-                id,
                 name,
-                descrip
+                descrip,
+                code,
+                estado
             });
             dataResponse = await this.repository.save(permisos);
         } catch (error) {

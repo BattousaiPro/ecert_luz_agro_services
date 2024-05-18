@@ -12,6 +12,9 @@ export class Roles {
     @Column({name: 'descrip'})
     descrip: string;
 
+    @Column({name: 'code'})
+    code: string;
+
     @Column({name: 'estado'})
     estado: boolean;
 

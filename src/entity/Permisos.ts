@@ -12,4 +12,10 @@ export class Permisos {
     @Column({name: 'descrip'})
     descrip: string;
 
+    @Column({name: 'code'})
+    code: string;
+
+    @Column({name: 'estado'})
+    estado: boolean;
+
 }

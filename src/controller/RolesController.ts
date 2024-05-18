@@ -50,11 +50,11 @@ export class RolesController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
         try {
-            const { id, name, descrip, estado } = request.body;
+            const { name, descrip, code, estado } = request.body;
             const roles = Object.assign(new Roles(), {
-                id,
                 name,
                 descrip,
+                code,
                 estado
             });
             dataResponse = await this.repository.save(roles);
