@@ -30,6 +30,12 @@ export class UserController {
         return resp;
     }
 
+    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method getById');
+        let resp: GenericResponse = new GenericResponse();
+        return resp;
+    }
+
     async newUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         console.log('method newUser');
         let resp: GenericResponse = new GenericResponse();
@@ -49,6 +55,93 @@ export class UserController {
             usuarios.estCed = 1;
             usuarios.estado = true;
             dataResponse = await this.repository.save(usuarios);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
+    }
+
+    async editUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method editUser');
+        let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Usuarios = new Usuarios();
+        let usuariosToEdit: Usuarios = new Usuarios();
+        try {
+            const id = parseInt(request.params.id);
+            usuariosToEdit = await this.repository.findOneBy({ id });
+            if (!usuariosToEdit) {
+                //return "this Usuarios not exist";
+                resp.code = '1';
+                resp.data = new Usuarios();
+                console.log('Usuarios not exist');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const { ctaUsr, ctaPass, ctaEmail, estado } = request.body;
+            if (typeof ctaUsr !== 'undefined' && ctaUsr !== null && ctaUsr !== '') {
+                console.log('ctaUsr[: ' + ctaUsr + ']');
+                usuariosToEdit.ctaUsr = ctaUsr;
+            }
+            /*if (typeof ctaPass !== 'undefined' && ctaPass !== null && ctaPass !== '') {
+                console.log('ctaPass:[ ' + ctaPass + ']');
+                usuariosToEdit.ctaPass = ctaPass;
+            }*/
+            if (typeof ctaEmail !== 'undefined' && ctaEmail !== null && ctaEmail !== '') {
+                console.log('ctaEmail: [' + ctaEmail + ']');
+                usuariosToEdit.ctaEmail = ctaEmail;
+            }
+            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+                console.log('estado[: ' + estado + ']');
+                usuariosToEdit.estado = estado;
+            }
+            dataResponse = await this.repository.save(usuariosToEdit);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        return resp;
+    }
+
+    async deleteUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method deleteUser');
+        let resp: GenericResponse = new GenericResponse();
+        let usuariosToRemove: Usuarios = new Usuarios();
+        try {
+            const id = parseInt(request.params.id);
+            usuariosToRemove = await this.repository.findOneBy({ id });
+            if (!usuariosToRemove) {
+                //return "this Usuarios not exist";
+                resp.code = '1';
+                resp.data = new Usuarios();
+                console.log('Usuarios not exist');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const removeVal: Usuarios = await this.repository.remove(usuariosToRemove);
+            resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
