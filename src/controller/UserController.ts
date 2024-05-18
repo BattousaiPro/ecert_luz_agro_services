@@ -30,6 +30,34 @@ export class UserController {
         return resp;
     }
 
+    async newUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method newUser');
+        let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Usuarios = new Usuarios();
+        try {
+            const { ctaUsr, ctaPass, ctaEmail } = request.body;
+
+            const usuarios = new Usuarios();
+            usuarios.ctaUsr = ctaUsr;
+            usuarios.ctaPass = ctaPass;
+            usuarios.ctaEmail = ctaEmail;
+            usuarios.tipUsr = 1;
+            usuarios.estImp = 1;
+            usuarios.estCop = 1;
+            usuarios.estCar = 1;
+            usuarios.chkRut = 1;
+            usuarios.estCed = 1;
+            usuarios.estado = true;
+            dataResponse = await this.repository.save(usuarios);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
+    }
+
     private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
         let salidaUser: UsuariosVO[] = [];
         let itemUser: UsuariosVO = new UsuariosVO();
