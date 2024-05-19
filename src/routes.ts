@@ -117,6 +117,11 @@ export const Routes: any[] = [
         controller: RolesController,
         action: 'save'
     }, {
+        method: 'patch',
+        route: '/roles/:id',
+        controller: RolesController,
+        action: 'editRoles'
+    }, {
         method: 'delete',
         route: '/roles/:id',
         controller: RolesController,
