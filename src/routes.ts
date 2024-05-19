@@ -87,6 +87,11 @@ export const Routes: any[] = [
         controller: PermisosController,
         action: 'save'
     }, {
+        method: 'patch',
+        route: '/permisos/:id',
+        controller: PermisosController,
+        action: 'editPermisos'
+    }, {
         method: 'delete',
         route: '/permisos/:id',
         controller: PermisosController,

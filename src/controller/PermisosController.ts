@@ -2,6 +2,7 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { Permisos } from "../entity/Permisos";
 import { GenericResponse, StatusCode } from "./model/GenericResponse";
+import { PermisosVO } from "../vo/PermisosVO";
 
 export class PermisosController {
 
@@ -19,7 +20,7 @@ export class PermisosController {
             resp.message = StatusCode.ERROR;
             dataResponse = null;
         }
-        resp.data = dataResponse;
+        resp.data = this.convertToVOs(dataResponse);
         return resp;
     }
 
@@ -66,6 +67,7 @@ export class PermisosController {
         }
         return resp;
     }
+
     async editPermisos(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         console.log('method editUser');
         let resp: GenericResponse = new GenericResponse();
@@ -151,6 +153,26 @@ export class PermisosController {
             resp.data = null;
         }
         return resp;
+    }
+
+    private convertToVOs(inputUser: Permisos[]): PermisosVO[] {
+        let salidaUser: PermisosVO[] = [];
+        let itemUser: PermisosVO = new PermisosVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Permisos): PermisosVO {
+        let itemUser: PermisosVO = new PermisosVO();
+        itemUser = new PermisosVO();
+        itemUser.id = inputUser.id;
+        itemUser.name = inputUser.name;
+        itemUser.descrip = inputUser.descrip;
+        itemUser.code = inputUser.code;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
     }
 
 }
