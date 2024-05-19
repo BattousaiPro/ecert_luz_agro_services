@@ -46,7 +46,7 @@ export class PermisosController {
     }
 
     async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-         // console.log('method save');
+        // console.log('method save');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
         try {
@@ -66,19 +66,19 @@ export class PermisosController {
         }
         return resp;
     }
-
-    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method remove');
+    async editPermisos(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method editUser');
         let resp: GenericResponse = new GenericResponse();
-        let comunasToRemove: Permisos = new Permisos();
+        let dataResponse: Permisos = new Permisos();
+        let usuariosToEdit: Permisos = new Permisos();
         try {
             const id = parseInt(request.params.id);
-            comunasToRemove = await this.repository.findOneBy({ id });
-            if (!comunasToRemove) {
+            usuariosToEdit = await this.repository.findOneBy({ id });
+            if (!usuariosToEdit) {
                 //return "this Permisos not exist";
                 resp.code = '1';
                 resp.data = new Permisos();
-                console.log('Sin Data');
+                console.log('Permisos not exist');
                 return resp;
             }
         } catch (error) {
@@ -90,7 +90,59 @@ export class PermisosController {
         }
 
         try {
-            const removeVal: Permisos = await this.repository.remove(comunasToRemove);
+            const { name, descrip, code, estado } = request.body;
+            if (typeof name !== 'undefined' && name !== null && name !== '') {
+                console.log('name[: ' + name + ']');
+                usuariosToEdit.name = name;
+            }
+            if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
+                console.log('descrip:[ ' + descrip + ']');
+                usuariosToEdit.descrip = descrip;
+            }
+            if (typeof code !== 'undefined' && code !== null && code !== '') {
+                console.log('code: [' + code + ']');
+                usuariosToEdit.code = code;
+            }
+            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+                console.log('estado[: ' + estado + ']');
+                usuariosToEdit.estado = estado;
+            }
+            dataResponse = await this.repository.save(usuariosToEdit);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        return resp;
+    }
+
+    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method remove');
+        let resp: GenericResponse = new GenericResponse();
+        let permisosToRemove: Permisos = new Permisos();
+        try {
+            const id = parseInt(request.params.id);
+            permisosToRemove = await this.repository.findOneBy({ id });
+            if (!permisosToRemove) {
+                //return "this Permisos not exist";
+                resp.code = '1';
+                resp.data = new Permisos();
+                console.log('Permisos not exist');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const removeVal: Permisos = await this.repository.remove(permisosToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -99,8 +151,6 @@ export class PermisosController {
             resp.data = null;
         }
         return resp;
-
-
     }
 
 }
