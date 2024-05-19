@@ -50,8 +50,26 @@ export class PermisosController {
         // console.log('method save');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
+        let permisoToNew: Permisos = new Permisos();
+        const { name, descrip, code, estado } = request.body;
         try {
-            const { name, descrip, code, estado } = request.body;
+            permisoToNew = await this.repository.findOneBy({ name, code });
+            if (permisoToNew) {
+                resp.code = '-2';
+                resp.data = new Permisos();
+                console.log('Permisos ya existe');
+                resp.message = 'Permiso ya existe';
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
             const permisos = Object.assign(new Permisos(), {
                 name,
                 descrip,

@@ -103,8 +103,25 @@ export class RolesController {
         // console.log('method save');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
+        let rolToNew: Roles = new Roles();
+        const { name, descrip, code, estado } = request.body;
         try {
-            const { name, descrip, code, estado } = request.body;
+            rolToNew = await this.repository.findOneBy({ name, code });
+            if (rolToNew) {
+                resp.code = '-2';
+                resp.data = new Roles();
+                resp.message = 'Rol ya existe';
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
             const roles = Object.assign(new Roles(), {
                 name,
                 descrip,

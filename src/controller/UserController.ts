@@ -40,9 +40,25 @@ export class UserController {
         console.log('method newUser');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
+        let usuariosToNew: Usuarios = new Usuarios();
+        const { ctaUsr, ctaPass, ctaEmail } = request.body;
         try {
-            const { ctaUsr, ctaPass, ctaEmail } = request.body;
+            usuariosToNew = await this.repository.findOneBy({ ctaUsr });
+            if (usuariosToNew) {
+                resp.code = '-2';
+                resp.data = new Usuarios();
+                resp.message = 'Usuario ya existe';
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
 
+        try {
             const usuarios = new Usuarios();
             usuarios.ctaUsr = ctaUsr;
             usuarios.ctaPass = ctaPass;
