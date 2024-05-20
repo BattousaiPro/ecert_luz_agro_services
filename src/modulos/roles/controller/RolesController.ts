@@ -1,17 +1,17 @@
-import { AppDataSource } from "../../data-source";
+import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Permisos } from "../entities/Permisos";
-import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
-import { PermisosVO } from "../../vo/PermisosVO";
+import { Roles } from "../entities/Roles";
+import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
+import { RolesVO } from "../../../vo/RolesVO";
 
-export class PermisosController {
+export class RolesController {
 
-    private repository = AppDataSource.getRepository(Permisos);
+    private repository = AppDataSource.getRepository(Roles);
 
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method all');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Permisos[] = [];
+        let dataResponse: Roles[] = [];
         try {
             dataResponse = await this.repository.find();
         } catch (error) {
@@ -20,21 +20,21 @@ export class PermisosController {
             resp.message = StatusCode.ERROR;
             dataResponse = null;
         }
-        resp.data = this.convertToVOs(dataResponse);
+        resp.data = dataResponse;
         return resp;
     }
 
     async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method one');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Permisos = new Permisos();
+        let dataResponse: Roles = new Roles();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Permisos = await this.repository.findOne({ where: { id } });
+            const dataResponse: Roles = await this.repository.findOne({ where: { id } });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
-                resp.data = new Permisos();
+                resp.data = new Roles();
                 console.log('Sin Data');
             }
         } catch (error) {
@@ -46,59 +46,19 @@ export class PermisosController {
         return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method save');
-        let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Permisos = new Permisos();
-        let permisoToNew: Permisos = new Permisos();
-        const { name, descrip, code, estado } = request.body;
-        try {
-            permisoToNew = await this.repository.findOneBy({ name, code });
-            if (permisoToNew) {
-                resp.code = '-2';
-                resp.data = new Permisos();
-                console.log('Permisos ya existe');
-                resp.message = 'Permiso ya existe';
-                return resp;
-            }
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-            return resp;
-        }
-
-        try {
-            const permisos = Object.assign(new Permisos(), {
-                name,
-                descrip,
-                code,
-                estado
-            });
-            dataResponse = await this.repository.save(permisos);
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-        }
-        return resp;
-    }
-
-    async editPermisos(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async editRoles(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         console.log('method editUser');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Permisos = new Permisos();
-        let usuariosToEdit: Permisos = new Permisos();
+        let dataResponse: Roles = new Roles();
+        let usuariosToEdit: Roles = new Roles();
         try {
             const id = parseInt(request.params.id);
             usuariosToEdit = await this.repository.findOneBy({ id });
             if (!usuariosToEdit) {
-                //return "this Permisos not exist";
+                //return "this Roles not exist";
                 resp.code = '1';
-                resp.data = new Permisos();
-                console.log('Permisos not exist');
+                resp.data = new Roles();
+                console.log('Roles not exist');
                 return resp;
             }
         } catch (error) {
@@ -139,18 +99,18 @@ export class PermisosController {
         return resp;
     }
 
-    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method remove');
+    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method save');
         let resp: GenericResponse = new GenericResponse();
-        let permisosToRemove: Permisos = new Permisos();
+        let dataResponse: Roles = new Roles();
+        let rolToNew: Roles = new Roles();
+        const { name, descrip, code, estado } = request.body;
         try {
-            const id = parseInt(request.params.id);
-            permisosToRemove = await this.repository.findOneBy({ id });
-            if (!permisosToRemove) {
-                //return "this Permisos not exist";
-                resp.code = '1';
-                resp.data = new Permisos();
-                console.log('Permisos not exist');
+            rolToNew = await this.repository.findOneBy({ name, code });
+            if (rolToNew) {
+                resp.code = '-2';
+                resp.data = new Roles();
+                resp.message = 'Rol ya existe';
                 return resp;
             }
         } catch (error) {
@@ -162,7 +122,46 @@ export class PermisosController {
         }
 
         try {
-            const removeVal: Permisos = await this.repository.remove(permisosToRemove);
+            const roles = Object.assign(new Roles(), {
+                name,
+                descrip,
+                code,
+                estado
+            });
+            dataResponse = await this.repository.save(roles);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
+    }
+
+    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method remove');
+        let resp: GenericResponse = new GenericResponse();
+        let rolesToRemove: Roles = new Roles();
+        try {
+            const id = parseInt(request.params.id);
+            rolesToRemove = await this.repository.findOneBy({ id });
+            if (!rolesToRemove) {
+                //return "this Roles not exist";
+                resp.code = '1';
+                resp.data = new Roles();
+                console.log('Rol not exist');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const removeVal: Roles = await this.repository.remove(rolesToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -173,18 +172,18 @@ export class PermisosController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Permisos[]): PermisosVO[] {
-        let salidaUser: PermisosVO[] = [];
-        let itemUser: PermisosVO = new PermisosVO();
+    private convertToVOs(inputUser: Roles[]): RolesVO[] {
+        let salidaUser: RolesVO[] = [];
+        let itemUser: RolesVO = new RolesVO();
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Permisos): PermisosVO {
-        let itemUser: PermisosVO = new PermisosVO();
-        itemUser = new PermisosVO();
+    private convertToVO(inputUser: Roles): RolesVO {
+        let itemUser: RolesVO = new RolesVO();
+        itemUser = new RolesVO();
         itemUser.id = inputUser.id;
         itemUser.name = inputUser.name;
         itemUser.descrip = inputUser.descrip;

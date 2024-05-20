@@ -1,13 +1,13 @@
-import { EjemploController } from "./ejemplo/controller/EjemploController";
+import { EjemploController } from "./modulos/ejemplo/controller/EjemploController";
 
-import AuthController from "./auth/controller/AuthController";
-import { ComunasController } from "./comunas/controller/ComunasController";
-import { KapmaeController } from "./kapmae/controller/KapmaeController";
-import { PermisosController } from "./permisos/controller/PermisosController";
-import { RolesController } from "./roles/controller/RolesController";
-import { SectorController } from "./sector/controller/SectorController";
-import { TipCteController } from "./tipCte/controller/TipCteController";
-import { UserController } from "./users/controller/UserController";
+import AuthController from "./modulos/auth/controller/AuthController";
+import { ComunasController } from "./modulos/comunas/controller/ComunasController";
+import { KapmaeController } from "./modulos/kapmae/controller/KapmaeController";
+import { PermisosController } from "./modulos/permisos/controller/PermisosController";
+import { RolesController } from "./modulos/roles/controller/RolesController";
+import { SectorController } from "./modulos/sector/controller/SectorController";
+import { TipCteController } from "./modulos/tipCte/controller/TipCteController";
+import { UserController } from "./modulos/users/controller/UserController";
 
 export const Routes: any[] = [
 

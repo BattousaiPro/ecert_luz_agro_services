@@ -1,16 +1,16 @@
-import { AppDataSource } from "../../data-source";
+import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Comunas } from "../entities/Comunas";
-import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
+import { Sector } from "../entities/Sector";
+import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 
-export class ComunasController {
+export class SectorController {
 
-    private repository = AppDataSource.getRepository(Comunas);
+    private repository = AppDataSource.getRepository(Sector);
 
     async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method all');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Comunas[] = [];
+        let dataResponse: Sector[] = [];
         try {
             dataResponse = await this.repository.find();
         } catch (error) {
@@ -26,14 +26,14 @@ export class ComunasController {
     async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method one');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Comunas = new Comunas();
+        let dataResponse: Sector = new Sector();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Comunas = await this.repository.findOne({ where: { id } });
+            const dataResponse: Sector = await this.repository.findOne({ where: { id } });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
-                resp.data = new Comunas();
+                resp.data = new Sector();
                 console.log('Sin Data');
             }
         } catch (error) {
@@ -48,15 +48,17 @@ export class ComunasController {
     async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method save');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Comunas = new Comunas();
+        let dataResponse: Sector = new Sector();
         try {
-            const { id, codigo, descrip } = request.body;
-            const comuna = Object.assign(new Comunas(), {
+            const { id, codigo, descrip, diaCar, codCob } = request.body;
+            const sector = Object.assign(new Sector(), {
                 id,
                 codigo,
-                descrip
+                descrip,
+                diaCar,
+                codCob
             });
-            dataResponse = await this.repository.save(comuna);
+            dataResponse = await this.repository.save(sector);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
@@ -69,14 +71,14 @@ export class ComunasController {
     async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method remove');
         let resp: GenericResponse = new GenericResponse();
-        let comunasToRemove: Comunas = new Comunas();
+        let comunasToRemove: Sector = new Sector();
         try {
             const id = parseInt(request.params.id);
             comunasToRemove = await this.repository.findOneBy({ id });
             if (!comunasToRemove) {
-                //return "this Comunas not exist";
+                //return "this Sector not exist";
                 resp.code = '1';
-                resp.data = new Comunas();
+                resp.data = new Sector();
                 console.log('Sin Data');
                 return resp;
             }
@@ -89,7 +91,7 @@ export class ComunasController {
         }
 
         try {
-            const removeVal: Comunas = await this.repository.remove(comunasToRemove);
+            const removeVal: Sector = await this.repository.remove(comunasToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
