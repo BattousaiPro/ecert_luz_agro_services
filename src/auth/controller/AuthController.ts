@@ -1,11 +1,11 @@
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Comunas } from "../entity/Comunas";
-import { GenericResponse, StatusCode } from "./model/GenericResponse";
+import { Comunas } from "../../comunas/entities/Comunas";
+import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
 
 import { getRepository } from 'typeorm';
-import { Usuarios } from "../entity/Usuarios";
-import { UsuariosVO } from "../vo/UsuariosVO";
+import { Usuarios } from "../../users/entities/Usuarios";
+import { UsuariosVO } from "../../vo/UsuariosVO";
 //import { Request, Response } from 'express';
 //import { Users } from '../entity/Users';
 //import * as jwt from 'jsonwebtoken';

@@ -1,8 +1,8 @@
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Permisos } from "../entity/Permisos";
-import { GenericResponse, StatusCode } from "./model/GenericResponse";
-import { PermisosVO } from "../vo/PermisosVO";
+import { Permisos } from "../entities/Permisos";
+import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
+import { PermisosVO } from "../../vo/PermisosVO";
 
 export class PermisosController {
 

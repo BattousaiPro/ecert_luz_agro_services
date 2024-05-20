@@ -1,7 +1,7 @@
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Comunas } from "../entity/Comunas";
-import { GenericResponse, StatusCode } from "./model/GenericResponse";
+import { Comunas } from "../entities/Comunas";
+import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
 
 export class ComunasController {
 

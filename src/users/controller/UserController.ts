@@ -1,8 +1,8 @@
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Usuarios } from "../entity/Usuarios";
-import { GenericResponse, StatusCode } from "./model/GenericResponse";
-import { UsuariosVO } from "../vo/UsuariosVO";
+import { Usuarios } from "../entities/Usuarios";
+import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
+import { UsuariosVO } from "../../vo/UsuariosVO";
 
 export class UserController {
 

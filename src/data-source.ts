@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { Usuarios } from "./entity/Usuarios";
-import { Roles } from "./entity/Roles";
-import { Permisos } from "./entity/Permisos";
-import { Comunas } from "./entity/Comunas";
-import { Sector } from "./entity/Sector";
-import { TipCte } from "./entity/TipCte";
-import { Ejemplo } from "./entity/Ejemplo";
-import { Kapmae } from "./entity/Kapmae";
+import { Usuarios } from "./users/entities/Usuarios";
+import { Roles } from "./roles/entities/Roles";
+import { Permisos } from "./permisos/entities/Permisos";
+import { Comunas } from "./comunas/entities/Comunas";
+import { Sector } from "./sector/entities/Sector";
+import { TipCte } from "./tipCte/entities/TipCte";
+import { Ejemplo } from "./ejemplo/entities/Ejemplo";
+import { Kapmae } from "./kapmae/entities/Kapmae";
 
 export const AppDataSource = new DataSource({
     host: "localhost",

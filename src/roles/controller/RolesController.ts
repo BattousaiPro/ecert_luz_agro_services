@@ -1,8 +1,8 @@
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Roles } from "../entity/Roles";
-import { GenericResponse, StatusCode } from "./model/GenericResponse";
-import { RolesVO } from "../vo/RolesVO";
+import { Roles } from "../entities/Roles";
+import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
+import { RolesVO } from "../../vo/RolesVO";
 
 export class RolesController {
 

@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source"
+import { AppDataSource } from "../../data-source"
 import { NextFunction, Request, Response } from "express"
-import { Ejemplo } from "../entity/Ejemplo"
+import { Ejemplo } from "../entities/Ejemplo"
 
 export class EjemploController {
 

@@ -1,7 +1,7 @@
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Sector } from "../entity/Sector";
-import { GenericResponse, StatusCode } from "./model/GenericResponse";
+import { Sector } from "../entities/Sector";
+import { GenericResponse, StatusCode } from "../../vo/GenericResponse";
 
 export class SectorController {
 
