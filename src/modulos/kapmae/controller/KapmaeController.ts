@@ -141,29 +141,40 @@ export class KapmaeController {
         return resp;
     }
 
-    async findByPage(options: FilterExpenseDto): Promise<PaginationResultInterface<Kapmae>> {
-        const [results, totalReg] = await this.repository.findAndCount(
-            {
-                where: {
-                    rut_cop: options.rut_cop ? Like('%' + options.rut_cop + '%')  : null,
-                    nombres: options.nombres ? Like('%' + options.nombres + '%') : null,
-                    ape_pat: options.ape_pat ? Like('%' + options.ape_pat + '%') : null,
-                    ape_mat: options.ape_mat ? Like('%' + options.ape_mat + '%') : null,
-                    cod_cop: options.cod_cop ? options.cod_cop : null,
-                    sec_cop: options.sec_cop ? options.sec_cop : null,
-                },
-                order: { id: "DESC" },
-                take: options.limit,
-                skip: options.page, // think this needs to be page * limit
-            }
-        );
-        // TODO add more tests for paginate
-        return {
-            totalReg,
-            nextPage: options.page + 1,
-            previousPage: options.page,
-            results,
-        };
+    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        let resp: GenericResponse = new GenericResponse();
+        console.log('method findByFilter');
+        const { rut_cop, nombres, ape_pat, ape_mat, cod_cop, sec_cop, limit, pageSize } = request.body;
+
+        try {
+            const [results, totalReg] = await this.repository.findAndCount(
+                {
+                    where: {
+                        rut_cop: rut_cop ? Like('%' + rut_cop + '%') : null,
+                        nombres: nombres ? Like('%' + nombres + '%') : null,
+                        ape_pat: ape_pat ? Like('%' + ape_pat + '%') : null,
+                        ape_mat: ape_mat ? Like('%' + ape_mat + '%') : null,
+                        cod_cop: cod_cop ? cod_cop : null,
+                        sec_cop: sec_cop ? sec_cop : null,
+                    },
+                    order: { id: "DESC" },
+                    take: limit,
+                    skip: pageSize,
+                }
+            );
+            resp.data = {
+                totalReg,
+                nextPage: pageSize + 1,
+                previousPage: pageSize,
+                results,
+            };
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
     }
 
 }
