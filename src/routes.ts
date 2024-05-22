@@ -65,6 +65,11 @@ export const Routes: any[] = [
         route: '/kapmae/:id',
         controller: KapmaeController,
         action: 'remove'
+    }, {
+        method: 'get',
+        route: '/kapmae/test/count',
+        controller: KapmaeController,
+        action: 'findByPage'
     },
 
 

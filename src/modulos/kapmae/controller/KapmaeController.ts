@@ -2,6 +2,9 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Kapmae } from "../entities/Kapmae";
+import { Like } from "typeorm";
+import { FilterExpenseDto } from "../../../utils/vo/FilterExpense.dto";
+import { PaginationResultInterface } from "../../../utils/paginate/pagination.results.interface";
 
 export class KapmaeController {
 
@@ -136,6 +139,31 @@ export class KapmaeController {
             resp.data = null;
         }
         return resp;
+    }
+
+    async findByPage(options: FilterExpenseDto): Promise<PaginationResultInterface<Kapmae>> {
+        const [results, totalReg] = await this.repository.findAndCount(
+            {
+                where: {
+                    rut_cop: options.rut_cop ? Like('%' + options.rut_cop + '%')  : null,
+                    nombres: options.nombres ? Like('%' + options.nombres + '%') : null,
+                    ape_pat: options.ape_pat ? Like('%' + options.ape_pat + '%') : null,
+                    ape_mat: options.ape_mat ? Like('%' + options.ape_mat + '%') : null,
+                    cod_cop: options.cod_cop ? options.cod_cop : null,
+                    sec_cop: options.sec_cop ? options.sec_cop : null,
+                },
+                order: { id: "DESC" },
+                take: options.limit,
+                skip: options.page, // think this needs to be page * limit
+            }
+        );
+        // TODO add more tests for paginate
+        return {
+            totalReg,
+            nextPage: options.page + 1,
+            previousPage: options.page,
+            results,
+        };
     }
 
 }
