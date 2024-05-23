@@ -100,4 +100,34 @@ export class ComunasController {
         return resp;
     }
 
+    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        let resp: GenericResponse = new GenericResponse();
+        console.log('method findByFilter');
+        const { codigo, limit, pageSize } = request.body;
+        try {
+            const [results, totalReg] = await this.repository.findAndCount(
+                {
+                    where: {
+                        codigo: codigo ? codigo : null,
+                    },
+                    order: { id: "DESC" },
+                    take: limit,
+                    skip: pageSize,
+                }
+            );
+            resp.data = {
+                totalReg,
+                nextPage: pageSize + 1,
+                previousPage: pageSize,
+                results,
+            };
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
+    }
+
 }

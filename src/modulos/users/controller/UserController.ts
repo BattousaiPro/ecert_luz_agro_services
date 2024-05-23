@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { Usuarios } from "../entities/Usuarios";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { UsuariosVO } from "../../../vo/UsuariosVO";
+import { Like } from "typeorm";
 
 export class UserController {
 
@@ -184,6 +185,36 @@ export class UserController {
         itemUser.ctaEmail = inputUser.ctaEmail;
         itemUser.estado = inputUser.estado;
         return itemUser;
+    }
+
+    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        let resp: GenericResponse = new GenericResponse();
+        console.log('method findByFilter');
+        const { ctaUsr, limit, pageSize } = request.body;
+        try {
+            const [results, totalReg] = await this.repository.findAndCount(
+                {
+                    where: {
+                        ctaUsr: ctaUsr ? Like('%' + ctaUsr + '%') : null,
+                    },
+                    order: { id: "DESC" },
+                    take: limit,
+                    skip: pageSize,
+                }
+            );
+            resp.data = {
+                totalReg,
+                nextPage: pageSize + 1,
+                previousPage: pageSize,
+                results,
+            };
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
     }
 
 }

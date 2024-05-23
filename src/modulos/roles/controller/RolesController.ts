@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { Roles } from "../entities/Roles";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { RolesVO } from "../../../vo/RolesVO";
+import { Like } from "typeorm";
 
 export class RolesController {
 
@@ -190,6 +191,36 @@ export class RolesController {
         itemUser.code = inputUser.code;
         itemUser.estado = inputUser.estado;
         return itemUser;
+    }
+
+    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        let resp: GenericResponse = new GenericResponse();
+        console.log('method findByFilter');
+        const { name, limit, pageSize } = request.body;
+        try {
+            const [results, totalReg] = await this.repository.findAndCount(
+                {
+                    where: {
+                        name: name ? Like('%' + name + '%') : null,
+                    },
+                    order: { id: "DESC" },
+                    take: limit,
+                    skip: pageSize,
+                }
+            );
+            resp.data = {
+                totalReg,
+                nextPage: pageSize + 1,
+                previousPage: pageSize,
+                results,
+            };
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
     }
 
 }
