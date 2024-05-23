@@ -41,6 +41,11 @@ export const Routes: any[] = [
         route: '/comunas/:id',
         controller: ComunasController,
         action: 'remove'
+    }, {
+        method: 'post',
+        route: '/comunas/findByFilter',
+        controller: PermisosController,
+        action: 'findByFilter'
     },
 
 
@@ -100,6 +105,11 @@ export const Routes: any[] = [
         route: '/permisos/:id',
         controller: PermisosController,
         action: 'remove'
+    }, {
+        method: 'post',
+        route: '/permisos/findByFilter',
+        controller: PermisosController,
+        action: 'findByFilter'
     },
 
 
@@ -130,6 +140,11 @@ export const Routes: any[] = [
         route: '/roles/:id',
         controller: RolesController,
         action: 'remove'
+    }, {
+        method: 'post',
+        route: '/roles/findByFilter',
+        controller: RolesController,
+        action: 'findByFilter'
     },
 
 
@@ -158,6 +173,11 @@ export const Routes: any[] = [
         route: '/sector/:id',
         controller: SectorController,
         action: 'remove'
+    }, {
+        method: 'post',
+        route: '/sector/findByFilter',
+        controller: SectorController,
+        action: 'findByFilter'
     },
 
 
@@ -214,6 +234,11 @@ export const Routes: any[] = [
         route: '/users/:id',
         controller: UserController,
         action: 'deleteUser'
+    }, {
+        method: 'post',
+        route: '/users/findByFilter',
+        controller: UserController,
+        action: 'findByFilter'
     },
 
 
