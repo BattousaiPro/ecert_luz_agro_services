@@ -112,7 +112,7 @@ export class SectorController {
                     where: {
                         codigo: codigo ? codigo : null,
                     },
-                    order: { id: "DESC" },
+                    order: { id: "ASC" },
                     take: limit,
                     skip: pageSize,
                 }
