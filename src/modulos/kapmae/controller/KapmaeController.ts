@@ -149,12 +149,16 @@ export class KapmaeController {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
-                        rut_cop: rut_cop ? Like('%' + rut_cop + '%') : null,
-                        nombres: nombres ? Like('%' + nombres + '%') : null,
-                        ape_pat: ape_pat ? Like('%' + ape_pat + '%') : null,
-                        ape_mat: ape_mat ? Like('%' + ape_mat + '%') : null,
-                        cod_cop: cod_cop ? cod_cop : null,
-                        sec_cop: sec_cop ? sec_cop : null,
+                        rut_cop: rut_cop ? Like(rut_cop + '%') : null,
+                        nombres: nombres ? Like(nombres + '%') : null,
+                        ape_pat: ape_pat ? Like(ape_pat + '%') : null,
+                        ape_mat: ape_mat ? Like(ape_mat + '%') : null,
+                        //cod_cop: cod_cop ? cod_cop : null,
+                        //sec_cop: sec_cop ? sec_cop : null,
+                    },
+                    relations: {
+                        sector: true,
+                        comuna: true,
                     },
                     order: { id: "DESC" },
                     take: limit,

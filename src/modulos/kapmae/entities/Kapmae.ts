@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from "typeorm";
+import { Sector } from "../../sector/entities/Sector";
+import { Comunas } from "../../comunas/entities/Comunas";
 
-@Entity({ name: 'KAPMAE'})
+@Entity({ name: 'KAPMAE' })
 export class Kapmae {
 
     @PrimaryGeneratedColumn({ name: 'id' })
@@ -33,8 +35,14 @@ export class Kapmae {
     @Column({ name: 'cod_ori' })
     cod_ori: number;
 
+    /** Init Sección Sector **/
     @Column({ name: 'sec_cop' })
     sec_cop: number;
+
+    @OneToOne(() => Sector, (sector) => sector.kapmae)
+    @JoinColumn({ name: 'id' })
+    sector: Sector;
+    /** Fin Sección Sector **/
 
     @Column({ name: 'ano_inc' })
     ano_inc: number;
@@ -87,8 +95,14 @@ export class Kapmae {
     @Column({ name: 'nro_te4' })
     nro_te4: string;
 
+    /** Init Comunas Sector **/
     @Column({ name: 'com_pos' })
     com_pos: number;
+
+    @OneToOne(() => Comunas, (comuna) => comuna.kapmae)
+    @JoinColumn({ name: 'id' })
+    comuna: Comunas;
+    /** Fin Comunas Sector **/
 
     @Column({ name: 'obs_cap' })
     obs_cap: string;
