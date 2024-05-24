@@ -37,6 +37,11 @@ export const Routes: any[] = [
         controller: ComunasController,
         action: 'save'
     }, {
+        method: 'patch',
+        route: '/comunas/:id',
+        controller: ComunasController,
+        action: 'save'
+    }, {
         method: 'delete',
         route: '/comunas/:id',
         controller: ComunasController,
@@ -166,6 +171,11 @@ export const Routes: any[] = [
     }, {
         method: 'post',
         route: '/sector',
+        controller: SectorController,
+        action: 'save'
+    }, {
+        method: 'patch',
+        route: '/sector/:id',
         controller: SectorController,
         action: 'save'
     }, {

@@ -50,7 +50,8 @@ export class ComunasController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
         try {
-            const { id, codigo, descrip } = request.body;
+            const id = parseInt(request.params.id);
+            const { codigo, descrip } = request.body;
             const comuna = Object.assign(new Comunas(), {
                 id,
                 codigo,

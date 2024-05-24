@@ -50,7 +50,10 @@ export class SectorController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
         try {
-            const { id, codigo, descrip, diaCar, codCob } = request.body;
+            const id = parseInt(request.params.id);
+            let { codigo, descrip, diaCar, codCob } = request.body;
+            diaCar = 0;
+            codCob = 20;
             const sector = Object.assign(new Sector(), {
                 id,
                 codigo,
