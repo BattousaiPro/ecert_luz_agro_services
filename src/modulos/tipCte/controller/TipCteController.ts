@@ -1,7 +1,9 @@
 import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { TipCte } from "../entities/TipCte";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
+import { TipCte } from "../entities/TipCte";
+
+
 
 export class TipCteController {
 
@@ -71,9 +73,9 @@ export class TipCteController {
         let resp: GenericResponse = new GenericResponse();
         return resp;
     }
- 
-    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method remove');
+
+    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let comunasToRemove: TipCte = new TipCte();
         try {

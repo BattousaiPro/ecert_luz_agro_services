@@ -1,8 +1,9 @@
 import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Sector } from "../entities/Sector";
+
+
 
 export class SectorController {
 
@@ -181,26 +182,7 @@ export class SectorController {
         }
         return resp;
     }
-/*
-    private convertToVOs(inputUser: Sector[]): SectorVO[] {
-        let salidaUser: SectorVO[] = [];
-        let itemUser: SectorVO = new SectorVO();
-        for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index]));
-        }
-        return salidaUser;
-    }
 
-    private convertToVO(inputUser: Sector): SectorVO {
-        let itemUser: SectorVO = new SectorVO();
-        itemUser = new SectorVO();
-        itemUser.id = inputUser.id;
-        itemUser.ctaUsr = inputUser.ctaUsr;
-        itemUser.ctaEmail = inputUser.ctaEmail;
-        itemUser.estado = inputUser.estado;
-        return itemUser;
-    }
-*/
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
@@ -230,4 +212,25 @@ export class SectorController {
         }
         return resp;
     }
+        /*
+        private convertToVOs(inputUser: Sector[]): SectorVO[] {
+            let salidaUser: SectorVO[] = [];
+            let itemUser: SectorVO = new SectorVO();
+            for (let index = 0; index < inputUser.length; index++) {
+                salidaUser.push(this.convertToVO(inputUser[index]));
+            }
+            return salidaUser;
+        }
+    
+        private convertToVO(inputUser: Sector): SectorVO {
+            let itemUser: SectorVO = new SectorVO();
+            itemUser = new SectorVO();
+            itemUser.id = inputUser.id;
+            itemUser.ctaUsr = inputUser.ctaUsr;
+            itemUser.ctaEmail = inputUser.ctaEmail;
+            itemUser.estado = inputUser.estado;
+            return itemUser;
+        }
+    */
+
 }

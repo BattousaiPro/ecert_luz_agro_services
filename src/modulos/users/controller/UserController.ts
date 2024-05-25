@@ -1,9 +1,9 @@
 import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Usuarios } from "../entities/Usuarios";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { UsuariosVO } from "../../../vo/UsuariosVO";
+import { Usuarios } from "../entities/Usuarios";
 import { Like } from "typeorm";
+import { UsuariosVO } from "../../../vo/UsuariosVO";
 
 export class UserController {
 
@@ -168,25 +168,6 @@ export class UserController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
-        let salidaUser: UsuariosVO[] = [];
-        let itemUser: UsuariosVO = new UsuariosVO();
-        for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index]));
-        }
-        return salidaUser;
-    }
-
-    private convertToVO(inputUser: Usuarios): UsuariosVO {
-        let itemUser: UsuariosVO = new UsuariosVO();
-        itemUser = new UsuariosVO();
-        itemUser.id = inputUser.id;
-        itemUser.ctaUsr = inputUser.ctaUsr;
-        itemUser.ctaEmail = inputUser.ctaEmail;
-        itemUser.estado = inputUser.estado;
-        return itemUser;
-    }
-
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
@@ -215,6 +196,25 @@ export class UserController {
             resp.data = null;
         }
         return resp;
+    }
+
+    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
+        let salidaUser: UsuariosVO[] = [];
+        let itemUser: UsuariosVO = new UsuariosVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Usuarios): UsuariosVO {
+        let itemUser: UsuariosVO = new UsuariosVO();
+        itemUser = new UsuariosVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
     }
 
 }

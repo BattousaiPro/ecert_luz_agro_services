@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from "express";
 import { Comunas } from "../entities/Comunas";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 
+
+
 export class ComunasController {
 
     private repository = AppDataSource.getRepository(Comunas);

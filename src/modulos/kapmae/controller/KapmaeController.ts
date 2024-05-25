@@ -4,6 +4,7 @@ import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Kapmae } from "../entities/Kapmae";
 import { Like } from "typeorm";
 
+
 export class KapmaeController {
 
     private repository = AppDataSource.getRepository(Kapmae);
@@ -17,7 +18,7 @@ export class KapmaeController {
                 relations: {
                     sector: true,
                     comuna: true,
-                } 
+                }
             });
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -35,11 +36,13 @@ export class KapmaeController {
         let dataResponse: Kapmae = new Kapmae();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Kapmae = await this.repository.findOne({ where: { id },
+            const dataResponse: Kapmae = await this.repository.findOne({
+                where: { id },
                 relations: {
                     sector: true,
                     comuna: true,
-                }, });
+                },
+            });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';

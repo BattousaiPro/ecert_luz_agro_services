@@ -1,9 +1,9 @@
 import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Permisos } from "../entities/Permisos";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { PermisosVO } from "../../../vo/PermisosVO";
+import { Permisos } from "../entities/Permisos";
 import { Like } from "typeorm";
+import { PermisosVO } from "../../../vo/PermisosVO";
 
 export class PermisosController {
 
@@ -174,26 +174,6 @@ export class PermisosController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Permisos[]): PermisosVO[] {
-        let salidaUser: PermisosVO[] = [];
-        let itemUser: PermisosVO = new PermisosVO();
-        for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index]));
-        }
-        return salidaUser;
-    }
-
-    private convertToVO(inputUser: Permisos): PermisosVO {
-        let itemUser: PermisosVO = new PermisosVO();
-        itemUser = new PermisosVO();
-        itemUser.id = inputUser.id;
-        itemUser.name = inputUser.name;
-        itemUser.descrip = inputUser.descrip;
-        itemUser.code = inputUser.code;
-        itemUser.estado = inputUser.estado;
-        return itemUser;
-    }
-
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
@@ -222,6 +202,26 @@ export class PermisosController {
             resp.data = null;
         }
         return resp;
+    }
+
+    private convertToVOs(inputUser: Permisos[]): PermisosVO[] {
+        let salidaUser: PermisosVO[] = [];
+        let itemUser: PermisosVO = new PermisosVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Permisos): PermisosVO {
+        let itemUser: PermisosVO = new PermisosVO();
+        itemUser = new PermisosVO();
+        itemUser.id = inputUser.id;
+        itemUser.name = inputUser.name;
+        itemUser.descrip = inputUser.descrip;
+        itemUser.code = inputUser.code;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
     }
 
 }

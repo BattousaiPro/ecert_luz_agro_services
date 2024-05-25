@@ -1,9 +1,9 @@
 import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Roles } from "../entities/Roles";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { RolesVO } from "../../../vo/RolesVO";
+import { Roles } from "../entities/Roles";
 import { Like } from "typeorm";
+import { RolesVO } from "../../../vo/RolesVO";
 
 export class RolesController {
 
@@ -173,26 +173,6 @@ export class RolesController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Roles[]): RolesVO[] {
-        let salidaUser: RolesVO[] = [];
-        let itemUser: RolesVO = new RolesVO();
-        for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index]));
-        }
-        return salidaUser;
-    }
-
-    private convertToVO(inputUser: Roles): RolesVO {
-        let itemUser: RolesVO = new RolesVO();
-        itemUser = new RolesVO();
-        itemUser.id = inputUser.id;
-        itemUser.name = inputUser.name;
-        itemUser.descrip = inputUser.descrip;
-        itemUser.code = inputUser.code;
-        itemUser.estado = inputUser.estado;
-        return itemUser;
-    }
-
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
@@ -221,6 +201,26 @@ export class RolesController {
             resp.data = null;
         }
         return resp;
+    }
+
+    private convertToVOs(inputUser: Roles[]): RolesVO[] {
+        let salidaUser: RolesVO[] = [];
+        let itemUser: RolesVO = new RolesVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Roles): RolesVO {
+        let itemUser: RolesVO = new RolesVO();
+        itemUser = new RolesVO();
+        itemUser.id = inputUser.id;
+        itemUser.name = inputUser.name;
+        itemUser.descrip = inputUser.descrip;
+        itemUser.code = inputUser.code;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
     }
 
 }
