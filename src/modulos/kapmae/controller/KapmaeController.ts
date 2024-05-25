@@ -13,7 +13,12 @@ export class KapmaeController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae[] = [];
         try {
-            dataResponse = await this.repository.find();
+            dataResponse = await this.repository.find({
+                relations: {
+                    sector: true,
+                    comuna: true,
+                } 
+            });
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
@@ -30,7 +35,11 @@ export class KapmaeController {
         let dataResponse: Kapmae = new Kapmae();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Kapmae = await this.repository.findOne({ where: { id } });
+            const dataResponse: Kapmae = await this.repository.findOne({ where: { id },
+                relations: {
+                    sector: true,
+                    comuna: true,
+                }, });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';

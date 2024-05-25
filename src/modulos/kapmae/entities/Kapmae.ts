@@ -40,7 +40,7 @@ export class Kapmae {
     sec_cop: number;
 
     @OneToOne(() => Sector, (sector) => sector.kapmae)
-    @JoinColumn({ name: 'id' })
+    @JoinColumn({ name: 'sec_cop' })
     sector: Sector;
     /** Fin Sección Sector **/
 
@@ -100,7 +100,7 @@ export class Kapmae {
     com_pos: number;
 
     @OneToOne(() => Comunas, (comuna) => comuna.kapmae)
-    @JoinColumn({ name: 'id' })
+    @JoinColumn({ name: 'com_pos' })
     comuna: Comunas;
     /** Fin Comunas Sector **/
 
