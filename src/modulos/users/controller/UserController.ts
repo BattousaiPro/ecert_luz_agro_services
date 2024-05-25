@@ -135,29 +135,27 @@ export class UserController {
     }
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method delete');
+        // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let usuariosToRemove: Usuarios = new Usuarios();
+        let userToRemove: Usuarios = new Usuarios();
         try {
             const id = parseInt(request.params.id);
-            usuariosToRemove = await this.repository.findOneBy({ id });
-            if (!usuariosToRemove) {
-                //return "this Usuarios not exist";
+            userToRemove = await this.repository.findOneBy({ id });
+            if (!userToRemove) {
                 resp.code = '1';
                 resp.data = new Usuarios();
-                console.log('Usuarios not exist');
+                resp.message = StatusCode.ERROR + ': Usuario no existe';
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': Al buscar el Usuario';
             resp.data = null;
             return resp;
         }
 
         try {
-            const removeVal: Usuarios = await this.repository.remove(usuariosToRemove);
+            const removeVal: Usuarios = await this.repository.remove(userToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));

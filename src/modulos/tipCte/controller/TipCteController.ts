@@ -77,27 +77,25 @@ export class TipCteController {
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let comunasToRemove: TipCte = new TipCte();
+        let tipCteToRemove: TipCte = new TipCte();
         try {
             const id = parseInt(request.params.id);
-            comunasToRemove = await this.repository.findOneBy({ id });
-            if (!comunasToRemove) {
-                //return "this TipCte not exist";
+            tipCteToRemove = await this.repository.findOneBy({ id });
+            if (!tipCteToRemove) {
                 resp.code = '1';
                 resp.data = new TipCte();
-                console.log('Sin Data');
+                resp.message = StatusCode.ERROR + ': TipCte no existe';
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': Al buscar el TipCte';
             resp.data = null;
             return resp;
         }
 
         try {
-            const removeVal: TipCte = await this.repository.remove(comunasToRemove);
+            const removeVal: TipCte = await this.repository.remove(tipCteToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));

@@ -147,16 +147,15 @@ export class RolesController {
             const id = parseInt(request.params.id);
             rolesToRemove = await this.repository.findOneBy({ id });
             if (!rolesToRemove) {
-                //return "this Roles not exist";
                 resp.code = '1';
                 resp.data = new Roles();
-                console.log('Rol not exist');
+                resp.message = StatusCode.ERROR + ': Rol no existe';
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
+            // console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': Al buscar el Rol';
             resp.data = null;
             return resp;
         }

@@ -150,23 +150,21 @@ export class SectorController {
     }
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method delete');
+        // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let sectorToRemove: Sector = new Sector();
         try {
             const codigo = parseInt(request.params.codigo);
             sectorToRemove = await this.repository.findOneBy({ codigo });
             if (!sectorToRemove) {
-                //return "this Sector not exist";
                 resp.code = '1';
                 resp.data = new Sector();
-                console.log('Sector not exist');
+                resp.message = StatusCode.ERROR + ': Sector no existe';
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': Al buscar el Sector';
             resp.data = null;
             return resp;
         }

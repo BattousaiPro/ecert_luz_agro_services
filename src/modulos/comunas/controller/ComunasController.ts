@@ -82,16 +82,14 @@ export class ComunasController {
             const codigo = parseInt(request.params.codigo);
             comunasToRemove = await this.repository.findOneBy({ codigo });
             if (!comunasToRemove) {
-                //return "this Comunas not exist";
                 resp.code = '1';
                 resp.data = new Comunas();
-                console.log('Sin Data');
+                resp.message = StatusCode.ERROR + ': Comuna no existe';
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': Al buscar la Comuna';
             resp.data = null;
             return resp;
         }

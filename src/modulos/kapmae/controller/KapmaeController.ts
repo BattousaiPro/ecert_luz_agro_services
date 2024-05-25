@@ -126,27 +126,25 @@ export class KapmaeController {
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let comunasToRemove: Kapmae = new Kapmae();
+        let kapmaeToRemove: Kapmae = new Kapmae();
         try {
             const id = parseInt(request.params.id);
-            comunasToRemove = await this.repository.findOneBy({ id });
-            if (!comunasToRemove) {
-                //return "this Kapmae not exist";
+            kapmaeToRemove = await this.repository.findOneBy({ id });
+            if (!kapmaeToRemove) {
                 resp.code = '1';
                 resp.data = new Kapmae();
-                console.log('Sin Data');
+                resp.message = StatusCode.ERROR + ': Socio no existe';
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': Al buscar al Socio';
             resp.data = null;
             return resp;
         }
 
         try {
-            const removeVal: Kapmae = await this.repository.remove(comunasToRemove);
+            const removeVal: Kapmae = await this.repository.remove(kapmaeToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));

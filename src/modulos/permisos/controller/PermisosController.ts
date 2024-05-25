@@ -141,23 +141,22 @@ export class PermisosController {
     }
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method delete');
+        // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let permisosToRemove: Permisos = new Permisos();
         try {
             const id = parseInt(request.params.id);
             permisosToRemove = await this.repository.findOneBy({ id });
             if (!permisosToRemove) {
-                //return "this Permisos not exist";
                 resp.code = '1';
                 resp.data = new Permisos();
-                console.log('Permisos not exist');
+                resp.message = StatusCode.ERROR + ': Permiso no existe';
                 return resp;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
+
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': Al buscar el Permiso';
             resp.data = null;
             return resp;
         }
