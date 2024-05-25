@@ -3,15 +3,13 @@ import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Kapmae } from "../entities/Kapmae";
 import { Like } from "typeorm";
-import { FilterExpenseDto } from "../../../utils/vo/FilterExpense.dto";
-import { PaginationResultInterface } from "../../../utils/paginate/pagination.results.interface";
 
 export class KapmaeController {
 
     private repository = AppDataSource.getRepository(Kapmae);
 
-    async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method all');
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae[] = [];
         try {
@@ -26,8 +24,8 @@ export class KapmaeController {
         return resp;
     }
 
-    async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method one');
+    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
         try {
@@ -48,8 +46,8 @@ export class KapmaeController {
         return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method save');
+    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
         try {
@@ -107,8 +105,14 @@ export class KapmaeController {
         return resp;
     }
 
-    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method remove');
+    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method edit');
+        let resp: GenericResponse = new GenericResponse();
+        return resp;
+    }
+
+    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let comunasToRemove: Kapmae = new Kapmae();
         try {
@@ -149,7 +153,7 @@ export class KapmaeController {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
-                        rut_cop: rut_cop ? Like(rut_cop + '%') : null,
+                        rut_cop: rut_cop ? Like('%' + rut_cop + '%') : null,
                         nombres: nombres ? Like(nombres + '%') : null,
                         ape_pat: ape_pat ? Like(ape_pat + '%') : null,
                         ape_mat: ape_mat ? Like(ape_mat + '%') : null,

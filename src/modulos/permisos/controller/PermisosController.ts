@@ -9,8 +9,8 @@ export class PermisosController {
 
     private repository = AppDataSource.getRepository(Permisos);
 
-    async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method all');
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos[] = [];
         try {
@@ -25,8 +25,8 @@ export class PermisosController {
         return resp;
     }
 
-    async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method one');
+    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
         try {
@@ -47,8 +47,8 @@ export class PermisosController {
         return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method save');
+    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
         let permisoToNew: Permisos = new Permisos();
@@ -87,8 +87,8 @@ export class PermisosController {
         return resp;
     }
 
-    async editPermisos(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method editUser');
+    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
         let usuariosToEdit: Permisos = new Permisos();
@@ -140,8 +140,8 @@ export class PermisosController {
         return resp;
     }
 
-    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method remove');
+    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let permisosToRemove: Permisos = new Permisos();
         try {

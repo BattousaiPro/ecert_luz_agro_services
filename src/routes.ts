@@ -1,13 +1,13 @@
-import { EjemploController } from "./modulos/ejemplo/controller/EjemploController";
+import { EjemploController } from './modulos/ejemplo/controller/EjemploController';
 
-import AuthController from "./modulos/auth/controller/AuthController";
-import { ComunasController } from "./modulos/comunas/controller/ComunasController";
-import { KapmaeController } from "./modulos/kapmae/controller/KapmaeController";
-import { PermisosController } from "./modulos/permisos/controller/PermisosController";
-import { RolesController } from "./modulos/roles/controller/RolesController";
-import { SectorController } from "./modulos/sector/controller/SectorController";
-import { TipCteController } from "./modulos/tipCte/controller/TipCteController";
-import { UserController } from "./modulos/users/controller/UserController";
+import AuthController from './modulos/auth/controller/AuthController';
+import { ComunasController } from './modulos/comunas/controller/ComunasController';
+import { KapmaeController } from './modulos/kapmae/controller/KapmaeController';
+import { PermisosController } from './modulos/permisos/controller/PermisosController';
+import { RolesController } from './modulos/roles/controller/RolesController';
+import { SectorController } from './modulos/sector/controller/SectorController';
+import { TipCteController } from './modulos/tipCte/controller/TipCteController';
+import { UserController } from './modulos/users/controller/UserController';
 
 export const Routes: any[] = [
 
@@ -16,7 +16,13 @@ export const Routes: any[] = [
         method: 'post',
         route: '/auth/login',
         controller: AuthController,
-        action: 'login'
+        action: 'login',
+        asdas:''
+    }, {
+        method: 'post',
+        route: '/auth/changePassword',
+        controller: AuthController,
+        action: 'changePassword'
     },
 
 
@@ -25,31 +31,31 @@ export const Routes: any[] = [
         method: 'get',
         route: '/comunas',
         controller: ComunasController,
-        action: 'all'
+        action: 'getAll'
     }, {
         method: 'get',
         route: '/comunas/:id',
         controller: ComunasController,
-        action: 'one'
+        action: 'getById'
     }, {
         method: 'post',
         route: '/comunas',
         controller: ComunasController,
-        action: 'save'
+        action: 'new'
     }, {
         method: 'patch',
         route: '/comunas/:id',
         controller: ComunasController,
-        action: 'save'
+        action: 'edit'
     }, {
         method: 'delete',
         route: '/comunas/:id',
         controller: ComunasController,
-        action: 'remove'
+        action: 'delete'
     }, {
         method: 'post',
         route: '/comunas/findByFilter',
-        controller: PermisosController,
+        controller: ComunasController,
         action: 'findByFilter'
     },
 
@@ -59,22 +65,27 @@ export const Routes: any[] = [
         method: 'get',
         route: '/kapmae',
         controller: KapmaeController,
-        action: 'all'
+        action: 'getAll'
     }, {
         method: 'get',
         route: '/kapmae/:id',
         controller: KapmaeController,
-        action: 'one'
+        action: 'getById'
     }, {
         method: 'post',
         route: '/kapmae',
         controller: KapmaeController,
-        action: 'save'
+        action: 'new'
+    }, {
+        method: 'patch',
+        route: '/kapmae/:id',
+        controller: KapmaeController,
+        action: 'edit'
     }, {
         method: 'delete',
         route: '/kapmae/:id',
         controller: KapmaeController,
-        action: 'remove'
+        action: 'delete'
     }, {
         method: 'post',
         route: '/kapmae/findByFilter',
@@ -89,27 +100,27 @@ export const Routes: any[] = [
         method: 'get',
         route: '/permisos',
         controller: PermisosController,
-        action: 'all'
+        action: 'getAll'
     }, {
         method: 'get',
         route: '/permisos/:id',
         controller: PermisosController,
-        action: 'one'
+        action: 'getById'
     }, {
         method: 'post',
         route: '/permisos',
         controller: PermisosController,
-        action: 'save'
+        action: 'new'
     }, {
         method: 'patch',
         route: '/permisos/:id',
         controller: PermisosController,
-        action: 'editPermisos'
+        action: 'edit'
     }, {
         method: 'delete',
         route: '/permisos/:id',
         controller: PermisosController,
-        action: 'remove'
+        action: 'delete'
     }, {
         method: 'post',
         route: '/permisos/findByFilter',
@@ -124,27 +135,27 @@ export const Routes: any[] = [
         method: 'get',
         route: '/roles',
         controller: RolesController,
-        action: 'all'
+        action: 'getAll'
     }, {
         method: 'get',
         route: '/roles/:id',
         controller: RolesController,
-        action: 'one'
+        action: 'getById'
     }, {
         method: 'post',
         route: '/roles',
         controller: RolesController,
-        action: 'save'
+        action: 'new'
     }, {
         method: 'patch',
         route: '/roles/:id',
         controller: RolesController,
-        action: 'editRoles'
+        action: 'edit'
     }, {
         method: 'delete',
         route: '/roles/:id',
         controller: RolesController,
-        action: 'remove'
+        action: 'delete'
     }, {
         method: 'post',
         route: '/roles/findByFilter',
@@ -162,27 +173,27 @@ export const Routes: any[] = [
         method: 'get',
         route: '/sector',
         controller: SectorController,
-        action: 'all'
+        action: 'getAll'
     }, {
         method: 'get',
         route: '/sector/:id',
         controller: SectorController,
-        action: 'one'
+        action: 'getById'
     }, {
         method: 'post',
         route: '/sector',
         controller: SectorController,
-        action: 'save'
+        action: 'new'
     }, {
         method: 'patch',
         route: '/sector/:id',
         controller: SectorController,
-        action: 'save'
+        action: 'edit'
     }, {
         method: 'delete',
         route: '/sector/:id',
         controller: SectorController,
-        action: 'remove'
+        action: 'delete'
     }, {
         method: 'post',
         route: '/sector/findByFilter',
@@ -197,23 +208,34 @@ export const Routes: any[] = [
         method: 'get',
         route: '/tipCte',
         controller: TipCteController,
-        action: 'all'
+        action: 'getAll'
     }, {
         method: 'get',
         route: '/tipCte/:id',
         controller: TipCteController,
-        action: 'one'
+        action: 'getById'
     }, {
         method: 'post',
         route: '/tipCte',
         controller: TipCteController,
-        action: 'save'
+        action: 'new'
+    }, {
+        method: 'patch',
+        route: '/tipCte/:id',
+        controller: TipCteController,
+        action: 'edit'
     }, {
         method: 'delete',
         route: '/tipCte/:id',
         controller: TipCteController,
-        action: 'remove'
+        action: 'delete'
+    }, {
+        method: 'post',
+        route: '/tipCte/findByFilter',
+        controller: TipCteController,
+        action: 'findByFilter'
     },
+
 
 
 
@@ -233,17 +255,17 @@ export const Routes: any[] = [
         method: 'post',
         route: '/users',
         controller: UserController,
-        action: 'newUser'
+        action: 'new'
     }, {
         method: 'patch',
         route: '/users/:id',
         controller: UserController,
-        action: 'editUser'
+        action: 'edit'
     }, {
         method: 'delete',
         route: '/users/:id',
         controller: UserController,
-        action: 'deleteUser'
+        action: 'delete'
     }, {
         method: 'post',
         route: '/users/findByFilter',
@@ -252,27 +274,37 @@ export const Routes: any[] = [
     },
 
 
-    /** Secctio User */
+    /** Secctio Ejemplo */
     {
-        method: "get",
-        route: "/ejemplo",
+        method: 'get',
+        route: '/ejemplo',
         controller: EjemploController,
-        action: "all"
+        action: 'getAll'
     }, {
-        method: "get",
-        route: "/ejemplo/:id",
+        method: 'get',
+        route: '/ejemplo/:id',
         controller: EjemploController,
-        action: "one"
+        action: 'getById'
     }, {
-        method: "post",
-        route: "/ejemplo",
+        method: 'post',
+        route: '/ejemplo',
         controller: EjemploController,
-        action: "save"
+        action: 'new'
     }, {
-        method: "delete",
-        route: "/ejemplo/:id",
+        method: 'patch',
+        route: '/ejemplo/:id',
         controller: EjemploController,
-        action: "remove"
+        action: 'edit'
+    }, {
+        method: 'delete',
+        route: '/ejemplo/:id',
+        controller: EjemploController,
+        action: 'delete'
+    }, {
+        method: 'post',
+        route: '/users/findByFilter',
+        controller: UserController,
+        action: 'findByFilter'
     }
 
 

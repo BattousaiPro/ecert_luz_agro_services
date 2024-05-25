@@ -1,35 +1,42 @@
 import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Sector } from "../entities/Sector";
+
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
+import { Sector } from "../entities/Sector";
 
 export class SectorController {
 
     private repository = AppDataSource.getRepository(Sector);
 
-    async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method all');
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Sector[] = [];
+        let sectores: Sector[] = [];
         try {
-            dataResponse = await this.repository.find();
-        } catch (error) {
-            console.log(JSON.stringify(error));
+            sectores = await this.repository.find();
+        } catch (e) {
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            dataResponse = null;
+            resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
+            resp.data = null;
+            return resp;
         }
-        resp.data = dataResponse;
+        if (sectores.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Not result';
+            resp.data = null;
+            return resp;
+        }
+        // resp.data = this.convertToVOs(sectores);
+        resp.data = sectores;
         return resp;
     }
 
-    async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method one');
+    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Sector = new Sector();
         try {
-            const id = parseInt(request.params.id);
-            const dataResponse: Sector = await this.repository.findOne({ where: { id } });
+            const codigo = parseInt(request.params.codigo);
+            const dataResponse: Sector = await this.repository.findOne({ where: { codigo } });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
@@ -45,44 +52,18 @@ export class SectorController {
         return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method save');
+    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
+        let SectorToNew: Sector = new Sector();
+        const { codigo, descrip, diaCar, codCob } = request.body;
         try {
-            const id = parseInt(request.params.id);
-            let { codigo, descrip, diaCar, codCob } = request.body;
-            diaCar = 0;
-            codCob = 20;
-            const sector = Object.assign(new Sector(), {
-                id,
-                codigo,
-                descrip,
-                diaCar,
-                codCob
-            });
-            dataResponse = await this.repository.save(sector);
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-        }
-        return resp;
-    }
-
-    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method remove');
-        let resp: GenericResponse = new GenericResponse();
-        let comunasToRemove: Sector = new Sector();
-        try {
-            const id = parseInt(request.params.id);
-            comunasToRemove = await this.repository.findOneBy({ id });
-            if (!comunasToRemove) {
-                //return "this Sector not exist";
-                resp.code = '1';
+            SectorToNew = await this.repository.findOneBy({ codigo });
+            if (SectorToNew) {
+                resp.code = '-2';
                 resp.data = new Sector();
-                console.log('Sin Data');
+                resp.message = 'Usuario ya existe';
                 return resp;
             }
         } catch (error) {
@@ -94,8 +75,13 @@ export class SectorController {
         }
 
         try {
-            const removeVal: Sector = await this.repository.remove(comunasToRemove);
-            resp.data = null;
+            const sector = new Sector();
+            sector.codigo = codigo;
+            sector.descrip = descrip;
+            sector.diaCar = diaCar;
+            sector.codCob = codCob;
+            //sector.estado = true;
+            dataResponse = await this.repository.save(sector);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
@@ -105,6 +91,116 @@ export class SectorController {
         return resp;
     }
 
+    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method edit');
+        let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Sector = new Sector();
+        let sectorToEdit: Sector = new Sector();
+        try {
+            const codigo = parseInt(request.params.codigo);
+            sectorToEdit = await this.repository.findOneBy({ codigo });
+            if (!sectorToEdit) {
+                //return "this Sector not exist";
+                resp.code = '1';
+                resp.data = new Sector();
+                console.log('Sector not exist');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const { codigo, descrip, diaCar, codCob, estado } = request.body;
+            if (typeof codigo !== 'undefined' && codigo !== null && codigo !== '') {
+                console.log('ctaUsr[: ' + codigo + ']');
+                sectorToEdit.codigo = codigo;
+            }
+            if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
+                console.log('descrip:[ ' + descrip + ']');
+                sectorToEdit.descrip = descrip;
+            }
+            if (typeof diaCar !== 'undefined' && diaCar !== null && diaCar !== '') {
+                console.log('diaCar: [' + diaCar + ']');
+                sectorToEdit.diaCar = diaCar;
+            }
+            if (typeof codCob !== 'undefined' && codCob !== null && codCob !== '') {
+                console.log('codCob: [' + codCob + ']');
+                sectorToEdit.codCob = codCob;
+            }
+            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+                console.log('estado[: ' + estado + ']');
+                sectorToEdit.estado = estado;
+            }
+            dataResponse = await this.repository.save(sectorToEdit);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        return resp;
+    }
+
+    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method delete');
+        let resp: GenericResponse = new GenericResponse();
+        let sectorToRemove: Sector = new Sector();
+        try {
+            const codigo = parseInt(request.params.codigo);
+            sectorToRemove = await this.repository.findOneBy({ codigo });
+            if (!sectorToRemove) {
+                //return "this Sector not exist";
+                resp.code = '1';
+                resp.data = new Sector();
+                console.log('Sector not exist');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const removeVal: Sector = await this.repository.remove(sectorToRemove);
+            resp.data = null;
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
+    }
+/*
+    private convertToVOs(inputUser: Sector[]): SectorVO[] {
+        let salidaUser: SectorVO[] = [];
+        let itemUser: SectorVO = new SectorVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Sector): SectorVO {
+        let itemUser: SectorVO = new SectorVO();
+        itemUser = new SectorVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
+    }
+*/
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
@@ -115,7 +211,7 @@ export class SectorController {
                     where: {
                         codigo: codigo ? codigo : null,
                     },
-                    order: { id: "ASC" },
+                    order: { codigo: "ASC" },
                     take: limit,
                     skip: pageSize,
                 }
@@ -134,5 +230,4 @@ export class SectorController {
         }
         return resp;
     }
-
 }

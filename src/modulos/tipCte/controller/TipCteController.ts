@@ -7,8 +7,8 @@ export class TipCteController {
 
     private repository = AppDataSource.getRepository(TipCte);
 
-    async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method all');
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: TipCte[] = [];
         try {
@@ -23,8 +23,8 @@ export class TipCteController {
         return resp;
     }
 
-    async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method one');
+    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: TipCte = new TipCte();
         try {
@@ -45,8 +45,8 @@ export class TipCteController {
         return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method save');
+    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: TipCte = new TipCte();
         try {
@@ -66,6 +66,12 @@ export class TipCteController {
         return resp;
     }
 
+    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method edit');
+        let resp: GenericResponse = new GenericResponse();
+        return resp;
+    }
+ 
     async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method remove');
         let resp: GenericResponse = new GenericResponse();
@@ -91,6 +97,36 @@ export class TipCteController {
         try {
             const removeVal: TipCte = await this.repository.remove(comunasToRemove);
             resp.data = null;
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return resp;
+    }
+
+    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        let resp: GenericResponse = new GenericResponse();
+        console.log('method findByFilter');
+        const { codCte, limit, pageSize } = request.body;
+        try {
+            const [results, totalReg] = await this.repository.findAndCount(
+                {
+                    where: {
+                        codCte: codCte ? codCte : null,
+                    },
+                    order: { codCte: "ASC" },
+                    take: limit,
+                    skip: pageSize,
+                }
+            );
+            resp.data = {
+                totalReg,
+                nextPage: pageSize + 1,
+                previousPage: pageSize,
+                results,
+            };
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';

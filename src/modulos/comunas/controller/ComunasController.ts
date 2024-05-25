@@ -7,8 +7,8 @@ export class ComunasController {
 
     private repository = AppDataSource.getRepository(Comunas);
 
-    async all(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method all');
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas[] = [];
         try {
@@ -23,13 +23,12 @@ export class ComunasController {
         return resp;
     }
 
-    async one(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method one');
+    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Comunas = new Comunas();
         try {
-            const id = parseInt(request.params.id);
-            const dataResponse: Comunas = await this.repository.findOne({ where: { id } });
+            const codigo = parseInt(request.params.codigo);
+            const dataResponse: Comunas = await this.repository.findOne({ where: { codigo } });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
@@ -45,8 +44,8 @@ export class ComunasController {
         return resp;
     }
 
-    async save(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method save');
+    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
         try {
@@ -67,13 +66,19 @@ export class ComunasController {
         return resp;
     }
 
-    async remove(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method remove');
+    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method edit');
+        let resp: GenericResponse = new GenericResponse();
+        return resp;
+    }
+
+    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let comunasToRemove: Comunas = new Comunas();
         try {
-            const id = parseInt(request.params.id);
-            comunasToRemove = await this.repository.findOneBy({ id });
+            const codigo = parseInt(request.params.codigo);
+            comunasToRemove = await this.repository.findOneBy({ codigo });
             if (!comunasToRemove) {
                 //return "this Comunas not exist";
                 resp.code = '1';
@@ -111,7 +116,7 @@ export class ComunasController {
                     where: {
                         codigo: codigo ? codigo : null,
                     },
-                    order: { id: "DESC" },
+                    order: { codigo: "DESC" },
                     take: limit,
                     skip: pageSize,
                 }

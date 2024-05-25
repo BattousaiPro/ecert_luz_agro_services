@@ -37,8 +37,8 @@ export class UserController {
         return resp;
     }
 
-    async newUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method newUser');
+    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         let usuariosToNew: Usuarios = new Usuarios();
@@ -81,8 +81,8 @@ export class UserController {
         return resp;
     }
 
-    async editUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method editUser');
+    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         let usuariosToEdit: Usuarios = new Usuarios();
@@ -134,8 +134,8 @@ export class UserController {
         return resp;
     }
 
-    async deleteUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method deleteUser');
+    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let usuariosToRemove: Usuarios = new Usuarios();
         try {
