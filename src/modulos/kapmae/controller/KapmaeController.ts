@@ -194,4 +194,23 @@ export class KapmaeController {
         return resp;
     }
 
+    private convertToVOs(inputUser: Kapmae[]): KapmaeVO[] {
+        let salidaUser: KapmaeVO[] = [];
+        let itemUser: KapmaeVO = new KapmaeVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Kapmae): KapmaeVO {
+        let itemUser: KapmaeVO = new KapmaeVO();
+        itemUser = new KapmaeVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
+    }
+
 }

@@ -213,4 +213,23 @@ export class EjemploController {
         return resp;
     }
 
+    private convertToVOs(inputUser: Ejemplo[]): EjemploVO[] {
+        let salidaUser: EjemploVO[] = [];
+        let itemUser: EjemploVO = new EjemploVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Ejemplo): EjemploVO {
+        let itemUser: EjemploVO = new EjemploVO();
+        itemUser = new EjemploVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
+    }
+
 }

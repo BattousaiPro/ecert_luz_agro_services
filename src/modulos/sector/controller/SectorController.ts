@@ -210,25 +210,24 @@ export class SectorController {
         }
         return resp;
     }
-        /*
-        private convertToVOs(inputUser: Sector[]): SectorVO[] {
-            let salidaUser: SectorVO[] = [];
-            let itemUser: SectorVO = new SectorVO();
-            for (let index = 0; index < inputUser.length; index++) {
-                salidaUser.push(this.convertToVO(inputUser[index]));
-            }
-            return salidaUser;
+
+    private convertToVOs(inputUser: Sector[]): SectorVO[] {
+        let salidaUser: SectorVO[] = [];
+        let itemUser: SectorVO = new SectorVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
         }
-    
-        private convertToVO(inputUser: Sector): SectorVO {
-            let itemUser: SectorVO = new SectorVO();
-            itemUser = new SectorVO();
-            itemUser.id = inputUser.id;
-            itemUser.ctaUsr = inputUser.ctaUsr;
-            itemUser.ctaEmail = inputUser.ctaEmail;
-            itemUser.estado = inputUser.estado;
-            return itemUser;
-        }
-    */
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Sector): SectorVO {
+        let itemUser: SectorVO = new SectorVO();
+        itemUser = new SectorVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
+    }
 
 }

@@ -136,4 +136,23 @@ export class TipCteController {
         return resp;
     }
 
+    /*private convertToVOs(inputUser: TipCte[]): TipCteVO[] {
+        let salidaUser: TipCteVO[] = [];
+        let itemUser: TipCteVO = new TipCteVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: TipCte): TipCteVO {
+        let itemUser: TipCteVO = new TipCteVO();
+        itemUser = new TipCteVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
+    }*/
+
 }

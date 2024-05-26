@@ -14,7 +14,7 @@ export class UserController {
         let resp: GenericResponse = new GenericResponse();
         let users: Usuarios[] = [];
         try {
-            users = await this.repository.find({ select: ['id', 'ctaUsr', 'ctaEmail', 'estado'] });
+            users = await this.repository.find({ select: ['id', 'ctaUserName', 'ctaEmail', 'estado'] });
         } catch (e) {
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
@@ -32,8 +32,24 @@ export class UserController {
     }
 
     async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method getById');
+        // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Usuarios = new Usuarios();
+        try {
+            const id = parseInt(request.params.id);
+            const dataResponse: Usuarios = await this.repository.findOne({ where: { id } });
+            resp.data = dataResponse;
+            if (!dataResponse) {
+                resp.code = '1';
+                resp.data = new Usuarios();
+                console.log('Sin Data');
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
         return resp;
     }
 
@@ -42,9 +58,9 @@ export class UserController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         let usuariosToNew: Usuarios = new Usuarios();
-        const { ctaUsr, ctaPass, ctaEmail } = request.body;
+        const { ctaUserName, ctaPassWord, ctaEmail } = request.body;
         try {
-            usuariosToNew = await this.repository.findOneBy({ ctaUsr });
+            usuariosToNew = await this.repository.findOneBy({ ctaUserName });
             if (usuariosToNew) {
                 resp.code = '-2';
                 resp.data = new Usuarios();
@@ -61,15 +77,9 @@ export class UserController {
 
         try {
             const usuarios = new Usuarios();
-            usuarios.ctaUsr = ctaUsr;
-            usuarios.ctaPass = ctaPass;
+            usuarios.ctaUserName = ctaUserName;
+            usuarios.ctaPassWord = ctaPassWord;
             usuarios.ctaEmail = ctaEmail;
-            usuarios.tipUsr = 1;
-            usuarios.estImp = 1;
-            usuarios.estCop = 1;
-            usuarios.estCar = 1;
-            usuarios.chkRut = 1;
-            usuarios.estCed = 1;
             usuarios.estado = true;
             dataResponse = await this.repository.save(usuarios);
         } catch (error) {
@@ -105,15 +115,11 @@ export class UserController {
         }
 
         try {
-            const { ctaUsr, ctaPass, ctaEmail, estado } = request.body;
-            if (typeof ctaUsr !== 'undefined' && ctaUsr !== null && ctaUsr !== '') {
-                console.log('ctaUsr[: ' + ctaUsr + ']');
-                usuariosToEdit.ctaUsr = ctaUsr;
+            const { ctaUserName, ctaEmail, estado } = request.body;
+            if (typeof ctaUserName !== 'undefined' && ctaUserName !== null && ctaUserName !== '') {
+                console.log('ctaUserName[: ' + ctaUserName + ']');
+                usuariosToEdit.ctaUserName = ctaUserName;
             }
-            /*if (typeof ctaPass !== 'undefined' && ctaPass !== null && ctaPass !== '') {
-                console.log('ctaPass:[ ' + ctaPass + ']');
-                usuariosToEdit.ctaPass = ctaPass;
-            }*/
             if (typeof ctaEmail !== 'undefined' && ctaEmail !== null && ctaEmail !== '') {
                 console.log('ctaEmail: [' + ctaEmail + ']');
                 usuariosToEdit.ctaEmail = ctaEmail;
@@ -169,12 +175,13 @@ export class UserController {
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
-        const { ctaUsr, limit, pageSize } = request.body;
+        const { ctaUserName, ctaEmail, limit, pageSize } = request.body;
         try {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
-                        ctaUsr: ctaUsr ? Like('%' + ctaUsr + '%') : null,
+                        ctaUserName: ctaUserName ? Like(ctaUserName + '%') : null,
+                        ctaEmail: ctaEmail ? Like(ctaEmail + '%') : null,
                     },
                     order: { id: "DESC" },
                     take: limit,
@@ -198,7 +205,6 @@ export class UserController {
 
     private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
         let salidaUser: UsuariosVO[] = [];
-        let itemUser: UsuariosVO = new UsuariosVO();
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
@@ -209,7 +215,8 @@ export class UserController {
         let itemUser: UsuariosVO = new UsuariosVO();
         itemUser = new UsuariosVO();
         itemUser.id = inputUser.id;
-        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaUserName = inputUser.ctaUserName;
+        itemUser.ctaPassWord = inputUser.ctaPassWord;
         itemUser.ctaEmail = inputUser.ctaEmail;
         itemUser.estado = inputUser.estado;
         return itemUser;

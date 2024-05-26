@@ -136,4 +136,23 @@ export class ComunasController {
         return resp;
     }
 
+    private convertToVOs(inputUser: Comunas[]): ComunasVO[] {
+        let salidaUser: ComunasVO[] = [];
+        let itemUser: ComunasVO = new ComunasVO();
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Comunas): ComunasVO {
+        let itemUser: ComunasVO = new ComunasVO();
+        itemUser = new ComunasVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
+    }
+
 }

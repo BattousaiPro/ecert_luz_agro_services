@@ -1,13 +1,7 @@
 export class UsuariosVO {
     id: number;
-    ctaUsr: string;
-    ctaPass: string;
+    ctaUserName: string;
+    ctaPassWord: string;
     ctaEmail: string;
-    //tipUsr: number;
-    //estImp: number;
-    //estCop: number;
-    //estCar: number;
-    //chkRut: number;
-    //estCed: number;
     estado: boolean;
 }
