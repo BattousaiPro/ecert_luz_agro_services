@@ -2,7 +2,7 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Comunas } from "../entities/Comunas";
-
+import { ComunasVO } from "../../../vo/ComunasVO";
 
 
 export class ComunasController {
@@ -14,15 +14,23 @@ export class ComunasController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas[] = [];
         try {
-            dataResponse = await this.repository.find();
-        } catch (error) {
-            console.log(JSON.stringify(error));
+            dataResponse = await this.repository.find(
+                { select: ['codigo', 'descrip', 'estado'] }
+            );
+        } catch (ex) {
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            dataResponse = null;
+            resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
+            resp.data = null;
+            return resp;
         }
-        resp.data = dataResponse;
-        return resp;
+        if (dataResponse.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Not result';
+            resp.data = null;
+            return resp;
+        }
+        resp.data = this.convertToVOs(dataResponse);
+        return resp;    
     }
 
     async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
@@ -138,7 +146,6 @@ export class ComunasController {
 
     private convertToVOs(inputUser: Comunas[]): ComunasVO[] {
         let salidaUser: ComunasVO[] = [];
-        let itemUser: ComunasVO = new ComunasVO();
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
@@ -148,9 +155,8 @@ export class ComunasController {
     private convertToVO(inputUser: Comunas): ComunasVO {
         let itemUser: ComunasVO = new ComunasVO();
         itemUser = new ComunasVO();
-        itemUser.id = inputUser.id;
-        itemUser.ctaUsr = inputUser.ctaUsr;
-        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.codigo = inputUser.codigo;
+        itemUser.descrip = inputUser.descrip;
         itemUser.estado = inputUser.estado;
         return itemUser;
     }

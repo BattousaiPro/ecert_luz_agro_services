@@ -10,31 +10,32 @@ export class UserController {
     private repository = AppDataSource.getRepository(Usuarios);
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method getAll');
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
-        let users: Usuarios[] = [];
+        let dataResponse: Usuarios[] = [];
         try {
-            users = await this.repository.find({ select: ['id', 'ctaUserName', 'ctaEmail', 'estado'] });
-        } catch (e) {
+            dataResponse = await this.repository.find(
+                { select: ['id', 'ctaUserName', 'ctaEmail', 'estado'] }
+            );
+        } catch (ex) {
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
             resp.data = null;
             return resp;
         }
-        if (users.length === 0) {
+        if (dataResponse.length === 0) {
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ', Not result';
             resp.data = null;
             return resp;
         }
-        resp.data = this.convertToVOs(users);
+        resp.data = this.convertToVOs(dataResponse);
         return resp;
     }
 
     async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Usuarios = new Usuarios();
         try {
             const id = parseInt(request.params.id);
             const dataResponse: Usuarios = await this.repository.findOne({ where: { id } });
