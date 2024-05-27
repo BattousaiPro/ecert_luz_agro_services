@@ -185,12 +185,13 @@ export class RolesController {
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
-        const { name, limit, pageSize } = request.body;
+        const { name, descrip, limit, pageSize } = request.body;
         try {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
                         name: name ? Like('%' + name + '%') : null,
+                        descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
                     order: { id: "DESC" },
                     take: limit,
