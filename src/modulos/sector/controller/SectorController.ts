@@ -61,32 +61,40 @@ export class SectorController {
         console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
-        let SectorToNew: Sector = new Sector();
-        const { codigo, descrip, diaCar, codCob } = request.body;
         try {
-            SectorToNew = await this.repository.findOneBy({ codigo });
-            if (SectorToNew) {
-                resp.code = '-2';
-                resp.data = new Sector();
-                resp.message = 'Usuario ya existe';
+            const {
+                codigo, descrip, diaCar, codCob
+            } = request.body;
+            try {
+                let toNew: Sector = await this.repository.findOneBy({
+                    codigo, descrip
+                });
+                if (toNew) {
+                    resp.code = '-4';
+                    resp.data = null;
+                    resp.message = 'Sector ya existe';
+                    return resp;
+                }
+            } catch (error) {
+                console.log(JSON.stringify(error));
+                resp.code = '-3';
+                resp.message = StatusCode.ERROR;
+                resp.data = null;
                 return resp;
             }
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-            return resp;
-        }
 
-        try {
-            const sector = new Sector();
-            sector.codigo = codigo;
-            sector.descrip = descrip;
-            sector.diaCar = diaCar;
-            sector.codCob = codCob;
-            //sector.estado = true;
-            dataResponse = await this.repository.save(sector);
+            try {
+                const newElement = Object.assign(new Sector(), {
+                    codigo, descrip, diaCar, codCob, estado: true
+                });
+                dataResponse = await this.repository.save(newElement);
+                resp.data = dataResponse.codigo;
+            } catch (error) {
+                console.log(JSON.stringify(error));
+                resp.code = '-2';
+                resp.message = StatusCode.ERROR;
+                resp.data = null;
+            }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
