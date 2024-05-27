@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Permisos } from "../entities/Permisos";
 import { Like } from "typeorm";
-import { PermisosVO } from "../../../vo/PermisosVO";
+import { PermisosVO } from "../dto/PermisosVO";
 
 export class PermisosController {
 

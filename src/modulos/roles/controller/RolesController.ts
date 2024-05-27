@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Roles } from "../entities/Roles";
 import { Like } from "typeorm";
-import { RolesVO } from "../../../vo/RolesVO";
+import { RolesVO } from "../dto/RolesVO";
 
 export class RolesController {
 

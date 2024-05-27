@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Usuarios } from "../entities/Usuarios";
 import { Like } from "typeorm";
-import { UsuariosVO } from "../../../vo/UsuariosVO";
+import { UsuariosVO } from "../dto/UsuariosVO";
 
 export class UserController {
 

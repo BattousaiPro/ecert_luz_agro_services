@@ -5,7 +5,7 @@ import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 
 import { getRepository } from 'typeorm';
 import { Usuarios } from "../../users/entities/Usuarios";
-import { UsuariosVO } from "../../../vo/UsuariosVO";
+import { UsuariosVO } from "../../users/dto/UsuariosVO";
 //import { Request, Response } from 'express';
 //import { Users } from '../entity/Users';
 //import * as jwt from 'jsonwebtoken';
