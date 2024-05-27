@@ -76,7 +76,7 @@ export class ComunasController {
                     return resp;
                 }
             } catch (error) {
-                console.log(JSON.stringify(error));
+                // console.log(JSON.stringify(error));
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
@@ -90,13 +90,13 @@ export class ComunasController {
                 dataResponse = await this.repository.save(newElement);
                 resp.data = dataResponse.codigo;
             } catch (error) {
-                console.log(JSON.stringify(error));
+                // console.log(JSON.stringify(error));
                 resp.code = '-2';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
+            // console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;

@@ -76,7 +76,7 @@ export class PermisosController {
                     return resp;
                 }
             } catch (error) {
-                console.log(JSON.stringify(error));
+                // console.log(JSON.stringify(error));
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
@@ -89,13 +89,13 @@ export class PermisosController {
                 dataResponse = await this.repository.save(newElement);
                 resp.data = dataResponse.id;
             } catch (error) {
-                console.log(JSON.stringify(error));
+                // console.log(JSON.stringify(error));
                 resp.code = '-2';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
+            // console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;

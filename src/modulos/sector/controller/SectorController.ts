@@ -58,7 +58,7 @@ export class SectorController {
     }
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method new');
+        // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
         try {
@@ -76,7 +76,7 @@ export class SectorController {
                     return resp;
                 }
             } catch (error) {
-                console.log(JSON.stringify(error));
+                // console.log(JSON.stringify(error));
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
@@ -90,13 +90,13 @@ export class SectorController {
                 dataResponse = await this.repository.save(newElement);
                 resp.data = dataResponse.codigo;
             } catch (error) {
-                console.log(JSON.stringify(error));
+                // console.log(JSON.stringify(error));
                 resp.code = '-2';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
             }
         } catch (error) {
-            console.log(JSON.stringify(error));
+            // console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
