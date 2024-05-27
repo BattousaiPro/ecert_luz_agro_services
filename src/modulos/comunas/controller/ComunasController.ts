@@ -61,18 +61,35 @@ export class ComunasController {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
+        const { codigo, descrip } = request.body;
         try {
-            const id = parseInt(request.params.id);
-            const { codigo, descrip } = request.body;
-            const comuna = Object.assign(new Comunas(), {
-                id,
-                codigo,
-                descrip
+            let toNew: Comunas = await this.repository.findOneBy({
+                codigo, descrip
             });
-            dataResponse = await this.repository.save(comuna);
+            if (toNew) {
+                resp.code = '-3';
+                resp.data = null;
+                resp.message = 'Usuario ya existe';
+                return resp;
+            }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const newElement = new Comunas();
+            newElement.codigo = codigo;
+            newElement.descrip = descrip;
+            newElement.estado = true;
+            dataResponse = await this.repository.save(newElement);
+            resp.data = dataResponse.codigo;
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }

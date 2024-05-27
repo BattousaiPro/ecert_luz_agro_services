@@ -55,16 +55,17 @@ export class UserController {
     }
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method new');
+        // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
-        let usuariosToNew: Usuarios = new Usuarios();
         const { ctaUserName, ctaPassWord, ctaEmail } = request.body;
         try {
-            usuariosToNew = await this.repository.findOneBy({ ctaUserName });
-            if (usuariosToNew) {
-                resp.code = '-2';
-                resp.data = new Usuarios();
+            let toNew: Usuarios = await this.repository.findOneBy({
+                ctaUserName
+            });
+            if (toNew) {
+                resp.code = '-3';
+                resp.data = null;
                 resp.message = 'Usuario ya existe';
                 return resp;
             }
@@ -77,15 +78,16 @@ export class UserController {
         }
 
         try {
-            const usuarios = new Usuarios();
-            usuarios.ctaUserName = ctaUserName;
-            usuarios.ctaPassWord = ctaPassWord;
-            usuarios.ctaEmail = ctaEmail;
-            usuarios.estado = true;
-            dataResponse = await this.repository.save(usuarios);
+            const newElement = new Usuarios();
+            newElement.ctaUserName = ctaUserName;
+            newElement.ctaPassWord = ctaPassWord;
+            newElement.ctaEmail = ctaEmail;
+            newElement.estado = true;
+            dataResponse = await this.repository.save(newElement);
+            resp.data = dataResponse.id;
         } catch (error) {
             console.log(JSON.stringify(error));
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
