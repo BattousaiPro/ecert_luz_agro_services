@@ -127,11 +127,7 @@ export class ComunasController {
         }
 
         try {
-            const { codigo, descrip, estado } = request.body;
-            if (typeof codigo !== 'undefined' && codigo !== null && codigo !== '') {
-                console.log('codigo: [' + codigo + ']');
-                elementToEdit.codigo = codigo;
-            }
+            const { descrip, estado } = request.body;
             if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
                 console.log('descrip: [' + descrip + ']');
                 elementToEdit.descrip = descrip;

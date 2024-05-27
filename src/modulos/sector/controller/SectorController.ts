@@ -127,11 +127,7 @@ export class SectorController {
         }
 
         try {
-            const { codigo, descrip, diaCar, codCob, estado } = request.body;
-            if (typeof codigo !== 'undefined' && codigo !== null && codigo !== '') {
-                console.log('ctaUsr: [' + codigo + ']');
-                sectorToEdit.codigo = codigo;
-            }
+            const { descrip, diaCar, codCob, estado } = request.body;
             if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
                 console.log('descrip: [' + descrip + ']');
                 sectorToEdit.descrip = descrip;

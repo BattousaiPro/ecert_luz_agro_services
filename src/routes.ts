@@ -36,7 +36,7 @@ export const Routes: any[] = [
         action: 'getAll'
     }, {
         method: 'get',
-        route: '/comunas/:id',
+        route: '/comunas/:codigo',
         controller: ComunasController,
         action: 'getById'
     }, {
@@ -46,12 +46,12 @@ export const Routes: any[] = [
         action: 'new'
     }, {
         method: 'patch',
-        route: '/comunas/:id',
+        route: '/comunas/:codigo',
         controller: ComunasController,
         action: 'edit'
     }, {
         method: 'delete',
-        route: '/comunas/:id',
+        route: '/comunas/:codigo',
         controller: ComunasController,
         action: 'delete'
     }, {
@@ -180,7 +180,7 @@ export const Routes: any[] = [
         action: 'getAll'
     }, {
         method: 'get',
-        route: '/sector/:id',
+        route: '/sector/:codigo',
         controller: SectorController,
         action: 'getById'
     }, {
@@ -190,12 +190,12 @@ export const Routes: any[] = [
         action: 'new'
     }, {
         method: 'patch',
-        route: '/sector/:id',
+        route: '/sector/:codigo',
         controller: SectorController,
         action: 'edit'
     }, {
         method: 'delete',
-        route: '/sector/:id',
+        route: '/sector/:codigo',
         controller: SectorController,
         action: 'delete'
     }, {
