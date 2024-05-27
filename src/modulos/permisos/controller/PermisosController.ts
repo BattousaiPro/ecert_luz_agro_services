@@ -2,8 +2,8 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Permisos } from "../entities/Permisos";
-import { Like } from "typeorm";
 import { PermisosVO } from "../dto/PermisosVO";
+import { Like } from "typeorm";
 
 export class PermisosController {
 

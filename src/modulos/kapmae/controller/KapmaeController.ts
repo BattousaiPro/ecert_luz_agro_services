@@ -2,8 +2,8 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Kapmae } from "../entities/Kapmae";
-import { Like } from "typeorm";
 import { KapmaeVO } from "../dto/KapmaeVO";
+import { Like } from "typeorm";
 
 export class KapmaeController {
 

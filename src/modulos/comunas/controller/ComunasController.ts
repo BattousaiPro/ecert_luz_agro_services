@@ -2,8 +2,8 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Comunas } from "../entities/Comunas";
-import { Like } from "typeorm";
 import { ComunasVO } from "../dto/ComunasVO";
+import { Like } from "typeorm";
 
 export class ComunasController {
 

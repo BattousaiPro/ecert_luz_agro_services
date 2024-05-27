@@ -2,8 +2,8 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Sector } from "../entities/Sector";
-import { Like } from "typeorm";
 import { SectorVO } from "../dto/SectorVO";
+import { Like } from "typeorm";
 
 export class SectorController {
 

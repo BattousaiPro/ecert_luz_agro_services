@@ -2,8 +2,8 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Roles } from "../entities/Roles";
-import { Like } from "typeorm";
 import { RolesVO } from "../dto/RolesVO";
+import { Like } from "typeorm";
 
 export class RolesController {
 
