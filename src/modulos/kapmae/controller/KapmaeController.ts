@@ -42,7 +42,7 @@ export class KapmaeController {
         let dataResponse: Kapmae = new Kapmae();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Kapmae = await this.repository.findOne({
+            dataResponse = await this.repository.findOne({
                 where: { id },
                 relations: {
                     sector: true,
