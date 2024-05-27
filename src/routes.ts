@@ -1,15 +1,15 @@
-import { EjemploController } from './modulos/ejemplo/controller/EjemploController';
-
 import AuthController from './modulos/auth/controller/AuthController';
 import { ComunasController } from './modulos/comunas/controller/ComunasController';
 import { KapmaeController } from './modulos/kapmae/controller/KapmaeController';
 import { PermisosController } from './modulos/permisos/controller/PermisosController';
 import { RolesController } from './modulos/roles/controller/RolesController';
 import { SectorController } from './modulos/sector/controller/SectorController';
-import { TipCteController } from './modulos/tipCte/controller/TipCteController';
 import { UserController } from './modulos/users/controller/UserController';
 
 export const Routes: any[] = [
+
+
+
 
     /** Secctio Auth */
     {
@@ -24,6 +24,8 @@ export const Routes: any[] = [
         controller: AuthController,
         action: 'changePassword'
     },
+
+
 
 
     /** Secctio Comunas */
@@ -58,6 +60,8 @@ export const Routes: any[] = [
         controller: ComunasController,
         action: 'findByFilter'
     },
+
+
 
 
     /** Secctio Kapmae */
@@ -95,6 +99,7 @@ export const Routes: any[] = [
 
 
 
+
     /** Secctio Permisos */
     {
         method: 'get',
@@ -127,6 +132,7 @@ export const Routes: any[] = [
         controller: PermisosController,
         action: 'findByFilter'
     },
+
 
 
 
@@ -166,8 +172,6 @@ export const Routes: any[] = [
 
 
 
-
-
     /** Secctio Sector */
     {
         method: 'get',
@@ -200,42 +204,6 @@ export const Routes: any[] = [
         controller: SectorController,
         action: 'findByFilter'
     },
-
-
-
-    /** Secctio TipCte */
-    {
-        method: 'get',
-        route: '/tipCte',
-        controller: TipCteController,
-        action: 'getAll'
-    }, {
-        method: 'get',
-        route: '/tipCte/:id',
-        controller: TipCteController,
-        action: 'getById'
-    }, {
-        method: 'post',
-        route: '/tipCte',
-        controller: TipCteController,
-        action: 'new'
-    }, {
-        method: 'patch',
-        route: '/tipCte/:id',
-        controller: TipCteController,
-        action: 'edit'
-    }, {
-        method: 'delete',
-        route: '/tipCte/:id',
-        controller: TipCteController,
-        action: 'delete'
-    }, {
-        method: 'post',
-        route: '/tipCte/findByFilter',
-        controller: TipCteController,
-        action: 'findByFilter'
-    },
-
 
 
 
@@ -272,41 +240,6 @@ export const Routes: any[] = [
         controller: UserController,
         action: 'findByFilter'
     },
-
-
-    /** Secctio Ejemplo */
-    {
-        method: 'get',
-        route: '/ejemplo',
-        controller: EjemploController,
-        action: 'getAll'
-    }, {
-        method: 'get',
-        route: '/ejemplo/:id',
-        controller: EjemploController,
-        action: 'getById'
-    }, {
-        method: 'post',
-        route: '/ejemplo',
-        controller: EjemploController,
-        action: 'new'
-    }, {
-        method: 'patch',
-        route: '/ejemplo/:id',
-        controller: EjemploController,
-        action: 'edit'
-    }, {
-        method: 'delete',
-        route: '/ejemplo/:id',
-        controller: EjemploController,
-        action: 'delete'
-    }, {
-        method: 'post',
-        route: '/users/findByFilter',
-        controller: UserController,
-        action: 'findByFilter'
-    }
-
 
 
 
