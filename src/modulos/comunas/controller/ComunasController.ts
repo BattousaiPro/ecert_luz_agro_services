@@ -127,7 +127,7 @@ export class ComunasController {
                 {
                     where: {
                         codigo: codigo ? codigo : null,
-                        descrip: descrip ? Like(descrip + '%') : null,
+                        descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
                     order: { codigo: "DESC" },
                     take: limit,

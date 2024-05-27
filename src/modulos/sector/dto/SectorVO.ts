@@ -1,4 +1,4 @@
-export class SectoresVO {
+export class SectorVO {
     codigo: number;
     descrip: string;
     diaCar: number;

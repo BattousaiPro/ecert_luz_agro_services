@@ -2,42 +2,46 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Sector } from "../entities/Sector";
-
-
+import { Like } from "typeorm";
+import { SectorVO } from "../dto/SectorVO";
 
 export class SectorController {
 
     private repository = AppDataSource.getRepository(Sector);
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method getAll');
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
-        let sectores: Sector[] = [];
+        let dataResponse: Sector[] = [];
         try {
-            sectores = await this.repository.find();
+            dataResponse = await this.repository.find({
+                select: ['codigo', 'descrip', 'diaCar', 'codCob', 'estado']
+            });
         } catch (e) {
             resp.code = '-1';
-            resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
+            resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;
         }
-        if (sectores.length === 0) {
+        if (dataResponse.length === 0) {
             resp.code = '-1';
-            resp.message = StatusCode.ERROR + ', Not result';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
             resp.data = null;
             return resp;
         }
-        // resp.data = this.convertToVOs(sectores);
-        resp.data = sectores;
+        resp.data = this.convertToVOs(dataResponse);
         return resp;
     }
 
     async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method getById');
+        // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Sector = new Sector();
         try {
             const codigo = parseInt(request.params.codigo);
-            const dataResponse: Sector = await this.repository.findOne({ where: { codigo } });
+            dataResponse = await this.repository.findOne({
+                where: { codigo }
+            });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
@@ -184,12 +188,13 @@ export class SectorController {
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
-        const { codigo, limit, pageSize } = request.body;
+        const { codigo, descrip, limit, pageSize } = request.body;
         try {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
                         codigo: codigo ? codigo : null,
+                        descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
                     order: { codigo: "ASC" },
                     take: limit,
@@ -213,7 +218,6 @@ export class SectorController {
 
     private convertToVOs(inputUser: Sector[]): SectorVO[] {
         let salidaUser: SectorVO[] = [];
-        let itemUser: SectorVO = new SectorVO();
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
@@ -223,9 +227,10 @@ export class SectorController {
     private convertToVO(inputUser: Sector): SectorVO {
         let itemUser: SectorVO = new SectorVO();
         itemUser = new SectorVO();
-        itemUser.id = inputUser.id;
-        itemUser.ctaUsr = inputUser.ctaUsr;
-        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.codigo = inputUser.codigo;
+        itemUser.descrip = inputUser.descrip;
+        itemUser.diaCar = inputUser.diaCar;
+        itemUser.codCob = inputUser.codCob;
         itemUser.estado = inputUser.estado;
         return itemUser;
     }
