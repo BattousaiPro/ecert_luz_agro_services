@@ -71,7 +71,7 @@ export class ComunasController {
             if (toNew) {
                 resp.code = '-3';
                 resp.data = null;
-                resp.message = 'Usuario ya existe';
+                resp.message = 'Comuna ya existe';
                 return resp;
             }
         } catch (error) {
@@ -83,10 +83,9 @@ export class ComunasController {
         }
 
         try {
-            const newElement = new Comunas();
-            newElement.codigo = codigo;
-            newElement.descrip = descrip;
-            newElement.estado = true;
+            const newElement = Object.assign(new Comunas(), {
+                codigo, descrip, estado: true
+            });
             dataResponse = await this.repository.save(newElement);
             resp.data = dataResponse.codigo;
         } catch (error) {
