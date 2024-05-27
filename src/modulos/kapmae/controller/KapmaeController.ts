@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Kapmae } from "../entities/Kapmae";
 import { Like } from "typeorm";
-
+import { KapmaeVO } from "../dto/KapmaeVO";
 
 export class KapmaeController {
 
@@ -21,12 +21,18 @@ export class KapmaeController {
                 }
             });
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
-            dataResponse = null;
+            resp.data = null;
+            return resp;
         }
-        resp.data = dataResponse;
+        if (dataResponse.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
+            resp.data = null;
+            return resp;
+        }
+        resp.data = this.convertToVOs(dataResponse);
         return resp;
     }
 
@@ -196,7 +202,6 @@ export class KapmaeController {
 
     private convertToVOs(inputUser: Kapmae[]): KapmaeVO[] {
         let salidaUser: KapmaeVO[] = [];
-        let itemUser: KapmaeVO = new KapmaeVO();
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
@@ -207,9 +212,53 @@ export class KapmaeController {
         let itemUser: KapmaeVO = new KapmaeVO();
         itemUser = new KapmaeVO();
         itemUser.id = inputUser.id;
-        itemUser.ctaUsr = inputUser.ctaUsr;
-        itemUser.ctaEmail = inputUser.ctaEmail;
-        itemUser.estado = inputUser.estado;
+        itemUser.rut_cop = inputUser.rut_cop;
+        itemUser.ape_pat = inputUser.ape_pat;
+        itemUser.ape_mat = inputUser.ape_mat;
+        itemUser.nombres = inputUser.nombres;
+        itemUser.cod_cop = inputUser.cod_cop;
+        itemUser.cod_lli = inputUser.cod_lli;
+        itemUser.cod_ant = inputUser.cod_ant;
+        itemUser.cod_nvo = inputUser.cod_nvo;
+        itemUser.cod_ori = inputUser.cod_ori;
+        /** Init Sección Sector **/
+        itemUser.sec_cop = inputUser.sec_cop;
+        itemUser.sector = inputUser.sector;
+        /** Fin Sección Sector **/
+        itemUser.ano_inc = inputUser.ano_inc;
+        itemUser.mto_inc = inputUser.mto_inc;
+        itemUser.fec_inc = inputUser.fec_inc;
+        itemUser.ano_tra = inputUser.ano_tra;
+        itemUser.kap_tra = inputUser.kap_tra;
+        itemUser.fec_tra = inputUser.fec_tra;
+        itemUser.acc_tra = inputUser.acc_tra;
+        itemUser.acc_ret = inputUser.acc_ret;
+        itemUser.acc_apo = inputUser.acc_apo;
+        itemUser.fec_act = inputUser.fec_act;
+        itemUser.est_tra = inputUser.est_tra;
+        itemUser.est_bon = inputUser.est_bon;
+        itemUser.dir_pos = inputUser.dir_pos;
+        itemUser.nro_te1 = inputUser.nro_te1;
+        itemUser.nro_te2 = inputUser.nro_te2;
+        itemUser.nro_te3 = inputUser.nro_te3;
+        itemUser.nro_te4 = inputUser.nro_te4;
+        /** Init Comunas Sector **/
+        itemUser.com_pos = inputUser.com_pos;
+        itemUser.comuna = inputUser.comuna;
+        /** Fin Comunas Sector **/
+        itemUser.obs_cap = inputUser.obs_cap;
+        itemUser.nro_sol = inputUser.nro_sol;
+        itemUser.fec_sol = inputUser.fec_sol;
+        itemUser.fec_apr = inputUser.fec_apr;
+        itemUser.fec_can = inputUser.fec_can;
+        itemUser.est_sol = inputUser.est_sol;
+        itemUser.sec_cte = inputUser.sec_cte;
+        itemUser.area = inputUser.area;
+        itemUser.sec_imp = inputUser.sec_imp;
+        itemUser.est_reg = inputUser.est_reg;
+        itemUser.acc_con = inputUser.acc_con;
+        itemUser.aju_acc = inputUser.aju_acc;
+
         return itemUser;
     }
 

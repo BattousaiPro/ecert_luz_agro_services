@@ -2,8 +2,8 @@ import { AppDataSource } from "../../../data-source";
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Comunas } from "../entities/Comunas";
-import { ComunasVO } from "../../../vo/ComunasVO";
-
+import { Like } from "typeorm";
+import { ComunasVO } from "../dto/ComunasVO";
 
 export class ComunasController {
 
@@ -14,23 +14,24 @@ export class ComunasController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas[] = [];
         try {
-            dataResponse = await this.repository.find(
-                { select: ['codigo', 'descrip', 'estado'] }
-            );
-        } catch (ex) {
+            dataResponse = await this.repository.find({
+                select: ['codigo', 'descrip', 'estado']
+
+            });
+        } catch (error) {
             resp.code = '-1';
-            resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
+            resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;
         }
         if (dataResponse.length === 0) {
             resp.code = '-1';
-            resp.message = StatusCode.ERROR + ', Not result';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
             resp.data = null;
             return resp;
         }
         resp.data = this.convertToVOs(dataResponse);
-        return resp;    
+        return resp;
     }
 
     async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
@@ -38,7 +39,9 @@ export class ComunasController {
         let resp: GenericResponse = new GenericResponse();
         try {
             const codigo = parseInt(request.params.codigo);
-            const dataResponse: Comunas = await this.repository.findOne({ where: { codigo } });
+            const dataResponse: Comunas = await this.repository.findOne({
+                where: { codigo }
+            });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
@@ -117,12 +120,13 @@ export class ComunasController {
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         console.log('method findByFilter');
-        const { codigo, limit, pageSize } = request.body;
+        const { codigo, descrip, limit, pageSize } = request.body;
         try {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
                         codigo: codigo ? codigo : null,
+                        descrip: descrip ? Like(descrip + '%') : null,
                     },
                     order: { codigo: "DESC" },
                     take: limit,
