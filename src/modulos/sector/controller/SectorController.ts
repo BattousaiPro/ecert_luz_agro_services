@@ -113,15 +113,14 @@ export class SectorController {
             const codigo = parseInt(request.params.codigo);
             sectorToEdit = await this.repository.findOneBy({ codigo });
             if (!sectorToEdit) {
-                //return "this Sector not exist";
-                resp.code = '1';
+                resp.code = '-3';
                 resp.data = new Sector();
-                console.log('Sector not exist');
+                console.log('Sector no existe');
                 return resp;
             }
         } catch (error) {
             console.log(JSON.stringify(error));
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;
@@ -130,11 +129,11 @@ export class SectorController {
         try {
             const { codigo, descrip, diaCar, codCob, estado } = request.body;
             if (typeof codigo !== 'undefined' && codigo !== null && codigo !== '') {
-                console.log('ctaUsr[: ' + codigo + ']');
+                console.log('ctaUsr: [' + codigo + ']');
                 sectorToEdit.codigo = codigo;
             }
             if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
-                console.log('descrip:[ ' + descrip + ']');
+                console.log('descrip: [' + descrip + ']');
                 sectorToEdit.descrip = descrip;
             }
             if (typeof diaCar !== 'undefined' && diaCar !== null && diaCar !== '') {
@@ -146,7 +145,7 @@ export class SectorController {
                 sectorToEdit.codCob = codCob;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
-                console.log('estado[: ' + estado + ']');
+                console.log('estado: [' + estado + ']');
                 sectorToEdit.estado = estado;
             }
             dataResponse = await this.repository.save(sectorToEdit);
@@ -157,7 +156,6 @@ export class SectorController {
             resp.data = null;
             return resp;
         }
-
         return resp;
     }
 

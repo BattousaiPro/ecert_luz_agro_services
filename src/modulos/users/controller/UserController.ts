@@ -105,20 +105,19 @@ export class UserController {
         console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
-        let usuariosToEdit: Usuarios = new Usuarios();
+        let elementToEdit: Usuarios = new Usuarios();
         try {
             const id = parseInt(request.params.id);
-            usuariosToEdit = await this.repository.findOneBy({ id });
-            if (!usuariosToEdit) {
-                //return "this Usuarios not exist";
-                resp.code = '1';
+            elementToEdit = await this.repository.findOneBy({ id });
+            if (!elementToEdit) {
+                resp.code = '-3';
                 resp.data = new Usuarios();
-                console.log('Usuarios not exist');
+                console.log('Usuarios no existe');
                 return resp;
             }
         } catch (error) {
             console.log(JSON.stringify(error));
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;
@@ -127,18 +126,18 @@ export class UserController {
         try {
             const { ctaUserName, ctaEmail, estado } = request.body;
             if (typeof ctaUserName !== 'undefined' && ctaUserName !== null && ctaUserName !== '') {
-                console.log('ctaUserName[: ' + ctaUserName + ']');
-                usuariosToEdit.ctaUserName = ctaUserName;
+                console.log('ctaUserName: [' + ctaUserName + ']');
+                elementToEdit.ctaUserName = ctaUserName;
             }
             if (typeof ctaEmail !== 'undefined' && ctaEmail !== null && ctaEmail !== '') {
                 console.log('ctaEmail: [' + ctaEmail + ']');
-                usuariosToEdit.ctaEmail = ctaEmail;
+                elementToEdit.ctaEmail = ctaEmail;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
-                console.log('estado[: ' + estado + ']');
-                usuariosToEdit.estado = estado;
+                console.log('estado: [' + estado + ']');
+                elementToEdit.estado = estado;
             }
-            dataResponse = await this.repository.save(usuariosToEdit);
+            dataResponse = await this.repository.save(elementToEdit);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
@@ -146,7 +145,6 @@ export class UserController {
             resp.data = null;
             return resp;
         }
-
         return resp;
     }
 

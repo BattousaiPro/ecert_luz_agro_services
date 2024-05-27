@@ -107,6 +107,47 @@ export class ComunasController {
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Comunas = new Comunas();
+        let elementToEdit: Comunas = new Comunas();
+        try {
+            const codigo = parseInt(request.params.codigo);
+            elementToEdit = await this.repository.findOneBy({ codigo });
+            if (!elementToEdit) {
+                resp.code = '-3';
+                resp.data = new Comunas();
+                console.log('Comuna no existe');
+                return resp;
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-2';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+
+        try {
+            const { codigo, descrip, estado } = request.body;
+            if (typeof codigo !== 'undefined' && codigo !== null && codigo !== '') {
+                console.log('codigo: [' + codigo + ']');
+                elementToEdit.codigo = codigo;
+            }
+            if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
+                console.log('descrip: [' + descrip + ']');
+                elementToEdit.descrip = descrip;
+            }
+            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+                console.log('estado: [' + estado + ']');
+                elementToEdit.estado = estado;
+            }
+            dataResponse = await this.repository.save(elementToEdit);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
         return resp;
     }
 

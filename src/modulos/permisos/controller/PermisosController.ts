@@ -112,15 +112,14 @@ export class PermisosController {
             const id = parseInt(request.params.id);
             usuariosToEdit = await this.repository.findOneBy({ id });
             if (!usuariosToEdit) {
-                //return "this Permisos not exist";
-                resp.code = '1';
+                resp.code = '-3';
                 resp.data = new Permisos();
                 console.log('Permisos not exist');
                 return resp;
             }
         } catch (error) {
             console.log(JSON.stringify(error));
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;
@@ -129,11 +128,11 @@ export class PermisosController {
         try {
             const { name, descrip, code, estado } = request.body;
             if (typeof name !== 'undefined' && name !== null && name !== '') {
-                console.log('name[: ' + name + ']');
+                console.log('name: [' + name + ']');
                 usuariosToEdit.name = name;
             }
             if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
-                console.log('descrip:[ ' + descrip + ']');
+                console.log('descrip: [' + descrip + ']');
                 usuariosToEdit.descrip = descrip;
             }
             if (typeof code !== 'undefined' && code !== null && code !== '') {
@@ -141,7 +140,7 @@ export class PermisosController {
                 usuariosToEdit.code = code;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
-                console.log('estado[: ' + estado + ']');
+                console.log('estado: [' + estado + ']');
                 usuariosToEdit.estado = estado;
             }
             dataResponse = await this.repository.save(usuariosToEdit);
@@ -221,7 +220,6 @@ export class PermisosController {
 
     private convertToVOs(inputUser: Permisos[]): PermisosVO[] {
         let salidaUser: PermisosVO[] = [];
-        let itemUser: PermisosVO = new PermisosVO();
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
