@@ -61,36 +61,43 @@ export class ComunasController {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
-        const {
-            codigo, descrip
-        } = request.body;
         try {
-            let toNew: Comunas = await this.repository.findOneBy({
+            const {
                 codigo, descrip
-            });
-            if (toNew) {
+            } = request.body;
+            try {
+                let toNew: Comunas = await this.repository.findOneBy({
+                    codigo, descrip
+                });
+                if (toNew) {
+                    resp.code = '-4';
+                    resp.data = null;
+                    resp.message = 'Comuna ya existe';
+                    return resp;
+                }
+            } catch (error) {
+                console.log(JSON.stringify(error));
                 resp.code = '-3';
+                resp.message = StatusCode.ERROR;
                 resp.data = null;
-                resp.message = 'Comuna ya existe';
                 return resp;
+            }
+
+            try {
+                const newElement = Object.assign(new Comunas(), {
+                    codigo, descrip, estado: true
+                });
+                dataResponse = await this.repository.save(newElement);
+                resp.data = dataResponse.codigo;
+            } catch (error) {
+                console.log(JSON.stringify(error));
+                resp.code = '-2';
+                resp.message = StatusCode.ERROR;
+                resp.data = null;
             }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-            return resp;
-        }
-
-        try {
-            const newElement = Object.assign(new Comunas(), {
-                codigo, descrip, estado: true
-            });
-            dataResponse = await this.repository.save(newElement);
-            resp.data = dataResponse.codigo;
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }

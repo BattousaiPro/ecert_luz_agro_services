@@ -81,14 +81,14 @@ export class KapmaeController {
                     rut_cop, cod_cop
                 });
                 if (toNew) {
-                    resp.code = '-3';
+                    resp.code = '-4';
                     resp.data = null;
                     resp.message = 'Socio ya existe';
                     return resp;
                 }
             } catch (error) {
                 console.log(JSON.stringify(error));
-                resp.code = '-1';
+                resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
                 return resp;
