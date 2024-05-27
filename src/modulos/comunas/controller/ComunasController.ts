@@ -61,8 +61,9 @@ export class ComunasController {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
-        const { codigo, descrip }
-            = request.body;
+        const {
+            codigo, descrip
+        } = request.body;
         try {
             let toNew: Comunas = await this.repository.findOneBy({
                 codigo, descrip

@@ -58,8 +58,9 @@ export class UserController {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
-        const { ctaUserName, ctaPassWord, ctaEmail }
-            = request.body;
+        const {
+            ctaUserName, ctaPassWord, ctaEmail
+        } = request.body;
         try {
             let toNew: Usuarios = await this.repository.findOneBy({
                 ctaUserName

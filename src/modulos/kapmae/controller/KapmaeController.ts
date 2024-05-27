@@ -69,8 +69,13 @@ export class KapmaeController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
         try {
-            const { rut_cop, ape_pat, ape_mat, nombres, cod_cop, cod_lli, cod_ant, cod_nvo, cod_ori, sec_cop, ano_inc, mto_inc, fec_inc, ano_tra, kap_tra, fec_tra, acc_tra, acc_ret, acc_apo, fec_act, est_tra, est_bon, dir_pos, nro_te1, nro_te2, nro_te3, nro_te4, com_pos, obs_cap, nro_sol, fec_sol, fec_apr, fec_can, est_sol, sec_cte, area, sec_imp, est_reg, acc_con, aju_acc }
-                = request.body;
+            const {
+                rut_cop, ape_pat, ape_mat, nombres, cod_cop, cod_lli, cod_ant, cod_nvo, cod_ori,
+                sec_cop, ano_inc, mto_inc, fec_inc, ano_tra, kap_tra, fec_tra, acc_tra, acc_ret,
+                acc_apo, fec_act, est_tra, est_bon, dir_pos, nro_te1, nro_te2, nro_te3, nro_te4,
+                com_pos, obs_cap, nro_sol, fec_sol, fec_apr, fec_can, est_sol, sec_cte, area,
+                sec_imp, est_reg, acc_con, aju_acc
+            } = request.body;
             const kapmae = Object.assign(new Kapmae(), {
                 rut_cop,
                 ape_pat,
