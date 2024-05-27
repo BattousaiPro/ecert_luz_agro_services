@@ -14,14 +14,22 @@ export class RolesController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles[] = [];
         try {
-            dataResponse = await this.repository.find();
+            dataResponse = await this.repository.find({
+                select: ['id', 'name', 'descrip', 'code', 'estado']
+            });
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
-            dataResponse = null;
+            resp.data = null;
+            return resp;
         }
-        resp.data = dataResponse;
+        if (dataResponse.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
+            resp.data = null;
+            return resp;
+        }
+        resp.data = this.convertToVOs(dataResponse);
         return resp;
     }
 
@@ -31,7 +39,9 @@ export class RolesController {
         let dataResponse: Roles = new Roles();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Roles = await this.repository.findOne({ where: { id } });
+            dataResponse = await this.repository.findOne({
+                where: { id }
+            });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
@@ -204,7 +214,6 @@ export class RolesController {
 
     private convertToVOs(inputUser: Roles[]): RolesVO[] {
         let salidaUser: RolesVO[] = [];
-        let itemUser: RolesVO = new RolesVO();
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
