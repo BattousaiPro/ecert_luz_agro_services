@@ -162,8 +162,8 @@ export class KapmaeController {
     }
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
-        console.log('method findByFilter');
         const { rut_cop, nombres, ape_pat, ape_mat, cod_cop, sec_cop, limit, pageSize } = request.body;
         try {
             const [results, totalReg] = await this.repository.findAndCount(

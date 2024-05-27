@@ -118,8 +118,8 @@ export class ComunasController {
     }
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
-        console.log('method findByFilter');
         const { codigo, descrip, limit, pageSize } = request.body;
         try {
             const [results, totalReg] = await this.repository.findAndCount(
