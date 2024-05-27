@@ -114,7 +114,7 @@ export class PermisosController {
             if (!usuariosToEdit) {
                 resp.code = '-3';
                 resp.data = new Permisos();
-                console.log('Permisos not exist');
+                console.log('Permiso no existe');
                 return resp;
             }
         } catch (error) {
@@ -151,7 +151,6 @@ export class PermisosController {
             resp.data = null;
             return resp;
         }
-
         return resp;
     }
 

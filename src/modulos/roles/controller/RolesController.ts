@@ -108,37 +108,49 @@ export class RolesController {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
-        let rolToNew: Roles = new Roles();
-        const { name, descrip, code, estado } = request.body;
+        let elementToEdit: Roles = new Roles();
         try {
-            rolToNew = await this.repository.findOneBy({ name, code });
-            if (rolToNew) {
-                resp.code = '-2';
+            const id = parseInt(request.params.id);
+            elementToEdit = await this.repository.findOneBy({ id });
+            if (!elementToEdit) {
+                resp.code = '-3';
                 resp.data = new Roles();
-                resp.message = 'Rol ya existe';
+                console.log('Rol no existe');
                 return resp;
             }
         } catch (error) {
             console.log(JSON.stringify(error));
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;
         }
 
         try {
-            const roles = Object.assign(new Roles(), {
-                name,
-                descrip,
-                code,
-                estado
-            });
-            dataResponse = await this.repository.save(roles);
+            const { name, descrip, code, estado } = request.body;
+            if (typeof name !== 'undefined' && name !== null && name !== '') {
+                console.log('name: [' + name + ']');
+                elementToEdit.name = name;
+            }
+            if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
+                console.log('descrip: [' + descrip + ']');
+                elementToEdit.descrip = descrip;
+            }
+            if (typeof code !== 'undefined' && code !== null && code !== '') {
+                console.log('code: [' + code + ']');
+                elementToEdit.code = code;
+            }
+            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+                console.log('estado: [' + estado + ']');
+                elementToEdit.estado = estado;
+            }
+            dataResponse = await this.repository.save(elementToEdit);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
+            return resp;
         }
         return resp;
     }
