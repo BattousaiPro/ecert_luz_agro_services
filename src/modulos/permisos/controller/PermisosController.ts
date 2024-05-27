@@ -14,12 +14,20 @@ export class PermisosController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos[] = [];
         try {
-            dataResponse = await this.repository.find();
+            dataResponse = await this.repository.find({
+                select: ['id', 'name', 'descrip', 'code', 'estado']
+            });
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
-            dataResponse = null;
+            resp.data = null;
+            return resp;
+        }
+        if (dataResponse.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
+            resp.data = null;
+            return resp;
         }
         resp.data = this.convertToVOs(dataResponse);
         return resp;
@@ -31,7 +39,9 @@ export class PermisosController {
         let dataResponse: Permisos = new Permisos();
         try {
             const id = parseInt(request.params.id);
-            const dataResponse: Permisos = await this.repository.findOne({ where: { id } });
+            dataResponse = await this.repository.findOne({
+                where: { id }
+            });
             resp.data = dataResponse;
             if (!dataResponse) {
                 resp.code = '1';
@@ -143,18 +153,17 @@ export class PermisosController {
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let permisosToRemove: Permisos = new Permisos();
+        let RegistroToRemove: Permisos = new Permisos();
         try {
             const id = parseInt(request.params.id);
-            permisosToRemove = await this.repository.findOneBy({ id });
-            if (!permisosToRemove) {
+            RegistroToRemove = await this.repository.findOneBy({ id });
+            if (!RegistroToRemove) {
                 resp.code = '1';
                 resp.data = new Permisos();
                 resp.message = StatusCode.ERROR + ': Permiso no existe';
                 return resp;
             }
         } catch (error) {
-
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ': Al buscar el Permiso';
             resp.data = null;
@@ -162,7 +171,7 @@ export class PermisosController {
         }
 
         try {
-            const removeVal: Permisos = await this.repository.remove(permisosToRemove);
+            const removeVal: Permisos = await this.repository.remove(RegistroToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));

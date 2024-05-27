@@ -37,9 +37,10 @@ export class ComunasController {
     async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Comunas = new Comunas();
         try {
             const codigo = parseInt(request.params.codigo);
-            const dataResponse: Comunas = await this.repository.findOne({
+            dataResponse = await this.repository.findOne({
                 where: { codigo }
             });
             resp.data = dataResponse;
@@ -88,11 +89,11 @@ export class ComunasController {
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let comunasToRemove: Comunas = new Comunas();
+        let RegistroToRemove: Comunas = new Comunas();
         try {
             const codigo = parseInt(request.params.codigo);
-            comunasToRemove = await this.repository.findOneBy({ codigo });
-            if (!comunasToRemove) {
+            RegistroToRemove = await this.repository.findOneBy({ codigo });
+            if (!RegistroToRemove) {
                 resp.code = '1';
                 resp.data = new Comunas();
                 resp.message = StatusCode.ERROR + ': Comuna no existe';
@@ -106,7 +107,7 @@ export class ComunasController {
         }
 
         try {
-            const removeVal: Comunas = await this.repository.remove(comunasToRemove);
+            const removeVal: Comunas = await this.repository.remove(RegistroToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
