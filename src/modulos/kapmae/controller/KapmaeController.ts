@@ -76,49 +76,40 @@ export class KapmaeController {
                 com_pos, obs_cap, nro_sol, fec_sol, fec_apr, fec_can, est_sol, sec_cte, area,
                 sec_imp, est_reg, acc_con, aju_acc
             } = request.body;
-            const kapmae = Object.assign(new Kapmae(), {
-                rut_cop,
-                ape_pat,
-                ape_mat,
-                nombres,
-                cod_cop,
-                cod_lli,
-                cod_ant,
-                cod_nvo,
-                cod_ori,
-                sec_cop,
-                ano_inc,
-                mto_inc,
-                fec_inc,
-                ano_tra,
-                kap_tra,
-                fec_tra,
-                acc_tra,
-                acc_ret,
-                acc_apo,
-                fec_act,
-                est_tra,
-                est_bon,
-                dir_pos,
-                nro_te1,
-                nro_te2,
-                nro_te3,
-                nro_te4,
-                com_pos,
-                obs_cap,
-                nro_sol,
-                fec_sol,
-                fec_apr,
-                fec_can,
-                est_sol,
-                sec_cte,
-                area,
-                sec_imp,
-                est_reg,
-                acc_con,
-                aju_acc
-            });
-            dataResponse = await this.repository.save(kapmae);
+            try {
+                let toNew: Kapmae = await this.repository.findOneBy({
+                    rut_cop, cod_cop
+                });
+                if (toNew) {
+                    resp.code = '-3';
+                    resp.data = null;
+                    resp.message = 'Socio ya existe';
+                    return resp;
+                }
+            } catch (error) {
+                console.log(JSON.stringify(error));
+                resp.code = '-1';
+                resp.message = StatusCode.ERROR;
+                resp.data = null;
+                return resp;
+            }
+
+            try {
+                const newElement = Object.assign(new Kapmae(), {
+                    rut_cop, ape_pat, ape_mat, nombres, cod_cop, cod_lli, cod_ant, cod_nvo, cod_ori,
+                    sec_cop, ano_inc, mto_inc, fec_inc, ano_tra, kap_tra, fec_tra, acc_tra, acc_ret,
+                    acc_apo, fec_act, est_tra, est_bon, dir_pos, nro_te1, nro_te2, nro_te3, nro_te4,
+                    com_pos, obs_cap, nro_sol, fec_sol, fec_apr, fec_can, est_sol, sec_cte, area,
+                    sec_imp, est_reg, acc_con, aju_acc
+                });
+                dataResponse = await this.repository.save(newElement);
+                resp.data = dataResponse.id;
+            } catch (error) {
+                console.log(JSON.stringify(error));
+                resp.code = '-2';
+                resp.message = StatusCode.ERROR;
+                resp.data = null;
+            }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';

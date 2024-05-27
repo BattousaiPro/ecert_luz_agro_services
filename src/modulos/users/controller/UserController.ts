@@ -58,38 +58,43 @@ export class UserController {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
-        const {
-            ctaUserName, ctaPassWord, ctaEmail
-        } = request.body;
         try {
-            let toNew: Usuarios = await this.repository.findOneBy({
-                ctaUserName
-            });
-            if (toNew) {
-                resp.code = '-3';
+            const {
+                ctaUserName, ctaPassWord, ctaEmail
+            } = request.body;
+            try {
+                let toNew: Usuarios = await this.repository.findOneBy({
+                    ctaUserName
+                });
+                if (toNew) {
+                    resp.code = '-3';
+                    resp.data = null;
+                    resp.message = 'Usuario ya existe';
+                    return resp;
+                }
+            } catch (error) {
+                console.log(JSON.stringify(error));
+                resp.code = '-1';
+                resp.message = StatusCode.ERROR;
                 resp.data = null;
-                resp.message = 'Usuario ya existe';
                 return resp;
+            }
+
+            try {
+                const newElement = Object.assign(new Usuarios(), {
+                    ctaUserName, ctaPassWord, ctaEmail, estado: true
+                });
+                dataResponse = await this.repository.save(newElement);
+                resp.data = dataResponse.id;
+            } catch (error) {
+                console.log(JSON.stringify(error));
+                resp.code = '-2';
+                resp.message = StatusCode.ERROR;
+                resp.data = null;
             }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-            return resp;
-        }
-
-        try {
-            const newElement = new Usuarios();
-            newElement.ctaUserName = ctaUserName;
-            newElement.ctaPassWord = ctaPassWord;
-            newElement.ctaEmail = ctaEmail;
-            newElement.estado = true;
-            dataResponse = await this.repository.save(newElement);
-            resp.data = dataResponse.id;
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
