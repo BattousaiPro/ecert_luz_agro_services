@@ -16,7 +16,6 @@ export class ComunasController {
         try {
             dataResponse = await this.repository.find({
                 select: ['codigo', 'descrip', 'estado']
-
             });
         } catch (error) {
             resp.code = '-1';

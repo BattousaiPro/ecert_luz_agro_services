@@ -14,9 +14,9 @@ export class UserController {
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios[] = [];
         try {
-            dataResponse = await this.repository.find(
-                { select: ['id', 'ctaUserName', 'ctaEmail', 'estado'] }
-            );
+            dataResponse = await this.repository.find({
+                select: ['id', 'ctaUserName', 'ctaPassWord', 'ctaEmail', 'estado']
+            });
         } catch (ex) {
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
