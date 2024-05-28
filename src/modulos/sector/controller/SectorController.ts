@@ -18,7 +18,7 @@ export class SectorController {
                 select: ['codigo', 'descrip', 'diaCar', 'codCob', 'estado']
             });
         } catch (e) {
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;

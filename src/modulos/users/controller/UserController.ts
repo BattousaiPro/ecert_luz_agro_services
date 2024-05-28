@@ -15,10 +15,10 @@ export class UserController {
         let dataResponse: Usuarios[] = [];
         try {
             dataResponse = await this.repository.find({
-                select: ['id', 'ctaUserName', 'ctaPassWord', 'ctaEmail', 'estado']
+                select: ['id', 'ctaUserName', 'ctaEmail', 'estado']
             });
         } catch (ex) {
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
             resp.data = null;
             return resp;
