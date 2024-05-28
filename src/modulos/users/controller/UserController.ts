@@ -41,7 +41,7 @@ export class UserController {
             const dataResponse: Usuarios = await this.repository.findOne({ where: { id } });
             resp.data = dataResponse;
             if (!dataResponse) {
-                resp.code = '1';
+                resp.code = '-2';
                 resp.data = new Usuarios();
                 console.log('Sin Data');
             }
@@ -156,13 +156,13 @@ export class UserController {
             const id = parseInt(request.params.id);
             userToRemove = await this.repository.findOneBy({ id });
             if (!userToRemove) {
-                resp.code = '1';
+                resp.code = '-3';
                 resp.data = new Usuarios();
                 resp.message = StatusCode.ERROR + ': Usuario no existe';
                 return resp;
             }
         } catch (error) {
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR + ': Al buscar el Usuario';
             resp.data = null;
             return resp;
@@ -188,8 +188,8 @@ export class UserController {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
-                        ctaUserName: ctaUserName ? Like(ctaUserName + '%') : null,
-                        ctaEmail: ctaEmail ? Like(ctaEmail + '%') : null,
+                        ctaUserName: ctaUserName ? Like('%' + ctaUserName + '%') : null,
+                        ctaEmail: ctaEmail ? Like('%' + ctaEmail + '%') : null,
                     },
                     order: { id: "DESC" },
                     take: limit,
