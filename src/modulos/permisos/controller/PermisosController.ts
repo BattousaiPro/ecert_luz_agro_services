@@ -199,7 +199,7 @@ export class PermisosController {
                     },
                     order: { id: "DESC" },
                     take: limit,
-                    skip: pageSize,
+                    skip: (pageSize - 1) * limit
                 }
             );
             resp.data = {

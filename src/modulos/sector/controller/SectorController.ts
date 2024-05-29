@@ -200,7 +200,7 @@ export class SectorController {
                     },
                     order: { codigo: "ASC" },
                     take: limit,
-                    skip: pageSize,
+                    skip: (pageSize - 1) * limit
                 }
             );
             resp.data = {

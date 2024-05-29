@@ -201,7 +201,7 @@ export class RolesController {
                     },
                     order: { id: "DESC" },
                     take: limit,
-                    skip: pageSize,
+                    skip: (pageSize - 1) * limit
                 }
             );
             resp.data = {

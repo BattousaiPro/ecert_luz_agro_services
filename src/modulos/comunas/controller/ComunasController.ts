@@ -192,7 +192,7 @@ export class ComunasController {
                     },
                     order: { codigo: "DESC" },
                     take: limit,
-                    skip: pageSize,
+                    skip: (pageSize - 1) * limit
                 }
             );
             resp.data = {
