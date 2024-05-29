@@ -14,8 +14,8 @@ export class KapmaeVO {
     cod_nvo: number;
     cod_ori: number;
     /** Init Sección Sector **/
-    sec_cop: number;
-    sector: Sector;
+    sec_cop: Sector;
+    //sector: Sector;
     /** Fin Sección Sector **/
     ano_inc: number;
     mto_inc: number;
@@ -35,8 +35,8 @@ export class KapmaeVO {
     nro_te3: string;
     nro_te4: string;
     /** Init Comunas Sector **/
-    com_pos: number;
-    comuna: Comunas;
+    //com_pos: number;
+    com_pos: Comunas;
     /** Fin Comunas Sector **/
     obs_cap: string;
     nro_sol: number;

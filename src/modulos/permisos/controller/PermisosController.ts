@@ -18,7 +18,7 @@ export class PermisosController {
                 select: ['id', 'name', 'descrip', 'code', 'estado']
             });
         } catch (error) {
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
             return resp;

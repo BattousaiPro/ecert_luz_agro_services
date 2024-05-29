@@ -16,8 +16,8 @@ export class KapmaeController {
         try {
             dataResponse = await this.repository.find({
                 relations: {
-                    sector: true,
-                    comuna: true,
+                    sec_cop: true,
+                    com_pos: true,
                 }
             });
         } catch (error) {
@@ -45,8 +45,8 @@ export class KapmaeController {
             dataResponse = await this.repository.findOne({
                 where: { id },
                 relations: {
-                    sector: true,
-                    comuna: true,
+                    sec_cop: true,
+                    com_pos: true,
                 },
             });
             resp.data = dataResponse;
@@ -368,8 +368,8 @@ export class KapmaeController {
                         //sec_cop: sec_cop ? sec_cop : null,
                     },
                     relations: {
-                        sector: true,
-                        comuna: true,
+                        sec_cop: true,
+                        com_pos: true,
                     },
                     order: { id: "DESC" },
                     take: limit,
@@ -414,7 +414,6 @@ export class KapmaeController {
         itemUser.cod_ori = inputUser.cod_ori;
         /** Init Sección Sector **/
         itemUser.sec_cop = inputUser.sec_cop;
-        itemUser.sector = inputUser.sector;
         /** Fin Sección Sector **/
         itemUser.ano_inc = inputUser.ano_inc;
         itemUser.mto_inc = inputUser.mto_inc;
@@ -435,7 +434,6 @@ export class KapmaeController {
         itemUser.nro_te4 = inputUser.nro_te4;
         /** Init Comunas Sector **/
         itemUser.com_pos = inputUser.com_pos;
-        itemUser.comuna = inputUser.comuna;
         /** Fin Comunas Sector **/
         itemUser.obs_cap = inputUser.obs_cap;
         itemUser.nro_sol = inputUser.nro_sol;

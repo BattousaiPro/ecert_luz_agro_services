@@ -36,12 +36,9 @@ export class Kapmae {
     cod_ori: number;
 
     /** Init Sección Sector **/
-    @Column({ name: 'sec_cop' })
-    sec_cop: number;
-
     @OneToOne(() => Sector, (sector) => sector.kapmae)
     @JoinColumn({ name: 'sec_cop' })
-    sector: Sector;
+    sec_cop: Sector;
     /** Fin Sección Sector **/
 
     @Column({ name: 'ano_inc' })
@@ -96,12 +93,9 @@ export class Kapmae {
     nro_te4: string;
 
     /** Init Comunas Sector **/
-    @Column({ name: 'com_pos' })
-    com_pos: number;
-
     @OneToOne(() => Comunas, (comuna) => comuna.kapmae)
     @JoinColumn({ name: 'com_pos' })
-    comuna: Comunas;
+    com_pos: Comunas;
     /** Fin Comunas Sector **/
 
     @Column({ name: 'obs_cap' })
