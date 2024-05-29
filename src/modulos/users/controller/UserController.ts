@@ -29,7 +29,7 @@ export class UserController {
             resp.data = null;
             return resp;
         }
-        resp.data = this.convertToVOs(dataResponse);
+        resp.data = this.convertToVOs(dataResponse, false);
         return resp;
     }
 
@@ -185,7 +185,7 @@ export class UserController {
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaEmail, limit, pageSize } = request.body;
         try {
-            const [results, totalReg] = await this.repository.findAndCount(
+            const [uerList, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
                         ctaUserName: ctaUserName ? Like('%' + ctaUserName + '%') : null,
@@ -196,6 +196,7 @@ export class UserController {
                     skip: (pageSize - 1) * limit
                 }
             );
+            const results: UsuariosVO[] = this.convertToVOs(uerList, false);
             resp.data = {
                 totalReg,
                 nextPage: pageSize + 1,
@@ -211,20 +212,22 @@ export class UserController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
+    private convertToVOs(inputUser: Usuarios[], showPass: boolean): UsuariosVO[] {
         let salidaUser: UsuariosVO[] = [];
         for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index]));
+            salidaUser.push(this.convertToVO(inputUser[index], showPass));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Usuarios): UsuariosVO {
+    private convertToVO(inputUser: Usuarios, showPass: boolean): UsuariosVO {
         let itemUser: UsuariosVO = new UsuariosVO();
         itemUser = new UsuariosVO();
         itemUser.id = inputUser.id;
         itemUser.ctaUserName = inputUser.ctaUserName;
-        itemUser.ctaPassWord = inputUser.ctaPassWord;
+        if (showPass) {
+            itemUser.ctaPassWord = inputUser.ctaPassWord;
+        }
         itemUser.ctaEmail = inputUser.ctaEmail;
         itemUser.estado = inputUser.estado;
         return itemUser;
