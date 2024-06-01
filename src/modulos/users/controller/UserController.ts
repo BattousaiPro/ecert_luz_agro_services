@@ -4,6 +4,8 @@ import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Usuarios } from "../entities/Usuarios";
 import { UsuariosVO } from "../dto/UsuariosVO";
 import { Like } from "typeorm";
+import { RolesVO } from "../../roles/dto/RolesVO";
+import { Roles } from "../../roles/entities/Roles";
 
 export class UserController {
 
@@ -15,7 +17,8 @@ export class UserController {
         let dataResponse: Usuarios[] = [];
         try {
             dataResponse = await this.repository.find({
-                select: ['id', 'ctaUserName', 'ctaEmail', 'estado']
+                select: ['id', 'ctaUserName', 'ctaEmail', 'estado'],
+                relations: { roles: true }
             });
         } catch (ex) {
             resp.code = '-2';
@@ -29,7 +32,7 @@ export class UserController {
             resp.data = null;
             return resp;
         }
-        resp.data = this.convertToVOs(dataResponse, false);
+        resp.data = this.convertToVOs(dataResponse, false, true);
         return resp;
     }
 
@@ -191,12 +194,13 @@ export class UserController {
                         ctaUserName: ctaUserName ? Like('%' + ctaUserName + '%') : null,
                         ctaEmail: ctaEmail ? Like('%' + ctaEmail + '%') : null,
                     },
+                    relations: { roles: true },
                     order: { id: "DESC" },
                     take: limit,
                     skip: (pageSize - 1) * limit
                 }
             );
-            const results: UsuariosVO[] = this.convertToVOs(uerList, false);
+            const results: UsuariosVO[] = this.convertToVOs(uerList, false, true);
             resp.data = {
                 totalReg,
                 nextPage: pageSize + 1,
@@ -212,15 +216,15 @@ export class UserController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Usuarios[], showPass: boolean): UsuariosVO[] {
+    private convertToVOs(inputUser: Usuarios[], showPass: boolean, showRoles: boolean): UsuariosVO[] {
         let salidaUser: UsuariosVO[] = [];
         for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index], showPass));
+            salidaUser.push(this.convertToVO(inputUser[index], showPass, showRoles));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Usuarios, showPass: boolean): UsuariosVO {
+    private convertToVO(inputUser: Usuarios, showPass: boolean, showRoles: boolean): UsuariosVO {
         let itemUser: UsuariosVO = new UsuariosVO();
         itemUser = new UsuariosVO();
         itemUser.id = inputUser.id;
@@ -228,8 +232,32 @@ export class UserController {
         if (showPass) {
             itemUser.ctaPassWord = inputUser.ctaPassWord;
         }
+        if (showRoles) {
+            itemUser.roles = this.convertToRolesVOs(inputUser.roles);
+        }
         itemUser.ctaEmail = inputUser.ctaEmail;
         itemUser.estado = inputUser.estado;
+        return itemUser;
+    }
+
+    private convertToRolesVOs(inputUser: Roles[]): RolesVO[] {
+        let salidaUser: RolesVO[] = [];
+        for (let index = 0; index < inputUser.length; index++) {
+            if (inputUser[index].estado) {
+                salidaUser.push(this.convertToRolVO(inputUser[index]));
+            }
+        }
+        return salidaUser;
+    }
+
+    private convertToRolVO(inputUser: Roles): RolesVO {
+        let itemUser: RolesVO = new RolesVO();
+        itemUser = new RolesVO();
+        itemUser.id = inputUser.id;
+        itemUser.name = inputUser.name;
+        //itemUser.descrip = inputUser.descrip;
+        itemUser.code = inputUser.code;
+        //itemUser.estado = inputUser.estado;
         return itemUser;
     }
 
