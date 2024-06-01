@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
 import { Kapmae } from "../../kapmae/entities/Kapmae";
 
-@Entity({ name: 'SECTOR'})
+@Entity({ name: 'SECTOR' })
 export class Sector {
 
     @PrimaryGeneratedColumn({ name: 'codigo' })
@@ -16,10 +16,10 @@ export class Sector {
     @Column({ name: 'cod_cob' })
     codCob: number;
 
-    @Column({name: 'estado'})
+    @Column({ name: 'estado' })
     estado: boolean;
 
-    @OneToOne(() => Kapmae, (kapmae) => kapmae.sector)
+    @OneToOne(() => Kapmae, (kapmae) => kapmae.sec_cop)
     kapmae: Kapmae;
 
 }

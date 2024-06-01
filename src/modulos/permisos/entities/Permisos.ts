@@ -1,21 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity({ name: 'PERMISOS'})
+@Entity({ name: 'PERMISOS' })
 export class Permisos {
 
-    @PrimaryGeneratedColumn({name: 'id'})
+    @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
-    @Column({name: 'name'})
+    @Column({ name: 'name' })
     name: string;
 
-    @Column({name: 'descrip'})
+    @Column({ name: 'descrip' })
     descrip: string;
 
-    @Column({name: 'code'})
+    @Column({ name: 'code' })
     code: string;
 
-    @Column({name: 'estado'})
+    @Column({ name: 'estado' })
     estado: boolean;
 
 }
