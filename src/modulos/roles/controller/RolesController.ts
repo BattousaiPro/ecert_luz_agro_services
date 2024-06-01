@@ -4,6 +4,8 @@ import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { Roles } from "../entities/Roles";
 import { RolesVO } from "../dto/RolesVO";
 import { Like } from "typeorm";
+import { PermisosVO } from "../../permisos/dto/PermisosVO";
+import { Permisos } from "../../permisos/entities/Permisos";
 
 export class RolesController {
 
@@ -15,7 +17,8 @@ export class RolesController {
         let dataResponse: Roles[] = [];
         try {
             dataResponse = await this.repository.find({
-                select: ['id', 'name', 'descrip', 'code', 'estado']
+                select: ['id', 'name', 'descrip', 'code', 'estado'],
+                relations: { permisos: true }
             });
         } catch (error) {
             resp.code = '-1';
@@ -29,7 +32,7 @@ export class RolesController {
             resp.data = null;
             return resp;
         }
-        resp.data = this.convertToVOs(dataResponse);
+        resp.data = this.convertToVOs(dataResponse, true);
         return resp;
     }
 
@@ -193,8 +196,9 @@ export class RolesController {
         let resp: GenericResponse = new GenericResponse();
         const { name, descrip, limit, pageSize } = request.body;
         try {
-            const [results, totalReg] = await this.repository.findAndCount(
+            const [rolList, totalReg] = await this.repository.findAndCount(
                 {
+                    relations: { permisos: true },
                     where: {
                         name: name ? Like('%' + name + '%') : null,
                         descrip: descrip ? Like('%' + descrip + '%') : null,
@@ -204,6 +208,7 @@ export class RolesController {
                     skip: (pageSize - 1) * limit
                 }
             );
+            const results: RolesVO[] = this.convertToVOs(rolList, true);
             resp.data = {
                 totalReg,
                 nextPage: pageSize + 1,
@@ -219,23 +224,49 @@ export class RolesController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Roles[]): RolesVO[] {
-        let salidaUser: RolesVO[] = [];
-        for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index]));
+    private convertToVOs(input: Roles[], showPermisos: boolean): RolesVO[] {
+        let salida: RolesVO[] = [];
+        if (input) {
+            for (let index = 0; index < input.length; index++) {
+                salida.push(this.convertToVO(input[index], showPermisos));
+            }
         }
-        return salidaUser;
+        return salida;
     }
 
-    private convertToVO(inputUser: Roles): RolesVO {
-        let itemUser: RolesVO = new RolesVO();
-        itemUser = new RolesVO();
-        itemUser.id = inputUser.id;
-        itemUser.name = inputUser.name;
-        itemUser.descrip = inputUser.descrip;
-        itemUser.code = inputUser.code;
-        itemUser.estado = inputUser.estado;
-        return itemUser;
+    private convertToVO(input: Roles, showPermisos: boolean): RolesVO {
+        let item: RolesVO = new RolesVO();
+        item = new RolesVO();
+        item.id = input.id;
+        item.name = input.name;
+        item.descrip = input.descrip;
+        item.code = input.code;
+        item.estado = input.estado;
+        if (showPermisos) {
+            item.permisos = this.convertToPermisoVOs(input.permisos);
+        }
+        return item;
+    }
+
+    private convertToPermisoVOs(input: Permisos[]): PermisosVO[] {
+        let salida: PermisosVO[] = [];
+        if (input) {
+            for (let index = 0; index < input.length; index++) {
+                salida.push(this.convertToPermisoVO(input[index]));
+            }
+        }
+        return salida;
+    }
+
+    private convertToPermisoVO(input: Permisos): PermisosVO {
+        let item: PermisosVO = new PermisosVO();
+        item = new PermisosVO();
+        item.id = input.id;
+        item.name = input.name;
+        item.descrip = input.descrip;
+        item.code = input.code;
+        item.estado = input.estado;
+        return item;
     }
 
 }

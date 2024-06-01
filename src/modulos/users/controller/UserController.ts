@@ -216,49 +216,53 @@ export class UserController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Usuarios[], showPass: boolean, showRoles: boolean): UsuariosVO[] {
-        let salidaUser: UsuariosVO[] = [];
-        for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index], showPass, showRoles));
-        }
-        return salidaUser;
-    }
-
-    private convertToVO(inputUser: Usuarios, showPass: boolean, showRoles: boolean): UsuariosVO {
-        let itemUser: UsuariosVO = new UsuariosVO();
-        itemUser = new UsuariosVO();
-        itemUser.id = inputUser.id;
-        itemUser.ctaUserName = inputUser.ctaUserName;
-        if (showPass) {
-            itemUser.ctaPassWord = inputUser.ctaPassWord;
-        }
-        if (showRoles) {
-            itemUser.roles = this.convertToRolesVOs(inputUser.roles);
-        }
-        itemUser.ctaEmail = inputUser.ctaEmail;
-        itemUser.estado = inputUser.estado;
-        return itemUser;
-    }
-
-    private convertToRolesVOs(inputUser: Roles[]): RolesVO[] {
-        let salidaUser: RolesVO[] = [];
-        for (let index = 0; index < inputUser.length; index++) {
-            if (inputUser[index].estado) {
-                salidaUser.push(this.convertToRolVO(inputUser[index]));
+    private convertToVOs(input: Usuarios[], showPass: boolean, showRoles: boolean): UsuariosVO[] {
+        let salida: UsuariosVO[] = [];
+        if (input) {
+            for (let index = 0; index < input.length; index++) {
+                salida.push(this.convertToVO(input[index], showPass, showRoles));
             }
         }
-        return salidaUser;
+        return salida;
     }
 
-    private convertToRolVO(inputUser: Roles): RolesVO {
-        let itemUser: RolesVO = new RolesVO();
-        itemUser = new RolesVO();
-        itemUser.id = inputUser.id;
-        itemUser.name = inputUser.name;
-        //itemUser.descrip = inputUser.descrip;
-        itemUser.code = inputUser.code;
-        //itemUser.estado = inputUser.estado;
-        return itemUser;
+    private convertToVO(input: Usuarios, showPass: boolean, showRoles: boolean): UsuariosVO {
+        let item: UsuariosVO = new UsuariosVO();
+        item = new UsuariosVO();
+        item.id = input.id;
+        item.ctaUserName = input.ctaUserName;
+        if (showPass) {
+            item.ctaPassWord = input.ctaPassWord;
+        }
+        item.ctaEmail = input.ctaEmail;
+        item.estado = input.estado;
+        if (showRoles) {
+            item.roles = this.convertToRolesVOs(input.roles);
+        }
+        return item;
+    }
+
+    private convertToRolesVOs(input: Roles[]): RolesVO[] {
+        let salida: RolesVO[] = [];
+        if (input) {
+            for (let index = 0; index < input.length; index++) {
+                if (input[index].estado) {
+                    salida.push(this.convertToRolVO(input[index]));
+                }
+            }
+        }
+        return salida;
+    }
+
+    private convertToRolVO(input: Roles): RolesVO {
+        let item: RolesVO = new RolesVO();
+        item = new RolesVO();
+        item.id = input.id;
+        item.name = input.name;
+        //item.descrip = input.descrip;
+        item.code = input.code;
+        //item.estado = input.estado;
+        return item;
     }
 
 }

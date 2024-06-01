@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
+import { Roles } from "../../roles/entities/Roles";
 
 @Entity({ name: 'PERMISOS' })
 export class Permisos {
@@ -17,5 +18,12 @@ export class Permisos {
 
     @Column({ name: 'estado' })
     estado: boolean;
+
+    @ManyToMany(
+        () => Roles,
+        rol => rol.permisos,
+        { onDelete: 'NO ACTION', onUpdate: 'NO ACTION', },
+    )
+    roles: Roles[];
 
 }

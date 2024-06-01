@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Usuarios } from "../../users/entities/Usuarios";
+import { Permisos } from "../../permisos/entities/Permisos";
 
 @Entity({ name: 'ROLES' })
 export class Roles {
@@ -25,5 +26,20 @@ export class Roles {
         { onDelete: 'NO ACTION', onUpdate: 'NO ACTION', },
     )
     users: Usuarios[];
+
+    @ManyToMany(() => Permisos, (permiso) => permiso.roles
+        , { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
+    @JoinTable({
+        name: 'rol_permiso',
+        joinColumn: {
+            name: 'rol_id',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'permiso_id',
+            referencedColumnName: 'id',
+        },
+    })
+    permisos: Permisos[];
 
 }
