@@ -21,8 +21,7 @@ export class AuthController {
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaPassWord } = req.body;
         if (!(ctaUserName && ctaPassWord)) {
-            //return res.status(400).json({ message: ' Username & Password are required!' });
-            resp.code = '1';
+            resp.code = '-2';
             resp.data = new Usuarios();
             console.log('Username & Password are required!');
             return resp;
@@ -34,11 +33,11 @@ export class AuthController {
             resp.data = user;
             resp.data = this.convertToVO(user);
         } catch (e) {
-            //return res.status(400).json({ message: ' Username or password incorecct!' });
             console.log(JSON.stringify(e));
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ' Username or password incorecct!';
             resp.data = null;
+            return resp;
         }
 
         // Check password
@@ -61,14 +60,22 @@ export class AuthController {
         const { oldPassword, newPassword } = req.body;
 
         if (!(oldPassword && newPassword)) {
-            res.status(400).json({ message: 'Old password & new password are required' });
+            resp.code = '-2';
+            resp.data = new Usuarios();
+            console.log('Atigua contraseña & nueva contraseña Son requeridas');
+            return resp;
         }
 
         let user: Usuarios;
         try {
-            user = await this.repository.findOneOrFail(userId);
+            user = await this.repository.findOneOrFail({ where: { id: userId, ctaPassWord: oldPassword } });
+            resp.data = 1;
         } catch (e) {
             res.status(400).json({ message: 'Somenthing goes wrong!' });
+            resp.code = '-1';
+            resp.data = new Usuarios();
+            console.log('Algo salio mal');
+            return resp;
         }
         /*
         if (!user.checkPassword(oldPassword)) {
