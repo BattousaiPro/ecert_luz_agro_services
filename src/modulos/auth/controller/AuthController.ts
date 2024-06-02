@@ -19,8 +19,8 @@ export class AuthController {
 
     async login(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
-        const { ctaUsr, ctaPass } = req.body;
-        if (!(ctaUsr && ctaPass)) {
+        const { ctaUserName, ctaPassWord } = req.body;
+        if (!(ctaUserName && ctaPassWord)) {
             //return res.status(400).json({ message: ' Username & Password are required!' });
             resp.code = '1';
             resp.data = new Usuarios();
@@ -30,7 +30,7 @@ export class AuthController {
 
         let user: Usuarios;
         try {
-            user = await this.repository.findOneOrFail({ where: { ctaUsr: ctaUsr, ctaPass: ctaPass } });
+            user = await this.repository.findOneOrFail({ where: { ctaUserName: ctaUserName, ctaPassWord: ctaPassWord } });
             resp.data = user;
             resp.data = this.convertToVO(user);
         } catch (e) {
@@ -43,7 +43,7 @@ export class AuthController {
 
         // Check password
         /*
-        if (!user.checkPassword(ctaPass)) {
+        if (!user.checkPassword(ctaPassWord)) {
             return res.status(400).json({ message: 'Username or Password are incorrect!' });
         }
 
@@ -82,7 +82,7 @@ export class AuthController {
         let itemUser: UsuariosVO = new UsuariosVO();
         itemUser = new UsuariosVO();
         itemUser.id = inputUser.id;
-        itemUser.ctaUsr = inputUser.ctaUsr;
+        itemUser.ctaUserName = inputUser.ctaUserName;
         itemUser.ctaEmail = inputUser.ctaEmail;
         itemUser.estado = inputUser.estado;
         return itemUser;
