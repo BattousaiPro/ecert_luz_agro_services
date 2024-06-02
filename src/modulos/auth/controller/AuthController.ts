@@ -21,9 +21,10 @@ export class AuthController {
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaPassWord } = req.body;
         if (!(ctaUserName && ctaPassWord)) {
+            //console.log(JSON.stringify(e));
             resp.code = '-2';
-            resp.data = new Usuarios();
-            console.log('Username & Password are required!');
+            resp.message = ' Nombre de Usuario y contraseña son requeridos!';
+            resp.data = null;
             return resp;
         }
 
@@ -33,9 +34,9 @@ export class AuthController {
             resp.data = user;
             resp.data = this.convertToVO(user);
         } catch (e) {
-            console.log(JSON.stringify(e));
+            //console.log(JSON.stringify(e));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR + ' Username or password incorecct!';
+            resp.message = ' Nombre de Usuario o contraseña son incorrectos!';
             resp.data = null;
             return resp;
         }
