@@ -365,8 +365,12 @@ export class KapmaeController {
                         ape_pat: ape_pat ? Like(ape_pat + '%') : null,
                         ape_mat: ape_mat ? Like(ape_mat + '%') : null,
                         cod_cop: cod_cop ? cod_cop : null,
-                        //sec_cop: sec_cop ? sec_cop : null,
-                        //com_pos: sec_cop ? sec_cop : null,
+                        sec_cop: {
+                            descrip: sec_cop ? Like('%' + sec_cop + '%') : null,
+                        },
+                        com_pos: {
+                            descrip: com_pos ? Like('%' + com_pos + '%') : null,
+                        },
                     },
                     relations: {
                         sec_cop: true,
