@@ -67,7 +67,7 @@ export class SectorController {
             } = request.body;
             try {
                 let toNew: Sector = await this.repository.findOneBy({
-                    codigo, descrip
+                    codigo
                 });
                 if (toNew) {
                     resp.code = '-4';
