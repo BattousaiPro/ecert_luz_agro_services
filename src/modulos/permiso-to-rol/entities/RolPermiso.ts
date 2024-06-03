@@ -1,12 +1,12 @@
-import { Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryColumn } from "typeorm";
 
 @Entity({ name: 'rol_permiso' })
 export class RolPermiso {
 
-    @PrimaryGeneratedColumn({ name: 'rol_id' })
+    @PrimaryColumn({ name: 'rol_id' })
     rolId: number;
 
-    @PrimaryGeneratedColumn({ name: 'permiso_id' })
-    permisoId: string;
+    @PrimaryColumn({ name: 'permiso_id' })
+    permisoId: number;
 
 }
