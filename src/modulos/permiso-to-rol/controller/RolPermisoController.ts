@@ -8,15 +8,18 @@ export class RolPermisoController {
     private repository = AppDataSource.getRepository(RolPermiso);
 
 
-    async deletePermisosRol(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method deletePermisosRol');
+    async rolPermiso(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method rolPermiso');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: RolPermiso[] = [];
         try {
             const idRol = parseInt(request.params.idrol);
-            registroToRemove = await this.repository.find({where: { rolId: idRol }});
-            if (!registroToRemove) {
-                resp.code = '1';
+            registroToRemove = await this.repository.find({ where: { rolId: idRol } });
+            // console.log(JSON.stringify(registroToRemove));
+            if (registroToRemove !== null
+                && typeof registroToRemove !== 'undefined'
+                && registroToRemove.length === 0) {
+                resp.code = '-2';
                 //resp.data = new Comunas();
                 //resp.message = StatusCode.ERROR + ': Comuna no existe';
                 return resp;

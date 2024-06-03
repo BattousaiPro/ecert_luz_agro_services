@@ -8,17 +8,18 @@ export class UserRolController {
     private repository = AppDataSource.getRepository(UserRol);
 
 
-    async deleteRolUser(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method deleteRolUser');
+    async userRol(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method userRol');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: UserRol[] = [];
         try {
             const idUser = parseInt(request.params.iduser);
-            registroToRemove = await this.repository.find({where: { userId: idUser }});
-            if (!registroToRemove) {
-                resp.code = '1';
+            registroToRemove = await this.repository.find({ where: { userId: idUser } });
+            // console.log(JSON.stringify(registroToRemove));
+            if (registroToRemove !== null && typeof registroToRemove !== 'undefined' && registroToRemove.length === 0) {
+                resp.code = '-2';
                 //resp.data = new Comunas();
-                //resp.message = StatusCode.ERROR + ': Comuna no existe';
+                resp.message = StatusCode.ERROR + ': Relación de Roles no existe';
                 return resp;
             }
         } catch (error) {
