@@ -1,7 +1,9 @@
 import AuthController from './modulos/auth/controller/AuthController';
 import { ComunasController } from './modulos/comunas/controller/ComunasController';
 import { KapmaeController } from './modulos/kapmae/controller/KapmaeController';
+import { RolPermisoController } from './modulos/permiso-to-rol/controller/RolPermisoController';
 import { PermisosController } from './modulos/permisos/controller/PermisosController';
+import { UserRolController } from './modulos/rol-to-user/controller/UserRolController';
 import { RolesController } from './modulos/roles/controller/RolesController';
 import { SectorController } from './modulos/sector/controller/SectorController';
 import { UserController } from './modulos/users/controller/UserController';
@@ -16,8 +18,7 @@ export const Routes: any[] = [
         method: 'post',
         route: '/auth/login',
         controller: AuthController,
-        action: 'login',
-        asdas:''
+        action: 'login'
     }, {
         method: 'post',
         route: '/auth/changePassword',
@@ -243,5 +244,24 @@ export const Routes: any[] = [
 
 
 
+
+    /**  */
+    {
+        method: 'post',
+        route: '/user-rol/:iduser',
+        controller: UserRolController,
+        action: 'findByFilter'
+    },
+
+
+
+
+    /**  */
+    {
+        method: 'post',
+        route: '/rol-permiso/:idrol',
+        controller: RolPermisoController,
+        action: 'findByFilter'
+    },
 
 ];
