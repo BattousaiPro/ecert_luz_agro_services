@@ -27,7 +27,7 @@ export class RolPermisoController {
             resp.data = null;
             return resp;
         }
-
+        /*
         try {
             const removeVal: any = await this.repository.remove(registroToRemove);
             resp.data = null;
@@ -36,7 +36,7 @@ export class RolPermisoController {
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-        }
+        }*/
         return resp;
     }
 
