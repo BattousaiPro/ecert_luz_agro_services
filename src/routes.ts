@@ -246,22 +246,22 @@ export const Routes: any[] = [
 
 
     /** Update Roles a los usuarios */
-    /*{
+    {
         method: 'post',
         route: '/user-rol/:iduser',
         controller: UserRolController,
-        action: 'findByFilter'
-    },*/
+        action: 'userRol'
+    },
 
 
 
 
     /** Update Permisos a los Roles */
-    /*{
+    {
         method: 'post',
         route: '/rol-permiso/:idrol',
         controller: RolPermisoController,
-        action: 'findByFilter'
-    },*/
+        action: 'rolPermiso'
+    },
 
 ];
