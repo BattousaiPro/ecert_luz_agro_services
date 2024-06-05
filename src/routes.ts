@@ -36,11 +36,6 @@ export const Routes: any[] = [
         controller: ComunasController,
         action: 'getAll'
     }, {
-        method: 'get',
-        route: '/comunas/:codigo',
-        controller: ComunasController,
-        action: 'getById'
-    }, {
         method: 'post',
         route: '/comunas',
         controller: ComunasController,
@@ -67,16 +62,6 @@ export const Routes: any[] = [
 
     /** Secctio Kapmae */
     {
-        method: 'get',
-        route: '/kapmae',
-        controller: KapmaeController,
-        action: 'getAll'
-    }, {
-        method: 'get',
-        route: '/kapmae/:id',
-        controller: KapmaeController,
-        action: 'getById'
-    }, {
         method: 'post',
         route: '/kapmae',
         controller: KapmaeController,
@@ -103,16 +88,6 @@ export const Routes: any[] = [
 
     /** Secctio Permisos */
     {
-        method: 'get',
-        route: '/permisos',
-        controller: PermisosController,
-        action: 'getAll'
-    }, {
-        method: 'get',
-        route: '/permisos/:id',
-        controller: PermisosController,
-        action: 'getById'
-    }, {
         method: 'post',
         route: '/permisos',
         controller: PermisosController,
@@ -139,16 +114,6 @@ export const Routes: any[] = [
 
     /** Secctio Roles */
     {
-        method: 'get',
-        route: '/roles',
-        controller: RolesController,
-        action: 'getAll'
-    }, {
-        method: 'get',
-        route: '/roles/:id',
-        controller: RolesController,
-        action: 'getById'
-    }, {
         method: 'post',
         route: '/roles',
         controller: RolesController,
@@ -180,11 +145,6 @@ export const Routes: any[] = [
         controller: SectorController,
         action: 'getAll'
     }, {
-        method: 'get',
-        route: '/sector/:codigo',
-        controller: SectorController,
-        action: 'getById'
-    }, {
         method: 'post',
         route: '/sector',
         controller: SectorController,
@@ -211,16 +171,6 @@ export const Routes: any[] = [
 
     /** Secctio User */
     {
-        method: 'get',
-        route: '/users',
-        controller: UserController,
-        action: 'getAll'
-    }, {
-        method: 'get',
-        route: '/users/:id',
-        controller: UserController,
-        action: 'getById'
-    }, {
         method: 'post',
         route: '/users',
         controller: UserController,

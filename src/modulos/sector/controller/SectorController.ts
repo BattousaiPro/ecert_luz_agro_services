@@ -33,30 +33,6 @@ export class SectorController {
         return resp;
     }
 
-    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method getById');
-        let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Sector = new Sector();
-        try {
-            const codigo = parseInt(request.params.codigo);
-            dataResponse = await this.repository.findOne({
-                where: { codigo }
-            });
-            resp.data = dataResponse;
-            if (!dataResponse) {
-                resp.code = '1';
-                resp.data = new Sector();
-                console.log('Sin Data');
-            }
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-        }
-        return resp;
-    }
-
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
@@ -163,13 +139,13 @@ export class SectorController {
             const codigo = parseInt(request.params.codigo);
             sectorToRemove = await this.repository.findOneBy({ codigo });
             if (!sectorToRemove) {
-                resp.code = '1';
+                resp.code = '3';
                 resp.data = new Sector();
                 resp.message = StatusCode.ERROR + ': Sector no existe';
                 return resp;
             }
         } catch (error) {
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR + ': Al buscar el Sector';
             resp.data = null;
             return resp;

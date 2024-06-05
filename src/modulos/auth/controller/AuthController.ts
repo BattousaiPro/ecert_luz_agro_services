@@ -16,7 +16,6 @@ export class AuthController {
 
     private repository = AppDataSource.getRepository(Usuarios);
 
-
     async login(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaPassWord } = req.body;
