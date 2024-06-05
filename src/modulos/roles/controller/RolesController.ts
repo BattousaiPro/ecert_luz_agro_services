@@ -11,6 +11,31 @@ export class RolesController {
 
     private repository = AppDataSource.getRepository(Roles);
 
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getAll');
+        let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Roles[] = [];
+        try {
+            dataResponse = await this.repository.find({
+                select: ['id', 'name', 'descrip', 'code', 'estado'],
+                relations: { permisos: true }
+            });
+        } catch (error) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+        if (dataResponse.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
+            resp.data = null;
+            return resp;
+        }
+        resp.data = this.convertToVOs(dataResponse, true);
+        return resp;
+    }
+
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();

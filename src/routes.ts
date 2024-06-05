@@ -88,6 +88,11 @@ export const Routes: any[] = [
 
     /** Secctio Permisos */
     {
+        method: 'get',
+        route: '/permisos',
+        controller: PermisosController,
+        action: 'getAll'
+    }, {
         method: 'post',
         route: '/permisos',
         controller: PermisosController,
@@ -114,6 +119,11 @@ export const Routes: any[] = [
 
     /** Secctio Roles */
     {
+        method: 'get',
+        route: '/roles',
+        controller: RolesController,
+        action: 'getAll'
+    }, {
         method: 'post',
         route: '/roles',
         controller: RolesController,

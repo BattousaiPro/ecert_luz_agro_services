@@ -9,6 +9,30 @@ export class PermisosController {
 
     private repository = AppDataSource.getRepository(Permisos);
 
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getAll');
+        let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Permisos[] = [];
+        try {
+            dataResponse = await this.repository.find({
+                select: ['id', 'name', 'descrip', 'code', 'estado']
+            });
+        } catch (error) {
+            resp.code = '-2';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return resp;
+        }
+        if (dataResponse.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
+            resp.data = null;
+            return resp;
+        }
+        resp.data = this.convertToVOs(dataResponse);
+        return resp;
+    }
+
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
