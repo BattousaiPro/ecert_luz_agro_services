@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse } from "../../../vo/GenericResponse";
-import { Usuarios } from "../entities/Usuarios";
-import { UsuariosVO } from "../dto/UsuariosVO";
-import { RolesVO } from "../../roles/dto/RolesVO";
-import { Roles } from "../../roles/entities/Roles";
 import { UserServices } from "../services/UserServices";
 
 export class UserController {
