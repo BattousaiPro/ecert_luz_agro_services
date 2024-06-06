@@ -12,20 +12,22 @@ export class RolPermisoController {
         // console.log('method rolPermiso');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: RolPermiso[] = [];
+        let isDelete: boolean = false;
         const {
-            listPermisos
+            listPermisosId
         } = request.body;
+        // console.log('listPermisosId: ' + JSON.stringify(listPermisosId));
         // console.log('Paso Uno');
         try {
             const idRol = parseInt(request.params.idrol);
+            // console.log('idRol: ' + idRol);
             registroToRemove = await this.repository.find({ where: { rolId: idRol } });
-            // console.log(JSON.stringify(registroToRemove));
+            // console.log('registroToRemove: ' + JSON.stringify(registroToRemove));
             if (registroToRemove !== null
                 && typeof registroToRemove !== 'undefined'
-                && registroToRemove.length === 0) {
-                resp.code = '-4';
-                resp.message = StatusCode.ERROR + ': Relación de Permisos no existe';
-                return resp;
+                && registroToRemove.length > 0) {
+                isDelete = true;
+                console.log('Tiene Permisos asignados para eliminar');
             }
         } catch (error) {
             resp.code = '-3';
@@ -34,25 +36,30 @@ export class RolPermisoController {
             return resp;
         }
         // console.log('Paso Dos');
-        try {
-            const removeVal: any = await this.repository.remove(registroToRemove);
-        } catch (error) {
-            // console.log(JSON.stringify(error));
-            resp.code = '-2';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
+        if (isDelete) {
+            try {
+                const removeVal: any = await this.repository.remove(registroToRemove);
+                console.log('Permisos existentes Eliminados');
+            } catch (error) {
+                // console.log(JSON.stringify(error));
+                resp.code = '-2';
+                resp.message = StatusCode.ERROR;
+                resp.data = null;
+            }
         }
         // console.log('Paso Tres');
         try {
             const idRol = parseInt(request.params.idrol);
             let saveRolPermiso: RolPermiso[] = [];
-            for (let index = 0; index < listPermisos.length; index++) {
+            for (let index = 0; index < listPermisosId.length; index++) {
                 let item: RolPermiso = new RolPermiso();
                 item.rolId = idRol;
-                item.permisoId = listPermisos[index];
+                item.permisoId = listPermisosId[index];
                 saveRolPermiso.push(item);
             }
+            // console.log(JSON.stringify(saveRolPermiso));
             const removeVal: any = await this.repository.save(saveRolPermiso);
+            console.log('Nuevo set de permisos asignados correctamente');
             resp.data = null;
         } catch (error) {
             // console.log(JSON.stringify(error));
