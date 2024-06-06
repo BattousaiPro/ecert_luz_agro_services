@@ -22,7 +22,7 @@ export class UserController {
     }
 
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        console.log('method edit');
+        // console.log('method edit');
         return await this.userServices.edit(request);
     }
 

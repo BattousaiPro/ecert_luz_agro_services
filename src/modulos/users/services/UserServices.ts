@@ -102,7 +102,7 @@ export class UserServices {
     }
 
     async edit(request: Request): Promise<GenericResponse> {
-        console.log('method edit');
+        // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         let elementToEdit: Usuarios = new Usuarios();
