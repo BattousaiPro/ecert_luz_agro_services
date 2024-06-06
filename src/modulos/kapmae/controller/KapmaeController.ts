@@ -48,7 +48,7 @@ export class KapmaeController {
                     sec_imp, est_reg, acc_con, aju_acc
                 });
                 dataResponse = await this.repository.save(newElement);
-                resp.data = dataResponse.id;
+                resp.data = { rut_cop: dataResponse.rut_cop, cod_cop: dataResponse.cod_cop };
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-2';
@@ -70,23 +70,6 @@ export class KapmaeController {
         let dataResponse: Kapmae = new Kapmae();
         let elementToEdit: Kapmae = new Kapmae();
         try {
-            const id = parseInt(request.params.id);
-            elementToEdit = await this.repository.findOneBy({ id });
-            if (!elementToEdit) {
-                resp.code = '-3';
-                resp.data = new Kapmae();
-                console.log('Socio no existe');
-                return resp;
-            }
-        } catch (error) {
-            console.log(JSON.stringify(error));
-            resp.code = '-2';
-            resp.message = StatusCode.ERROR;
-            resp.data = null;
-            return resp;
-        }
-
-        try {
             const {
                 rut_cop, ape_pat, ape_mat, nombres, cod_cop, cod_lli, cod_ant, cod_nvo, cod_ori,
                 sec_cop, ano_inc, mto_inc, fec_inc, ano_tra, kap_tra, fec_tra, acc_tra, acc_ret,
@@ -94,6 +77,14 @@ export class KapmaeController {
                 com_pos, obs_cap, nro_sol, fec_sol, fec_apr, fec_can, est_sol, sec_cte, area,
                 sec_imp, est_reg, acc_con, aju_acc
             } = request.body;
+            elementToEdit = await this.repository.findOneBy({ rut_cop, cod_cop });
+            if (!elementToEdit) {
+                resp.code = '-3';
+                resp.data = new Kapmae();
+                console.log('Socio no existe');
+                return resp;
+            }
+
             if (typeof rut_cop !== 'undefined' && rut_cop !== null && rut_cop !== '') {
                 console.log('rut_cop: [' + rut_cop + ']');
                 elementToEdit.rut_cop = rut_cop;
@@ -270,8 +261,8 @@ export class KapmaeController {
         let resp: GenericResponse = new GenericResponse();
         let RegistroToRemove: Kapmae = new Kapmae();
         try {
-            const id = parseInt(request.params.id);
-            RegistroToRemove = await this.repository.findOneBy({ id });
+            const { rut_cop, cod_cop } = request.body;
+            RegistroToRemove = await this.repository.findOneBy({ rut_cop, cod_cop });
             if (!RegistroToRemove) {
                 resp.code = '1';
                 resp.data = new Kapmae();
@@ -321,7 +312,7 @@ export class KapmaeController {
                         sec_cop: true,
                         com_pos: true,
                     },
-                    order: { id: "DESC" },
+                    order: { rut_cop: "DESC" },
                     take: limit,
                     skip: (pageSize - 1) * limit
                 }
@@ -352,7 +343,6 @@ export class KapmaeController {
     private convertToVO(inputUser: Kapmae): KapmaeVO {
         let itemUser: KapmaeVO = new KapmaeVO();
         itemUser = new KapmaeVO();
-        itemUser.id = inputUser.id;
         itemUser.rut_cop = inputUser.rut_cop;
         itemUser.ape_pat = inputUser.ape_pat;
         itemUser.ape_mat = inputUser.ape_mat;

@@ -1,14 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from "typeorm";
+import { Entity, Column, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { Sector } from "../../sector/entities/Sector";
 import { Comunas } from "../../comunas/entities/Comunas";
 
 @Entity({ name: 'KAPMAE' })
 export class Kapmae {
 
-    @PrimaryGeneratedColumn({ name: 'id' })
-    id: number;
-
-    @Column({ name: 'rut_cop' })
+    @PrimaryColumn({ name: 'rut_cop' })
     rut_cop: string;
 
     @Column({ name: 'ape_pat' })
@@ -20,7 +17,7 @@ export class Kapmae {
     @Column({ name: 'nombres' })
     nombres: string;
 
-    @Column({ name: 'cod_cop' })
+    @PrimaryColumn({ name: 'cod_cop' })
     cod_cop: number;
 
     @Column({ name: 'cod_lli' })

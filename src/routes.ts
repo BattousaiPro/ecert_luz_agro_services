@@ -72,8 +72,8 @@ export const Routes: any[] = [
         controller: KapmaeController,
         action: 'edit'
     }, {
-        method: 'delete',
-        route: '/kapmae/:id',
+        method: 'post',
+        route: '/kapmae/delete',
         controller: KapmaeController,
         action: 'delete'
     }, {

@@ -3,7 +3,6 @@ import { Sector } from "../../sector/entities/Sector";
 
 export class KapmaeVO {
 
-    id: number;
     rut_cop: string;
     ape_pat: string;
     ape_mat: string;
