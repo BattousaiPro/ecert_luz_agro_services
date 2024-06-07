@@ -47,7 +47,7 @@ export class AuthServices {
         const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, { expiresIn: '1h' });
 
         res.json({ message: 'OK', token, userId: user.id, role: user.role });
-*/
+        */
         //res.send(user);
         return resp;
     }

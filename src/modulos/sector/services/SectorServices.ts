@@ -10,7 +10,7 @@ export class SectorServices {
     private repository = AppDataSource.getRepository(Sector);
 
     async getAll(): Promise<GenericResponse> {
-        // console.log('method getAll');
+        console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector[] = [];
         try {

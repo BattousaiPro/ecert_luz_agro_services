@@ -7,7 +7,6 @@ export class RolPermisoServices {
 
     private repository = AppDataSource.getRepository(RolPermiso);
 
-
     async rolPermiso(request: Request): Promise<GenericResponse> {
         // console.log('method rolPermiso');
         let resp: GenericResponse = new GenericResponse();

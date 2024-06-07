@@ -9,30 +9,6 @@ export class UserServices {
 
     private repository = AppDataSource.getRepository(Usuarios);
 
-    async getAll(): Promise<GenericResponse> {
-        // console.log('method getAll');
-        let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Usuarios[] = [];
-        try {
-            dataResponse = await this.repository.find({
-                select: ['id', 'ctaUserName', 'ctaPassWord', 'ctaEmail', 'estado']
-            });
-        } catch (ex) {
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR + ', Somenthing goes wrong!';
-            resp.data = null;
-            return resp;
-        }
-        if (dataResponse.length === 0) {
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR + ', Not result';
-            resp.data = null;
-            return resp;
-        }
-        resp.data = this.convertToVOs(dataResponse);
-        return resp;
-    }
-
     async getById(request: Request): Promise<GenericResponse> {
         // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
