@@ -13,7 +13,7 @@ export class KapmaeController {
 
     async new(request: Request): Promise<GenericResponse> {
         // console.log('method new');
-        /*return await this.kapmaeServices.new(request);*/
+        // return await this.kapmaeServices.new(request);
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
         try {
@@ -69,7 +69,7 @@ export class KapmaeController {
 
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
-        /*return await this.kapmaeServices.edit(request);*/
+        // return await this.kapmaeServices.edit(request);
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
         let elementToEdit: Kapmae = new Kapmae();
@@ -262,7 +262,7 @@ export class KapmaeController {
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
-        /*return await this.kapmaeServices.delete(request);*/
+        // return await this.kapmaeServices.delete(request);
         let resp: GenericResponse = new GenericResponse();
         let RegistroToRemove: Kapmae = new Kapmae();
         try {
@@ -295,7 +295,7 @@ export class KapmaeController {
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         console.log('method findByFilter');
-        /*return await this.kapmaeServices.findByFilter(request);*/
+        // return await this.kapmaeServices.findByFilter(request);
         let resp: GenericResponse = new GenericResponse();
         const { rut_cop, nombres, ape_pat, ape_mat, cod_cop, sec_cop, com_pos, limit, pageSize } = request.body;
         try {
