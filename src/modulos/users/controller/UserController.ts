@@ -4,6 +4,9 @@ import { UserServices } from "../services/UserServices";
 import { AppDataSource } from "../../../data-source";
 import { Usuarios } from "../entities/Usuarios";
 import { Like } from "typeorm";
+import { UsuariosVO } from "../dto/UsuariosVO";
+import { RolesVO } from "../../roles/dto/RolesVO";
+import { Roles } from "../../roles/entities/Roles";
 
 export class UserController {
 
@@ -105,7 +108,7 @@ export class UserController {
         }
 
         try {
-            const { ctaUserName, ctaEmail, estado } = request.body;
+            const { ctaUserName, ctaPassWord, ctaEmail, estado } = request.body;
             if (typeof ctaUserName !== 'undefined' && ctaUserName !== null && ctaUserName !== '') {
                 console.log('ctaUserName: [' + ctaUserName + ']');
                 elementToEdit.ctaUserName = ctaUserName;
@@ -113,6 +116,10 @@ export class UserController {
             if (typeof ctaEmail !== 'undefined' && ctaEmail !== null && ctaEmail !== '') {
                 console.log('ctaEmail: [' + ctaEmail + ']');
                 elementToEdit.ctaEmail = ctaEmail;
+            }
+            if (typeof ctaPassWord !== 'undefined' && ctaPassWord !== null && ctaPassWord !== '') {
+                console.log('ctaPassWord: [' + ctaPassWord + ']');
+                elementToEdit.ctaPassWord = ctaPassWord;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
                 console.log('estado: [' + estado + ']');
@@ -168,7 +175,7 @@ export class UserController {
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaEmail, limit, pageSize } = request.body;
         try {
-            const [results, totalReg] = await this.repository.findAndCount(
+            const [resultsReg, totalReg] = await this.repository.findAndCount(
                 {
                     relations: { roles: true },
                     where: {
@@ -180,6 +187,7 @@ export class UserController {
                     skip: pageSize,
                 }
             );
+            let results = this.convertToVOs(resultsReg);
             resp.data = {
                 totalReg,
                 nextPage: pageSize + 1,
@@ -195,4 +203,45 @@ export class UserController {
         return resp;
     }
 
+    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
+        let salidaUser: UsuariosVO[] = [];
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
+        }
+        return salidaUser;
+    }
+
+    private convertToVO(inputUser: Usuarios): UsuariosVO {
+        let itemUser: UsuariosVO = new UsuariosVO();
+        itemUser = new UsuariosVO();
+        itemUser.id = inputUser.id;
+        itemUser.ctaUserName = inputUser.ctaUserName;
+        //itemUser.ctaPassWord = inputUser.ctaPassWord;
+        itemUser.ctaEmail = inputUser.ctaEmail;
+        itemUser.estado = inputUser.estado;
+        let rols: RolesVO[] = this.convertToRolVOs(inputUser.roles);
+        itemUser.roles = [];
+        itemUser.roles.push(...rols);
+        return itemUser;
+    }
+
+    private convertToRolVOs(input: Roles[]): RolesVO[] {
+        let salida: RolesVO[] = [];
+        if (input) {
+            for (let index = 0; index < input.length; index++) {
+                salida.push(this.convertToRolVO(input[index]));
+            }
+        }
+        return salida;
+    }
+    private convertToRolVO(input: Roles): RolesVO {
+        let item: RolesVO = new RolesVO();
+        item = new RolesVO();
+        item.id = input.id;
+        item.name = input.name;
+        item.descrip = input.descrip;
+        item.code = input.code;
+        item.estado = input.estado;
+        return item;
+    }
 }
