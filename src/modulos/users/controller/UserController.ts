@@ -170,6 +170,7 @@ export class UserController {
         try {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
+                    relations: { roles: true },
                     where: {
                         ctaUserName: ctaUserName ? Like(ctaUserName + '%') : null,
                         ctaEmail: ctaEmail ? Like(ctaEmail + '%') : null,
