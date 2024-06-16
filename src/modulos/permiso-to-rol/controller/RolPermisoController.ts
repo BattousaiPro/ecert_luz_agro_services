@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { RolPermisoServices } from "../services/RolPermisoServices";
 import { AppDataSource } from "../../../data-source";
 import { RolPermiso } from "../entities/RolPermiso";
 
@@ -8,11 +7,10 @@ export class RolPermisoController {
 
     private repository = AppDataSource.getRepository(RolPermiso);
 
-    constructor(private rolPermisoServices: RolPermisoServices) { }
+    constructor() { }
 
     async rolPermiso(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method rolPermiso');
-        /*return await this.rolPermisoServices.rolPermiso(request);*/
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: RolPermiso[] = [];
         let isDelete: boolean = false;

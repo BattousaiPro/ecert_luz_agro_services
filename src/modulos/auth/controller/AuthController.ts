@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse } from "../../../vo/GenericResponse";
-import { AuthServices } from "../services/AuthServices";
 import { Usuarios } from "../../users/entities/Usuarios";
 import { AppDataSource } from "../../../data-source";
 import { UsuariosVO } from "../../users/dto/UsuariosVO";
@@ -14,11 +13,10 @@ export class AuthController {
 
     private repository = AppDataSource.getRepository(Usuarios);
 
-    constructor(private authServices: AuthServices) { }
+    constructor() { }
 
     async login(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method login');
-        /*return await this.authServices.login(req);*/
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaPassWord } = req.body;
         if (!(ctaUserName && ctaPassWord)) {
@@ -58,7 +56,6 @@ export class AuthController {
 
     async changePassword(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method changePassword');
-        /*return await this.authServices.changePassword(req, res);*/
         let resp: GenericResponse = new GenericResponse();
         const { userId } = res.locals.jwtPayload;
         const { oldPassword, newPassword } = req.body;

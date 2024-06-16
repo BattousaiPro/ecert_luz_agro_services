@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { RolesServices } from "../services/RolesServices";
 import { AppDataSource } from "../../../data-source";
 import { Roles } from "../entities/Roles";
 import { Like } from "typeorm";
@@ -12,11 +11,10 @@ export class RolesController {
 
     private repository = AppDataSource.getRepository(Roles);
 
-    constructor(private rolesServices: RolesServices) { }
+    constructor() { }
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method getAll');
-        /*return await this.rolesServices.getAll();*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles[] = [];
         try {
@@ -42,7 +40,6 @@ export class RolesController {
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
-        /*return await this.rolesServices.new(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
         try {
@@ -90,7 +87,6 @@ export class RolesController {
 
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
-        /*return await this.rolesServices.edit(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
         let elementToEdit: Roles = new Roles();
@@ -142,7 +138,6 @@ export class RolesController {
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
-        /*return await this.rolesServices.delete(request);*/
         let resp: GenericResponse = new GenericResponse();
         let rolesToRemove: Roles = new Roles();
         try {
@@ -176,7 +171,6 @@ export class RolesController {
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
-        /*return await this.rolesServices.edit(request);*/
         let resp: GenericResponse = new GenericResponse();
         const { name, descrip, limit, pageSize } = request.body;
         try {

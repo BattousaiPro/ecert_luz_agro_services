@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { SectorServices } from "../services/SectorServices";
 import { AppDataSource } from "../../../data-source";
 import { Sector } from "../entities/Sector";
 import { Like } from "typeorm";
@@ -10,11 +9,10 @@ export class SectorController {
 
     private repository = AppDataSource.getRepository(Sector);
 
-    constructor(private sectorServices: SectorServices) { }
+    constructor() { }
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         console.log('method getAll');
-        /*return await this.sectorServices.getAll();*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector[] = [];
         try {
@@ -39,7 +37,6 @@ export class SectorController {
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
-        /*return await this.sectorServices.new(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
         try {
@@ -87,7 +84,6 @@ export class SectorController {
 
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
-        /*return await this.sectorServices.edit(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
         let sectorToEdit: Sector = new Sector();
@@ -139,7 +135,6 @@ export class SectorController {
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
-        /*return await this.sectorServices.delete(request);*/
         let resp: GenericResponse = new GenericResponse();
         let sectorToRemove: Sector = new Sector();
         try {
@@ -172,7 +167,6 @@ export class SectorController {
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
-        /*return await this.sectorServices.findByFilter(request);*/
         let resp: GenericResponse = new GenericResponse();
         const { codigo, descrip, limit, pageSize } = request.body;
         try {

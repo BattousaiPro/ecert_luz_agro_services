@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { ComunasServices } from "../services/ComunasServices";
 import { Comunas } from "../entities/Comunas";
 import { ComunasVO } from "../dto/ComunasVO";
 import { AppDataSource } from "../../../data-source";
@@ -10,11 +9,10 @@ export class ComunasController {
 
     private repository = AppDataSource.getRepository(Comunas);
 
-    constructor(private comunasServices: ComunasServices) { }
+    constructor() { }
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method getAll');
-        /*return await this.comunasServices.getAll();*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas[] = [];
         try {
@@ -39,7 +37,6 @@ export class ComunasController {
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
-        /*return await this.comunasServices.new(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
         try {
@@ -87,7 +84,6 @@ export class ComunasController {
 
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
-        /*return await this.comunasServices.edit(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comunas = new Comunas();
         let elementToEdit: Comunas = new Comunas();
@@ -131,7 +127,6 @@ export class ComunasController {
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
-        /*return await this.comunasServices.delete(request);*/
         let resp: GenericResponse = new GenericResponse();
         let RegistroToRemove: Comunas = new Comunas();
         try {
@@ -164,7 +159,6 @@ export class ComunasController {
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
-        /*return await this.comunasServices.findByFilter(request);*/
         let resp: GenericResponse = new GenericResponse();
         const { codigo, descrip, limit, pageSize } = request.body;
         try {

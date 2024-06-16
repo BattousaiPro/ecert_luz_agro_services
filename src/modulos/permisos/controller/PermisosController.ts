@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { PermisosServices } from "../services/PermisosServices";
 import { Like } from "typeorm";
 import { AppDataSource } from "../../../data-source";
 import { Permisos } from "../entities/Permisos";
@@ -10,11 +9,10 @@ export class PermisosController {
 
     private repository = AppDataSource.getRepository(Permisos);
 
-    constructor(private permisosServices: PermisosServices) { }
+    constructor() { }
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method getAll');
-        /*return await this.permisosServices.getAll();*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos[] = [];
         try {
@@ -39,7 +37,6 @@ export class PermisosController {
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
-        /*return await this.permisosServices.new(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
         try {
@@ -86,7 +83,6 @@ export class PermisosController {
 
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
-        /*return await this.permisosServices.edit(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
         let usuariosToEdit: Permisos = new Permisos();
@@ -138,7 +134,6 @@ export class PermisosController {
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
-        /*return await this.permisosServices.delete(request);*/
         let resp: GenericResponse = new GenericResponse();
         let RegistroToRemove: Permisos = new Permisos();
         try {
@@ -171,7 +166,6 @@ export class PermisosController {
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
-        /*return await this.permisosServices.findByFilter(request);*/
         let resp: GenericResponse = new GenericResponse();
         const { name, descrip, limit, pageSize } = request.body;
         try {

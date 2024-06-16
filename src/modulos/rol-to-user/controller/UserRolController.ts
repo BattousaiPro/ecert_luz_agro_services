@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { UserRolServices } from "../services/UserRolServices";
 import { UserRol } from "../entities/UserRol";
 import { AppDataSource } from "../../../data-source";
 
@@ -8,11 +7,10 @@ export class UserRolController {
 
     private repository = AppDataSource.getRepository(UserRol);
 
-    constructor(private userRolServices: UserRolServices) { }
+    constructor() { }
 
     async userRol(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         console.log('method userRol');
-        /*return await this.userRolServices.userRol(request);*/
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: UserRol[] = [];
         let isDelete: boolean = false;

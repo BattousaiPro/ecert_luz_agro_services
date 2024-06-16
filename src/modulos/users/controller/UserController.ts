@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { UserServices } from "../services/UserServices";
 import { AppDataSource } from "../../../data-source";
 import { Usuarios } from "../entities/Usuarios";
 import { Like } from "typeorm";
@@ -12,11 +11,10 @@ export class UserController {
 
     private repository = AppDataSource.getRepository(Usuarios);
 
-    constructor(private userServices: UserServices) { }
+    constructor() { }
 
     async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method getById');
-        /*return await this.userServices.getById(request);*/
         let resp: GenericResponse = new GenericResponse();
         try {
             const id = parseInt(request.params.id);
@@ -38,7 +36,6 @@ export class UserController {
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
-        /*return await this.userServices.new(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         try {
@@ -86,7 +83,6 @@ export class UserController {
 
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
-        /*return await this.userServices.edit(request);*/
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
         let elementToEdit: Usuarios = new Usuarios();
@@ -138,7 +134,6 @@ export class UserController {
 
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
-        /*return await this.userServices.delete(request);*/
         let resp: GenericResponse = new GenericResponse();
         let userToRemove: Usuarios = new Usuarios();
         try {
@@ -171,7 +166,6 @@ export class UserController {
 
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
-        /*return await this.userServices.findByFilter(request);*/
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaEmail, limit, pageSize } = request.body;
         try {
