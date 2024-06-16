@@ -18,7 +18,8 @@ export class FichaController {
                 distinct: ['ano_inc']
             });
             console.log(JSON.stringify(dataResponse));
-            resp.data = this.ordenarPorBurbuja(dataResponse);
+            resp.data = this.reOrdenar(dataResponse);
+            
             if (!dataResponse) {
                 resp.code = '1';
                 console.log('Sin Data');
@@ -32,7 +33,7 @@ export class FichaController {
         return resp;
     }
 
-    private ordenarPorBurbuja(arrayDesordenado: Kapmae[]): number[] {
+    private reOrdenar(arrayDesordenado: Kapmae[]): number[] {
         // Copia el array recibido
         let outArray: number[] = [];
         arrayDesordenado.forEach(function (valor, key) {

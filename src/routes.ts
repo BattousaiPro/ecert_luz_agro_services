@@ -1,5 +1,6 @@
 import AuthController from './modulos/auth/controller/AuthController';
 import { ComunasController } from './modulos/comunas/controller/ComunasController';
+import { FichaController } from './modulos/ficha/controller/FichaController';
 import { KapmaeController } from './modulos/kapmae/controller/KapmaeController';
 import { RolPermisoController } from './modulos/permiso-to-rol/controller/RolPermisoController';
 import { PermisosController } from './modulos/permisos/controller/PermisosController';
@@ -89,6 +90,17 @@ export const Routes: any[] = [
         route: '/kapmae/findByFilter',
         controller: KapmaeController,
         action: 'findByFilter'
+    },
+
+
+
+
+    /** Secctio Kapmae - Obtener Imagenes*/
+    {
+        method: 'get',
+        route: '/kapmae/findImgByCodCop/:codCop',
+        controller: KapmaeController,
+        action: 'findImgByCodCop'
     },
 
 

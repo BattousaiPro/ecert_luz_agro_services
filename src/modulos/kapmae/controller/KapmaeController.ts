@@ -3,9 +3,12 @@ import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
 import { AppDataSource } from "../../../data-source";
 import { Like } from "typeorm";
 import { Kapmae } from "../entities/Kapmae";
+import * as fs from 'fs';
+import { pathImgVO } from "../dto/pathImgVO";
 
 export class KapmaeController {
 
+    private baeePath: string = 'C:/repoBattousaiPro/ecert/001_Docs/entregas_ejemplos/Socios';
     private repository = AppDataSource.getRepository(Kapmae);
 
     constructor() { }
@@ -313,7 +316,7 @@ export class KapmaeController {
                         sec_cop: true,
                         com_pos: true,
                     },
-                    order: { rut_cop: "DESC" },
+                    order: { rut_cop: "ASC" },
                     take: limit,
                     skip: (pageSize - 1) * limit
                 }
@@ -329,6 +332,37 @@ export class KapmaeController {
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
+        }
+        return resp;
+    }
+
+    async findImgByCodCop(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        console.log('method findImgByCodCop');
+        let resp: GenericResponse = new GenericResponse();
+        let pathImg: pathImgVO = new pathImgVO();
+        try {
+            const code: number = parseInt(request.params.codCop);
+            console.log('method code: [' + code + ']');
+            let filesResult: string[] = [];
+            let filesa: any = fs.readdirSync(this.baeePath);
+            let files: string[] = fs.readdirSync(this.baeePath);
+            // console.log('files: [' + files.length + '] Imagenes');
+            for (let index = 0; index < files.length; index++) {
+                const element = files[index];
+                if (!element.indexOf('' + code)) {
+                    filesResult.push(element);
+                }
+            }
+            // console.log('filesResult: [' + filesResult.length + '] Imagenes');
+            pathImg.basepath = this.baeePath;
+            pathImg.imgs = filesResult;
+            if (filesResult.length > 0) {
+                pathImg.basepath = this.baeePath;
+            }
+            resp.data = pathImg;
+        } catch (error) {
+            console.log('soy un error :D');
+            console.log(error);
         }
         return resp;
     }
