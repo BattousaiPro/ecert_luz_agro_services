@@ -27,6 +27,14 @@ export const Routes: any[] = [
     },
 
 
+    /** Secctio Ficha */
+    {
+        method: 'get',
+        route: '/ficha/anios',
+        controller: FichaController,
+        action: 'getFindAnios'
+    },
+
 
 
     /** Secctio Comunas */
