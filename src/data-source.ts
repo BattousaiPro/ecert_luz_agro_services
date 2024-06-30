@@ -6,8 +6,8 @@ import { Permisos } from "./entity/Permisos";
 import { Comunas } from "./entity/Comunas";
 import { Sector } from "./entity/Sector";
 import { Kapmae } from "./entity/Kapmae";
-import { UserRol } from "./entity/UserRol";
 import { RolPermiso } from "./entity/RolPermiso";
+import { UserRol } from "./entity/UserRol";
 
 export const AppDataSource = new DataSource({
     host: "localhost",
@@ -25,8 +25,8 @@ export const AppDataSource = new DataSource({
         Comunas,
         Sector,
         Kapmae,
-        UserRol,
         RolPermiso,
+        UserRol,
     ],
     migrations: [],
     subscribers: [],
