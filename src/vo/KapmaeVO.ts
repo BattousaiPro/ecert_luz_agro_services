@@ -1,5 +1,5 @@
-import { Comunas } from "../../comunas/entities/Comunas";
-import { Sector } from "../../sector/entities/Sector";
+import { Comunas } from "../entity/Comunas";
+import { Sector } from "../entity/Sector";
 
 export class KapmaeVO {
 

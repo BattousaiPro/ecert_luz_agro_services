@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
-import { Kapmae } from "../../kapmae/entities/Kapmae";
+import { Kapmae } from "./Kapmae";
 
 @Entity({ name: 'COMUNAS' })
 export class Comunas {

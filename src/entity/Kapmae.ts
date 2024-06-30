@@ -1,6 +1,6 @@
 import { Entity, Column, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
-import { Sector } from "../../sector/entities/Sector";
-import { Comunas } from "../../comunas/entities/Comunas";
+import { Sector } from "./Sector";
+import { Comunas } from "./Comunas";
 
 @Entity({ name: 'KAPMAE' })
 export class Kapmae {

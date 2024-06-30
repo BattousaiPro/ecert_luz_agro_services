@@ -1,4 +1,4 @@
-import { RolesVO } from "../../roles/dto/RolesVO";
+import { RolesVO } from "./RolesVO";
 
 export class UsuariosVO {
     id: number;

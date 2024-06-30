@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
-import { Usuarios } from "../../users/entities/Usuarios";
-import { Permisos } from "../../permisos/entities/Permisos";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
+import { Usuarios } from "./Usuarios";
+import { Permisos } from "./Permisos";
 
 @Entity({ name: 'ROLES' })
 export class Roles {
