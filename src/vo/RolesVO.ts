@@ -1,4 +1,4 @@
-import { PermisosVO } from "../../permisos/dto/PermisosVO";
+import { PermisosVO } from "./PermisosVO";
 
 export class RolesVO {
     id: number;

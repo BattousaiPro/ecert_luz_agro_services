@@ -1,55 +1,59 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { AppDataSource } from "../../../data-source";
-import { Usuarios } from "../entities/Usuarios";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
+import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
-import { UsuariosVO } from "../dto/UsuariosVO";
-import { RolesVO } from "../../roles/dto/RolesVO";
-import { Roles } from "../../roles/entities/Roles";
+import { RolesVO } from "../vo/RolesVO";
+import { PermisosVO } from "../vo/PermisosVO";
+import { Permisos } from "../entity/Permisos";
+import { Roles } from "../entity/Roles";
 
-export class UserController {
+export class RolesController {
 
-    private repository = AppDataSource.getRepository(Usuarios);
+    private repository = AppDataSource.getRepository(Roles);
 
     constructor() { }
 
-    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method getById');
+    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Roles[] = [];
         try {
-            const id = parseInt(request.params.id);
-            const dataResponse: Usuarios = await this.repository.findOne({ where: { id } });
-            resp.data = dataResponse;
-            if (!dataResponse) {
-                resp.code = '1';
-                resp.data = new Usuarios();
-                console.log('Sin Data');
-            }
+            dataResponse = await this.repository.find({
+                select: ['id', 'name', 'descrip', 'code', 'estado'],
+                relations: { permisos: true }
+            });
         } catch (error) {
-            console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
+            return resp;
         }
+        if (dataResponse.length === 0) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
+            resp.data = null;
+            return resp;
+        }
+        resp.data = this.convertToVOs(dataResponse, true);
         return resp;
     }
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Usuarios = new Usuarios();
+        let dataResponse: Roles = new Roles();
         try {
             const {
-                ctaUserName, ctaPassWord, ctaEmail
+                name, descrip, code
             } = request.body;
             try {
-                let toNew: Usuarios = await this.repository.findOneBy({
-                    ctaUserName
+                let toNew: Roles = await this.repository.findOneBy({
+                    name
                 });
                 if (toNew) {
                     resp.code = '-4';
                     resp.data = null;
-                    resp.message = 'Usuario ya existe';
+                    resp.message = 'Rol ya existe';
                     return resp;
                 }
             } catch (error) {
@@ -61,8 +65,8 @@ export class UserController {
             }
 
             try {
-                const newElement = Object.assign(new Usuarios(), {
-                    ctaUserName, ctaPassWord, ctaEmail, estado: true
+                const newElement = Object.assign(new Roles(), {
+                    name, descrip, code, estado: true
                 });
                 dataResponse = await this.repository.save(newElement);
                 resp.data = dataResponse.id;
@@ -84,15 +88,15 @@ export class UserController {
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Usuarios = new Usuarios();
-        let elementToEdit: Usuarios = new Usuarios();
+        let dataResponse: Roles = new Roles();
+        let elementToEdit: Roles = new Roles();
         try {
             const id = parseInt(request.params.id);
             elementToEdit = await this.repository.findOneBy({ id });
             if (!elementToEdit) {
                 resp.code = '-3';
-                resp.data = new Usuarios();
-                console.log('Usuarios no existe');
+                resp.data = new Roles();
+                console.log('Rol no existe');
                 return resp;
             }
         } catch (error) {
@@ -104,18 +108,18 @@ export class UserController {
         }
 
         try {
-            const { ctaUserName, ctaPassWord, ctaEmail, estado } = request.body;
-            if (typeof ctaUserName !== 'undefined' && ctaUserName !== null && ctaUserName !== '') {
-                console.log('ctaUserName: [' + ctaUserName + ']');
-                elementToEdit.ctaUserName = ctaUserName;
+            const { name, descrip, code, estado } = request.body;
+            if (typeof name !== 'undefined' && name !== null && name !== '') {
+                console.log('name: [' + name + ']');
+                elementToEdit.name = name;
             }
-            if (typeof ctaEmail !== 'undefined' && ctaEmail !== null && ctaEmail !== '') {
-                console.log('ctaEmail: [' + ctaEmail + ']');
-                elementToEdit.ctaEmail = ctaEmail;
+            if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
+                console.log('descrip: [' + descrip + ']');
+                elementToEdit.descrip = descrip;
             }
-            if (typeof ctaPassWord !== 'undefined' && ctaPassWord !== null && ctaPassWord !== '') {
-                console.log('ctaPassWord: [' + ctaPassWord + ']');
-                elementToEdit.ctaPassWord = ctaPassWord;
+            if (typeof code !== 'undefined' && code !== null && code !== '') {
+                console.log('code: [' + code + ']');
+                elementToEdit.code = code;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
                 console.log('estado: [' + estado + ']');
@@ -135,25 +139,26 @@ export class UserController {
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let userToRemove: Usuarios = new Usuarios();
+        let rolesToRemove: Roles = new Roles();
         try {
             const id = parseInt(request.params.id);
-            userToRemove = await this.repository.findOneBy({ id });
-            if (!userToRemove) {
+            rolesToRemove = await this.repository.findOneBy({ id });
+            if (!rolesToRemove) {
                 resp.code = '1';
-                resp.data = new Usuarios();
-                resp.message = StatusCode.ERROR + ': Usuario no existe';
+                resp.data = new Roles();
+                resp.message = StatusCode.ERROR + ': Rol no existe';
                 return resp;
             }
         } catch (error) {
+            // console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR + ': Al buscar el Usuario';
+            resp.message = StatusCode.ERROR + ': Al buscar el Rol';
             resp.data = null;
             return resp;
         }
 
         try {
-            const removeVal: Usuarios = await this.repository.remove(userToRemove);
+            const removeVal: Roles = await this.repository.remove(rolesToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -167,21 +172,21 @@ export class UserController {
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
-        const { ctaUserName, ctaEmail, limit, pageSize } = request.body;
+        const { name, descrip, limit, pageSize } = request.body;
         try {
-            const [resultsReg, totalReg] = await this.repository.findAndCount(
+            const [rolList, totalReg] = await this.repository.findAndCount(
                 {
-                    relations: { roles: true },
+                    relations: { permisos: true },
                     where: {
-                        ctaUserName: ctaUserName ? Like(ctaUserName + '%') : null,
-                        ctaEmail: ctaEmail ? Like(ctaEmail + '%') : null,
+                        name: name ? Like('%' + name + '%') : null,
+                        descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
                     order: { id: "DESC" },
                     take: limit,
-                    skip: pageSize,
+                    skip: (pageSize - 1) * limit
                 }
             );
-            let results = this.convertToVOs(resultsReg);
+            const results: RolesVO[] = this.convertToVOs(rolList, true);
             resp.data = {
                 totalReg,
                 nextPage: pageSize + 1,
@@ -197,38 +202,17 @@ export class UserController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
-        let salidaUser: UsuariosVO[] = [];
-        for (let index = 0; index < inputUser.length; index++) {
-            salidaUser.push(this.convertToVO(inputUser[index]));
-        }
-        return salidaUser;
-    }
-
-    private convertToVO(inputUser: Usuarios): UsuariosVO {
-        let itemUser: UsuariosVO = new UsuariosVO();
-        itemUser = new UsuariosVO();
-        itemUser.id = inputUser.id;
-        itemUser.ctaUserName = inputUser.ctaUserName;
-        //itemUser.ctaPassWord = inputUser.ctaPassWord;
-        itemUser.ctaEmail = inputUser.ctaEmail;
-        itemUser.estado = inputUser.estado;
-        let rols: RolesVO[] = this.convertToRolVOs(inputUser.roles);
-        itemUser.roles = [];
-        itemUser.roles.push(...rols);
-        return itemUser;
-    }
-
-    private convertToRolVOs(input: Roles[]): RolesVO[] {
+    private convertToVOs(input: Roles[], showPermisos: boolean): RolesVO[] {
         let salida: RolesVO[] = [];
         if (input) {
             for (let index = 0; index < input.length; index++) {
-                salida.push(this.convertToRolVO(input[index]));
+                salida.push(this.convertToVO(input[index], showPermisos));
             }
         }
         return salida;
     }
-    private convertToRolVO(input: Roles): RolesVO {
+
+    private convertToVO(input: Roles, showPermisos: boolean): RolesVO {
         let item: RolesVO = new RolesVO();
         item = new RolesVO();
         item.id = input.id;
@@ -236,6 +220,31 @@ export class UserController {
         item.descrip = input.descrip;
         item.code = input.code;
         item.estado = input.estado;
+        if (showPermisos) {
+            item.permisos = this.convertToPermisoVOs(input.permisos);
+        }
         return item;
     }
+
+    private convertToPermisoVOs(input: Permisos[]): PermisosVO[] {
+        let salida: PermisosVO[] = [];
+        if (input) {
+            for (let index = 0; index < input.length; index++) {
+                salida.push(this.convertToPermisoVO(input[index]));
+            }
+        }
+        return salida;
+    }
+
+    private convertToPermisoVO(input: Permisos): PermisosVO {
+        let item: PermisosVO = new PermisosVO();
+        item = new PermisosVO();
+        item.id = input.id;
+        item.name = input.name;
+        item.descrip = input.descrip;
+        item.code = input.code;
+        item.estado = input.estado;
+        return item;
+    }
+
 }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { UserRol } from "../entities/UserRol";
-import { AppDataSource } from "../../../data-source";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
+import { UserRol } from "../entity/UserRol";
+import { AppDataSource } from "../data-source";
 
 export class UserRolController {
 

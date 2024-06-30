@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { AppDataSource } from "../../../data-source";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
+import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
-import { Kapmae } from "../entities/Kapmae";
 import * as fs from 'fs';
-import { pathImgVO } from "../dto/pathImgVO";
+import { pathImgVO } from "../vo/pathImgVO";
+import { Kapmae } from "../entity/Kapmae";
 
 export class KapmaeController {
 

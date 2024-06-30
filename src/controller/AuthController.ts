@@ -1,13 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse } from "../../../vo/GenericResponse";
-import { Usuarios } from "../../users/entities/Usuarios";
-import { AppDataSource } from "../../../data-source";
-import { UsuariosVO } from "../../users/dto/UsuariosVO";
-//import { Request, Response } from 'express';
-//import { Users } from '../entity/Users';
-//import * as jwt from 'jsonwebtoken';
-//import config from '../config/config';
-//import { validate } from 'class-validator';
+import { AppDataSource } from "../data-source";
+import { GenericResponse } from "../vo/GenericResponse";
+import { UsuariosVO } from "../vo/UsuariosVO";
+import { Usuarios } from "../entity/Usuarios";
 
 export class AuthController {
 

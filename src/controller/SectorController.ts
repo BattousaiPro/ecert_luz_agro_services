@@ -1,25 +1,25 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
+import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
-import { AppDataSource } from "../../../data-source";
-import { Permisos } from "../entities/Permisos";
-import { PermisosVO } from "../dto/PermisosVO";
+import { SectorVO } from "../vo/SectorVO";
+import { Sector } from "../entity/Sector";
 
-export class PermisosController {
+export class SectorController {
 
-    private repository = AppDataSource.getRepository(Permisos);
+    private repository = AppDataSource.getRepository(Sector);
 
     constructor() { }
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
-        // console.log('method getAll');
+        console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Permisos[] = [];
+        let dataResponse: Sector[] = [];
         try {
             dataResponse = await this.repository.find({
-                select: ['id', 'name', 'descrip', 'code', 'estado']
+                select: ['codigo', 'descrip', 'diaCar', 'codCob', 'estado']
             });
-        } catch (error) {
+        } catch (e) {
             resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
@@ -38,19 +38,19 @@ export class PermisosController {
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Permisos = new Permisos();
+        let dataResponse: Sector = new Sector();
         try {
             const {
-                name, descrip, code
+                codigo, descrip, diaCar, codCob
             } = request.body;
             try {
-                let toNew: Permisos = await this.repository.findOneBy({
-                    name, code
+                let toNew: Sector = await this.repository.findOneBy({
+                    codigo
                 });
                 if (toNew) {
                     resp.code = '-4';
                     resp.data = null;
-                    resp.message = 'Permiso ya existe';
+                    resp.message = 'Sector ya existe';
                     return resp;
                 }
             } catch (error) {
@@ -58,14 +58,15 @@ export class PermisosController {
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
+                return resp;
             }
 
             try {
-                const newElement = Object.assign(new Permisos(), {
-                    name, descrip, code, estado: true
+                const newElement = Object.assign(new Sector(), {
+                    codigo, descrip, diaCar, codCob, estado: true
                 });
                 dataResponse = await this.repository.save(newElement);
-                resp.data = dataResponse.id;
+                resp.data = dataResponse.codigo;
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-2';
@@ -84,15 +85,15 @@ export class PermisosController {
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Permisos = new Permisos();
-        let usuariosToEdit: Permisos = new Permisos();
+        let dataResponse: Sector = new Sector();
+        let sectorToEdit: Sector = new Sector();
         try {
-            const id = parseInt(request.params.id);
-            usuariosToEdit = await this.repository.findOneBy({ id });
-            if (!usuariosToEdit) {
+            const codigo = parseInt(request.params.codigo);
+            sectorToEdit = await this.repository.findOneBy({ codigo });
+            if (!sectorToEdit) {
                 resp.code = '-3';
-                resp.data = new Permisos();
-                console.log('Permiso no existe');
+                resp.data = new Sector();
+                console.log('Sector no existe');
                 return resp;
             }
         } catch (error) {
@@ -104,24 +105,24 @@ export class PermisosController {
         }
 
         try {
-            const { name, descrip, code, estado } = request.body;
-            if (typeof name !== 'undefined' && name !== null && name !== '') {
-                console.log('name: [' + name + ']');
-                usuariosToEdit.name = name;
-            }
+            const { descrip, diaCar, codCob, estado } = request.body;
             if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
                 console.log('descrip: [' + descrip + ']');
-                usuariosToEdit.descrip = descrip;
+                sectorToEdit.descrip = descrip;
             }
-            if (typeof code !== 'undefined' && code !== null && code !== '') {
-                console.log('code: [' + code + ']');
-                usuariosToEdit.code = code;
+            if (typeof diaCar !== 'undefined' && diaCar !== null && diaCar !== '') {
+                console.log('diaCar: [' + diaCar + ']');
+                sectorToEdit.diaCar = diaCar;
+            }
+            if (typeof codCob !== 'undefined' && codCob !== null && codCob !== '') {
+                console.log('codCob: [' + codCob + ']');
+                sectorToEdit.codCob = codCob;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
                 console.log('estado: [' + estado + ']');
-                usuariosToEdit.estado = estado;
+                sectorToEdit.estado = estado;
             }
-            dataResponse = await this.repository.save(usuariosToEdit);
+            dataResponse = await this.repository.save(sectorToEdit);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
@@ -135,25 +136,25 @@ export class PermisosController {
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let RegistroToRemove: Permisos = new Permisos();
+        let sectorToRemove: Sector = new Sector();
         try {
-            const id = parseInt(request.params.id);
-            RegistroToRemove = await this.repository.findOneBy({ id });
-            if (!RegistroToRemove) {
-                resp.code = '1';
-                resp.data = new Permisos();
-                resp.message = StatusCode.ERROR + ': Permiso no existe';
+            const codigo = parseInt(request.params.codigo);
+            sectorToRemove = await this.repository.findOneBy({ codigo });
+            if (!sectorToRemove) {
+                resp.code = '3';
+                resp.data = new Sector();
+                resp.message = StatusCode.ERROR + ': Sector no existe';
                 return resp;
             }
         } catch (error) {
-            resp.code = '-1';
-            resp.message = StatusCode.ERROR + ': Al buscar el Permiso';
+            resp.code = '-2';
+            resp.message = StatusCode.ERROR + ': Al buscar el Sector';
             resp.data = null;
             return resp;
         }
 
         try {
-            const removeVal: Permisos = await this.repository.remove(RegistroToRemove);
+            const removeVal: Sector = await this.repository.remove(sectorToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -167,15 +168,15 @@ export class PermisosController {
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
-        const { name, descrip, limit, pageSize } = request.body;
+        const { codigo, descrip, limit, pageSize } = request.body;
         try {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
-                        name: name ? Like('%' + name + '%') : null,
+                        codigo: codigo ? codigo : null,
                         descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
-                    order: { id: "DESC" },
+                    order: { codigo: "ASC" },
                     take: limit,
                     skip: (pageSize - 1) * limit
                 }
@@ -195,21 +196,21 @@ export class PermisosController {
         return resp;
     }
 
-    private convertToVOs(inputUser: Permisos[]): PermisosVO[] {
-        let salidaUser: PermisosVO[] = [];
+    private convertToVOs(inputUser: Sector[]): SectorVO[] {
+        let salidaUser: SectorVO[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Permisos): PermisosVO {
-        let itemUser: PermisosVO = new PermisosVO();
-        itemUser = new PermisosVO();
-        itemUser.id = inputUser.id;
-        itemUser.name = inputUser.name;
+    private convertToVO(inputUser: Sector): SectorVO {
+        let itemUser: SectorVO = new SectorVO();
+        itemUser = new SectorVO();
+        itemUser.codigo = inputUser.codigo;
         itemUser.descrip = inputUser.descrip;
-        itemUser.code = inputUser.code;
+        itemUser.diaCar = inputUser.diaCar;
+        itemUser.codCob = inputUser.codCob;
         itemUser.estado = inputUser.estado;
         return itemUser;
     }

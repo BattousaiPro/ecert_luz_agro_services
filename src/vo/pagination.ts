@@ -8,6 +8,6 @@ export class PaginResult<PaginationEntity> {
   constructor(paginationResults: PaginationResultInterface<PaginationEntity>) {
     this.results = paginationResults.results;
     this.page_total = paginationResults.results.length;
-    this.total = paginationResults.total;
+    this.total = paginationResults.totalReg;
   }
 }

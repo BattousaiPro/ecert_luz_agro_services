@@ -1,26 +1,23 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { AppDataSource } from "../../../data-source";
-import { Roles } from "../entities/Roles";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
+import { ComunasVO } from "../vo/ComunasVO";
+import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
-import { RolesVO } from "../dto/RolesVO";
-import { PermisosVO } from "../../permisos/dto/PermisosVO";
-import { Permisos } from "../../permisos/entities/Permisos";
+import { Comunas } from "../entity/Comunas";
 
-export class RolesController {
+export class ComunasController {
 
-    private repository = AppDataSource.getRepository(Roles);
+    private repository = AppDataSource.getRepository(Comunas);
 
     constructor() { }
 
     async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Roles[] = [];
+        let dataResponse: Comunas[] = [];
         try {
             dataResponse = await this.repository.find({
-                select: ['id', 'name', 'descrip', 'code', 'estado'],
-                relations: { permisos: true }
+                select: ['codigo', 'descrip', 'estado']
             });
         } catch (error) {
             resp.code = '-1';
@@ -34,26 +31,26 @@ export class RolesController {
             resp.data = null;
             return resp;
         }
-        resp.data = this.convertToVOs(dataResponse, true);
+        resp.data = this.convertToVOs(dataResponse);
         return resp;
     }
 
     async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Roles = new Roles();
+        let dataResponse: Comunas = new Comunas();
         try {
             const {
-                name, descrip, code
+                codigo, descrip
             } = request.body;
             try {
-                let toNew: Roles = await this.repository.findOneBy({
-                    name
+                let toNew: Comunas = await this.repository.findOneBy({
+                    codigo
                 });
                 if (toNew) {
                     resp.code = '-4';
                     resp.data = null;
-                    resp.message = 'Rol ya existe';
+                    resp.message = 'Comuna ya existe';
                     return resp;
                 }
             } catch (error) {
@@ -65,11 +62,11 @@ export class RolesController {
             }
 
             try {
-                const newElement = Object.assign(new Roles(), {
-                    name, descrip, code, estado: true
+                const newElement = Object.assign(new Comunas(), {
+                    codigo, descrip, estado: true
                 });
                 dataResponse = await this.repository.save(newElement);
-                resp.data = dataResponse.id;
+                resp.data = dataResponse.codigo;
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-2';
@@ -88,15 +85,15 @@ export class RolesController {
     async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Roles = new Roles();
-        let elementToEdit: Roles = new Roles();
+        let dataResponse: Comunas = new Comunas();
+        let elementToEdit: Comunas = new Comunas();
         try {
-            const id = parseInt(request.params.id);
-            elementToEdit = await this.repository.findOneBy({ id });
+            const codigo = parseInt(request.params.codigo);
+            elementToEdit = await this.repository.findOneBy({ codigo });
             if (!elementToEdit) {
                 resp.code = '-3';
-                resp.data = new Roles();
-                console.log('Rol no existe');
+                resp.data = new Comunas();
+                console.log('Comuna no existe');
                 return resp;
             }
         } catch (error) {
@@ -108,18 +105,10 @@ export class RolesController {
         }
 
         try {
-            const { name, descrip, code, estado } = request.body;
-            if (typeof name !== 'undefined' && name !== null && name !== '') {
-                console.log('name: [' + name + ']');
-                elementToEdit.name = name;
-            }
+            const { descrip, estado } = request.body;
             if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
                 console.log('descrip: [' + descrip + ']');
                 elementToEdit.descrip = descrip;
-            }
-            if (typeof code !== 'undefined' && code !== null && code !== '') {
-                console.log('code: [' + code + ']');
-                elementToEdit.code = code;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
                 console.log('estado: [' + estado + ']');
@@ -139,26 +128,25 @@ export class RolesController {
     async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let rolesToRemove: Roles = new Roles();
+        let RegistroToRemove: Comunas = new Comunas();
         try {
-            const id = parseInt(request.params.id);
-            rolesToRemove = await this.repository.findOneBy({ id });
-            if (!rolesToRemove) {
+            const codigo = parseInt(request.params.codigo);
+            RegistroToRemove = await this.repository.findOneBy({ codigo });
+            if (!RegistroToRemove) {
                 resp.code = '1';
-                resp.data = new Roles();
-                resp.message = StatusCode.ERROR + ': Rol no existe';
+                resp.data = new Comunas();
+                resp.message = StatusCode.ERROR + ': Comuna no existe';
                 return resp;
             }
         } catch (error) {
-            // console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR + ': Al buscar el Rol';
+            resp.message = StatusCode.ERROR + ': Al buscar la Comuna';
             resp.data = null;
             return resp;
         }
 
         try {
-            const removeVal: Roles = await this.repository.remove(rolesToRemove);
+            const removeVal: Comunas = await this.repository.remove(RegistroToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -172,21 +160,19 @@ export class RolesController {
     async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
-        const { name, descrip, limit, pageSize } = request.body;
+        const { codigo, descrip, limit, pageSize } = request.body;
         try {
-            const [rolList, totalReg] = await this.repository.findAndCount(
+            const [results, totalReg] = await this.repository.findAndCount(
                 {
-                    relations: { permisos: true },
                     where: {
-                        name: name ? Like('%' + name + '%') : null,
+                        codigo: codigo ? codigo : null,
                         descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
-                    order: { id: "DESC" },
+                    order: { codigo: "DESC" },
                     take: limit,
                     skip: (pageSize - 1) * limit
                 }
             );
-            const results: RolesVO[] = this.convertToVOs(rolList, true);
             resp.data = {
                 totalReg,
                 nextPage: pageSize + 1,
@@ -202,49 +188,21 @@ export class RolesController {
         return resp;
     }
 
-    private convertToVOs(input: Roles[], showPermisos: boolean): RolesVO[] {
-        let salida: RolesVO[] = [];
-        if (input) {
-            for (let index = 0; index < input.length; index++) {
-                salida.push(this.convertToVO(input[index], showPermisos));
-            }
+    private convertToVOs(inputUser: Comunas[]): ComunasVO[] {
+        let salidaUser: ComunasVO[] = [];
+        for (let index = 0; index < inputUser.length; index++) {
+            salidaUser.push(this.convertToVO(inputUser[index]));
         }
-        return salida;
+        return salidaUser;
     }
 
-    private convertToVO(input: Roles, showPermisos: boolean): RolesVO {
-        let item: RolesVO = new RolesVO();
-        item = new RolesVO();
-        item.id = input.id;
-        item.name = input.name;
-        item.descrip = input.descrip;
-        item.code = input.code;
-        item.estado = input.estado;
-        if (showPermisos) {
-            item.permisos = this.convertToPermisoVOs(input.permisos);
-        }
-        return item;
-    }
-
-    private convertToPermisoVOs(input: Permisos[]): PermisosVO[] {
-        let salida: PermisosVO[] = [];
-        if (input) {
-            for (let index = 0; index < input.length; index++) {
-                salida.push(this.convertToPermisoVO(input[index]));
-            }
-        }
-        return salida;
-    }
-
-    private convertToPermisoVO(input: Permisos): PermisosVO {
-        let item: PermisosVO = new PermisosVO();
-        item = new PermisosVO();
-        item.id = input.id;
-        item.name = input.name;
-        item.descrip = input.descrip;
-        item.code = input.code;
-        item.estado = input.estado;
-        return item;
+    private convertToVO(inputUser: Comunas): ComunasVO {
+        let itemUser: ComunasVO = new ComunasVO();
+        itemUser = new ComunasVO();
+        itemUser.codigo = inputUser.codigo;
+        itemUser.descrip = inputUser.descrip;
+        itemUser.estado = inputUser.estado;
+        return itemUser;
     }
 
 }

@@ -1,13 +1,13 @@
-import AuthController from './modulos/auth/controller/AuthController';
-import { ComunasController } from './modulos/comunas/controller/ComunasController';
-import { FichaController } from './modulos/ficha/controller/FichaController';
-import { KapmaeController } from './modulos/kapmae/controller/KapmaeController';
-import { RolPermisoController } from './modulos/permiso-to-rol/controller/RolPermisoController';
-import { PermisosController } from './modulos/permisos/controller/PermisosController';
-import { UserRolController } from './modulos/rol-to-user/controller/UserRolController';
-import { RolesController } from './modulos/roles/controller/RolesController';
-import { SectorController } from './modulos/sector/controller/SectorController';
-import { UserController } from './modulos/users/controller/UserController';
+import AuthController from './controller/AuthController';
+import { ComunasController } from './controller/ComunasController';
+import { FichaController } from './controller/FichaController';
+import { KapmaeController } from './controller/KapmaeController';
+import { RolPermisoController } from './controller/RolPermisoController';
+import { PermisosController } from './controller/PermisosController';
+import { UserRolController } from './controller/UserRolController';
+import { RolesController } from './controller/RolesController';
+import { SectorController } from './controller/SectorController';
+import { UserController } from './controller/UserController';
 
 export const Routes: any[] = [
 

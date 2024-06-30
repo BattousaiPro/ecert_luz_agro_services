@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../../../vo/GenericResponse";
-import { AppDataSource } from "../../../data-source";
-import { Kapmae } from "../../kapmae/entities/Kapmae";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
+import { AppDataSource } from "../data-source";
+import { Kapmae } from "../entity/Kapmae";
 
 export class FichaController {
 
