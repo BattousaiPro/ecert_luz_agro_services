@@ -25,8 +25,6 @@ export class AuthController {
         let user: Usuarios;
         try {
             user = await this.repository.findOneOrFail({ where: { ctaUserName } });
-            resp.data = user;
-            resp.data = this.convertToVO(user);
         } catch (e) {
             //console.log(JSON.stringify(e));
             resp.code = '-2';
@@ -41,13 +39,14 @@ export class AuthController {
             resp.code = '-3';
             resp.message = 'Nombre de Usuario o contraseña son incorrectos!';
             resp.data = null;
-            return res.status(400).json({ message: 'Username or Password are incorrect!' });
+            return resp;
         }
 
-        const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, { expiresIn: '1h' });
-
+        const token: string = jwt.sign({ userId: user.id, username: user.ctaUserName }, config.jwtSecret, { expiresIn: '1h' });
         res.json({ message: 'OK', token, userId: user.id, role: user.role });
         */
+
+        resp.data = this.convertToVO(user);
         return resp;
     }
 

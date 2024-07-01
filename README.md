@@ -7,32 +7,33 @@ Steps to run this project:
 2. Setup database settings inside `data-source.ts` file
 3. Run `npm start` command
 
-# Ejecutar Servidor:
-npm run dev
+### Extras.
 
-servidor 
-node js -> express
+Stack tecnologico
+* node js (versión: ??) con express (verión: ??) para los servicios  y se codificado en typescript (versión: ??)
+* para realziar la conecoión a BBDD se utilizará TypeOrm (versión: ??) (framework)
+* para la BBDD se utilizará MySql
 
-con type script
+* para gestion de usuarios y token, se utilizará JWT (versión: ??)
 
-typeOrm para la conección a BBDD.
-
-MY sql (para la bbdd)
-
-npm run dev
-
-para la autenticación 
-JWT
+npm 
 
 
-"typescript": "4.5.2"
-dependency
 
-npm i typeorm -g
+## Ejecución de comandos.
 
-npm i cors jsonwebtoken bcryptjs class-validator
+    * npm i typeorm -g
 
-npm i -D ts-node-dev typescript @types/bcryptjs  @types/cors  @types/jsonwebtoken @types/express @types/node
+    * typeorm init --name ecert_luz_agro_web --database mysql --express
 
-typeorm init --name ecert_luz_agro_services --database mysql --express
-npm i helmet
+    * npm i cors jsonwebtoken bcryptjs class-validator
+
+    * npm i -D ts-node-dev typescript @types/bcryptjs @types/cors @types/jsonwebtoken @types/express @types/node
+
+
+## Llegado a esta paso se recomienda eliminar la carpeta node_modules y ejectar
+    * npm i
+
+## Ejecución de comandos.
+
+    * npm i helmet
