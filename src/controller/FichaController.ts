@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { AppDataSource } from "../data-source";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { Kapmae } from "../entity/Kapmae";
 
 export class FichaController {
@@ -9,7 +9,7 @@ export class FichaController {
 
     constructor() { }
 
-    async getFindAnios(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async getFindAnios(request: Request, response: Response) {
         // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
         try {
@@ -19,7 +19,6 @@ export class FichaController {
             });
             console.log(JSON.stringify(dataResponse));
             resp.data = this.reOrdenar(dataResponse);
-            
             if (!dataResponse) {
                 resp.code = '1';
                 console.log('Sin Data');

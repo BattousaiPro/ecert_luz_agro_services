@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
@@ -13,7 +13,7 @@ export class RolesController {
 
     constructor() { }
 
-    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async getAll(request: Request, response: Response) {
         // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles[] = [];
@@ -29,7 +29,7 @@ export class RolesController {
             return resp;
         }
         if (dataResponse.length === 0) {
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR + ', Sin Registros';
             resp.data = null;
             return resp;
@@ -38,7 +38,7 @@ export class RolesController {
         return resp;
     }
 
-    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async new(request: Request, response: Response) {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
@@ -85,7 +85,7 @@ export class RolesController {
         return resp;
     }
 
-    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async edit(request: Request, response: Response) {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
@@ -131,12 +131,11 @@ export class RolesController {
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
         }
         return resp;
     }
 
-    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async delete(request: Request, response: Response) {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let rolesToRemove: Roles = new Roles();
@@ -169,7 +168,7 @@ export class RolesController {
         return resp;
     }
 
-    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async findByFilter(request: Request, response: Response) {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { name, descrip, limit, pageSize } = request.body;

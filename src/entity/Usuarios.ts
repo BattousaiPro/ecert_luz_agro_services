@@ -33,4 +33,14 @@ export class Usuarios {
         },
     })
     roles: Roles[];
+/*
+    hashPassword(): void {
+        const salt = bcrypt.genSaltSync(10);
+        this.ctaPassWord = bcrypt.hashSync(this.ctaPassWord, salt);
+    }
+
+    checkPassword(password: string): boolean {
+        return bcrypt.compareSync(password, this.ctaPassWord);
+    }
+*/
 }

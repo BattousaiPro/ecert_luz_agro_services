@@ -13,7 +13,7 @@ export class KapmaeController {
 
     constructor() { }
 
-    async new(request: Request): Promise<GenericResponse> {
+    async new(request: Request) {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
@@ -68,7 +68,7 @@ export class KapmaeController {
         return resp;
     }
 
-    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async edit(request: Request, response: Response) {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
@@ -260,7 +260,7 @@ export class KapmaeController {
         return resp;
     }
 
-    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async delete(request: Request, response: Response) {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let RegistroToRemove: Kapmae = new Kapmae();
@@ -292,7 +292,7 @@ export class KapmaeController {
         return resp;
     }
 
-    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async findByFilter(request: Request, response: Response) {
         console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { rut_cop, nombres, ape_pat, ape_mat, cod_cop, sec_cop, com_pos, limit, pageSize } = request.body;
@@ -336,7 +336,7 @@ export class KapmaeController {
         return resp;
     }
 
-    async findImgByCodCop(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async findImgByCodCop(request: Request, response: Response) {
         console.log('method findImgByCodCop');
         let resp: GenericResponse = new GenericResponse();
         let pathImg: pathImgVO = new pathImgVO();

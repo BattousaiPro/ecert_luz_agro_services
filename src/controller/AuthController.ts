@@ -10,27 +10,27 @@ export class AuthController {
 
     constructor() { }
 
-    async login(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
+    async login(request: Request, response: Response) {
         // console.log('method login');
         let resp: GenericResponse = new GenericResponse();
-        const { ctaUserName, ctaPassWord } = req.body;
+        const { ctaUserName, ctaPassWord } = request.body;
         if (!(ctaUserName && ctaPassWord)) {
             //console.log(JSON.stringify(e));
-            resp.code = '-2';
-            resp.message = ' Nombre de Usuario y contraseña son requeridos!';
+            resp.code = '-1';
+            resp.message = 'Nombre de Usuario y contraseña son requeridos!';
             resp.data = null;
             return resp;
         }
 
         let user: Usuarios;
         try {
-            user = await this.repository.findOneOrFail({ where: { ctaUserName: ctaUserName, ctaPassWord: ctaPassWord } });
+            user = await this.repository.findOneOrFail({ where: { ctaUserName } });
             resp.data = user;
             resp.data = this.convertToVO(user);
         } catch (e) {
             //console.log(JSON.stringify(e));
-            resp.code = '-1';
-            resp.message = ' Nombre de Usuario o contraseña son incorrectos!';
+            resp.code = '-2';
+            resp.message = 'Nombre de Usuario o contraseña son incorrectos!';
             resp.data = null;
             return resp;
         }
@@ -38,6 +38,9 @@ export class AuthController {
         // Check password
         /*
         if (!user.checkPassword(ctaPassWord)) {
+            resp.code = '-3';
+            resp.message = 'Nombre de Usuario o contraseña son incorrectos!';
+            resp.data = null;
             return res.status(400).json({ message: 'Username or Password are incorrect!' });
         }
 
@@ -45,36 +48,37 @@ export class AuthController {
 
         res.json({ message: 'OK', token, userId: user.id, role: user.role });
         */
-        //res.send(user);
         return resp;
     }
 
-    async changePassword(req: Request, res: Response, next: NextFunction): Promise<GenericResponse> {
+    async changePassword(request: Request, response: Response) {
         // console.log('method changePassword');
         let resp: GenericResponse = new GenericResponse();
-        const { userId } = res.locals.jwtPayload;
-        const { oldPassword, newPassword } = req.body;
+        const { userId } = response.locals.jwtPayload;
+        const { oldPassword, newPassword } = request.body;
 
         if (!(oldPassword && newPassword)) {
-            resp.code = '-2';
-            resp.data = new Usuarios();
-            console.log('Atigua contraseña & nueva contraseña Son requeridas');
+            resp.code = '-1';
+            resp.data = null;
+            console.log('Antigua contraseña & nueva contraseña Son requeridas');
             return resp;
         }
 
         let user: Usuarios;
         try {
-            user = await this.repository.findOneOrFail({ where: { id: userId, ctaPassWord: oldPassword } });
-            resp.data = 1;
+            user = await this.repository.findOneOrFail({ where: { id: userId } });
         } catch (e) {
-            res.status(400).json({ message: 'Somenthing goes wrong!' });
-            resp.code = '-1';
-            resp.data = new Usuarios();
+            resp.code = '-2';
+            resp.data = null;
             console.log('Algo salio mal');
             return resp;
         }
         /*
         if (!user.checkPassword(oldPassword)) {
+            resp.code = '-3';
+            resp.data = null;
+            resp.message = 'Comprueba tu antigua contrasña';
+            console.log('Comprueba tu antigua contrasña');
             return res.status(401).json({ message: 'Check your old Password' });
         }
         */

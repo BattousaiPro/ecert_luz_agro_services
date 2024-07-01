@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
@@ -13,7 +13,7 @@ export class UserController {
 
     constructor() { }
 
-    async getById(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async getById(request: Request, response: Response) {
         // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
         try {
@@ -34,7 +34,7 @@ export class UserController {
         return resp;
     }
 
-    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async new(request: Request, response: Response) {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
@@ -81,7 +81,7 @@ export class UserController {
         return resp;
     }
 
-    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async edit(request: Request, response: Response) {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
@@ -132,7 +132,7 @@ export class UserController {
         return resp;
     }
 
-    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async delete(request: Request, response: Response) {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let userToRemove: Usuarios = new Usuarios();
@@ -164,7 +164,7 @@ export class UserController {
         return resp;
     }
 
-    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async findByFilter(request: Request, response: Response) {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaEmail, limit, pageSize } = request.body;

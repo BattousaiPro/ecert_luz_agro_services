@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
@@ -11,7 +11,7 @@ export class SectorController {
 
     constructor() { }
 
-    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async getAll(request: Request, response: Response) {
         console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector[] = [];
@@ -35,7 +35,7 @@ export class SectorController {
         return resp;
     }
 
-    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async new(request: Request, response: Response) {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
@@ -82,7 +82,7 @@ export class SectorController {
         return resp;
     }
 
-    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async edit(request: Request, response: Response) {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
@@ -128,12 +128,11 @@ export class SectorController {
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
         }
         return resp;
     }
 
-    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async delete(request: Request, response: Response) {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let sectorToRemove: Sector = new Sector();
@@ -165,7 +164,7 @@ export class SectorController {
         return resp;
     }
 
-    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async findByFilter(request: Request, response: Response) {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { codigo, descrip, limit, pageSize } = request.body;

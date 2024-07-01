@@ -9,7 +9,7 @@ import { RolesController } from './controller/RolesController';
 import { SectorController } from './controller/SectorController';
 import { UserController } from './controller/UserController';
 
-export const Routes: any[] = [
+export const routes: any[] = [
 
 
 

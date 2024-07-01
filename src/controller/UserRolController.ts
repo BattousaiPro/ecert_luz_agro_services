@@ -9,7 +9,7 @@ export class UserRolController {
 
     constructor() { }
 
-    async userRol(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async userRol(request: Request, response: Response) {
         console.log('method userRol');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: UserRol[] = [];
@@ -36,6 +36,7 @@ export class UserRolController {
             resp.data = null;
             return resp;
         }
+
         // console.log('Paso Dos');
         if (isDelete) {
             try {
@@ -46,8 +47,10 @@ export class UserRolController {
                 resp.code = '-2';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
+                return resp;
             }
         }
+
         // console.log('Paso Tres');
         try {
             const idUser = parseInt(request.params.iduser);

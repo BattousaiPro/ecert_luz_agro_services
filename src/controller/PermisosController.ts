@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { Like } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Permisos } from "../entity/Permisos";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { PermisosVO } from "../vo/PermisosVO";
 
 export class PermisosController {
@@ -11,7 +11,7 @@ export class PermisosController {
 
     constructor() { }
 
-    async getAll(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async getAll(request: Request, response: Response) {
         // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos[] = [];
@@ -35,7 +35,7 @@ export class PermisosController {
         return resp;
     }
 
-    async new(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async new(request: Request, response: Response) {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
@@ -58,6 +58,7 @@ export class PermisosController {
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
+                return resp;
             }
 
             try {
@@ -81,15 +82,15 @@ export class PermisosController {
         return resp;
     }
 
-    async edit(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async edit(request: Request, response: Response) {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Permisos = new Permisos();
-        let usuariosToEdit: Permisos = new Permisos();
+        let elementToEdit: Permisos = new Permisos();
         try {
             const id = parseInt(request.params.id);
-            usuariosToEdit = await this.repository.findOneBy({ id });
-            if (!usuariosToEdit) {
+            elementToEdit = await this.repository.findOneBy({ id });
+            if (!elementToEdit) {
                 resp.code = '-3';
                 resp.data = new Permisos();
                 console.log('Permiso no existe');
@@ -107,21 +108,21 @@ export class PermisosController {
             const { name, descrip, code, estado } = request.body;
             if (typeof name !== 'undefined' && name !== null && name !== '') {
                 console.log('name: [' + name + ']');
-                usuariosToEdit.name = name;
+                elementToEdit.name = name;
             }
             if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
                 console.log('descrip: [' + descrip + ']');
-                usuariosToEdit.descrip = descrip;
+                elementToEdit.descrip = descrip;
             }
             if (typeof code !== 'undefined' && code !== null && code !== '') {
                 console.log('code: [' + code + ']');
-                usuariosToEdit.code = code;
+                elementToEdit.code = code;
             }
             if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
                 console.log('estado: [' + estado + ']');
-                usuariosToEdit.estado = estado;
+                elementToEdit.estado = estado;
             }
-            dataResponse = await this.repository.save(usuariosToEdit);
+            dataResponse = await this.repository.save(elementToEdit);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
@@ -132,7 +133,7 @@ export class PermisosController {
         return resp;
     }
 
-    async delete(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async delete(request: Request, response: Response) {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let RegistroToRemove: Permisos = new Permisos();
@@ -164,7 +165,7 @@ export class PermisosController {
         return resp;
     }
 
-    async findByFilter(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async findByFilter(request: Request, response: Response) {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { name, descrip, limit, pageSize } = request.body;

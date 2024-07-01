@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { GenericResponse, StatusCode } from "../vo/GenericResponse";
+import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { RolPermiso } from "../entity/RolPermiso";
+import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 
 export class RolPermisoController {
 
@@ -9,7 +9,7 @@ export class RolPermisoController {
 
     constructor() { }
 
-    async rolPermiso(request: Request, response: Response, next: NextFunction): Promise<GenericResponse> {
+    async rolPermiso(request: Request, response: Response) {
         // console.log('method rolPermiso');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: RolPermiso[] = [];
@@ -46,8 +46,10 @@ export class RolPermisoController {
                 resp.code = '-2';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
+                return resp;
             }
         }
+
         // console.log('Paso Tres');
         try {
             const idRol = parseInt(request.params.idrol);
