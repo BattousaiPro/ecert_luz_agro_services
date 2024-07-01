@@ -73,6 +73,7 @@ export class AuthController {
             console.log('Algo salio mal');
             return resp;
         }
+
         /*
         if (!user.checkPassword(oldPassword)) {
             resp.code = '-3';
@@ -82,6 +83,7 @@ export class AuthController {
             return res.status(401).json({ message: 'Check your old Password' });
         }
         */
+
         return resp;
     }
 

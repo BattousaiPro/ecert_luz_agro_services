@@ -255,7 +255,6 @@ export class KapmaeController {
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
         }
         return resp;
     }
