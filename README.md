@@ -16,10 +16,6 @@ Stack tecnologico
 
 * para gestion de usuarios y token, se utilizará JWT (versión: ??)
 
-npm 
-
-
-
 ## Ejecución de comandos.
 
     * npm i typeorm -g
