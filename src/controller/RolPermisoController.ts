@@ -5,11 +5,11 @@ import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 
 export class RolPermisoController {
 
-    private repository = AppDataSource.getRepository(RolPermiso);
+    private static repository = AppDataSource.getRepository(RolPermiso);
 
     constructor() { }
 
-    async rolPermiso(request: Request, response: Response) {
+    static rolPermiso = async (request: Request, response: Response) => {
         // console.log('method rolPermiso');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: RolPermiso[] = [];
@@ -34,7 +34,7 @@ export class RolPermisoController {
             resp.code = '-3';
             resp.message = StatusCode.ERROR + ': Al obtener los permisos de los roles';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
         // console.log('Paso Dos');
         if (isDelete) {
@@ -46,12 +46,12 @@ export class RolPermisoController {
                 resp.code = '-2';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
-                return resp;
+                return response.status(200).send(resp);
             }
         }
 
-        // console.log('Paso Tres');
-        try {
+         // console.log('Paso Tres');
+         try {
             const idRol = parseInt(request.params.idrol);
             let saveRolPermiso: RolPermiso[] = [];
             for (let index = 0; index < listPermisosId.length; index++) {
@@ -70,7 +70,7 @@ export class RolPermisoController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
 }

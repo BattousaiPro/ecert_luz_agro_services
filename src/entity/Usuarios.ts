@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
 import { Roles } from "./Roles";
+import * as bcrypt from 'bcryptjs';
 
 @Entity({ name: 'USUARIOS' })
 export class Usuarios {
@@ -33,7 +34,7 @@ export class Usuarios {
         },
     })
     roles: Roles[];
-/*
+
     hashPassword(): void {
         const salt = bcrypt.genSaltSync(10);
         this.ctaPassWord = bcrypt.hashSync(this.ctaPassWord, salt);
@@ -42,5 +43,5 @@ export class Usuarios {
     checkPassword(password: string): boolean {
         return bcrypt.compareSync(password, this.ctaPassWord);
     }
-*/
+
 }

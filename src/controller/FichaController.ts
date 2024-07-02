@@ -5,11 +5,11 @@ import { Kapmae } from "../entity/Kapmae";
 
 export class FichaController {
 
-    private repository = AppDataSource.getRepository(Kapmae);
+    private static repository = AppDataSource.getRepository(Kapmae);
 
     constructor() { }
 
-    async getFindAnios(request: Request, response: Response) {
+    static getFindAnios = async (request: Request, response: Response) => {
         // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
         try {
@@ -32,7 +32,7 @@ export class FichaController {
         return resp;
     }
 
-    private reOrdenar(arrayDesordenado: Kapmae[]): number[] {
+    private static reOrdenar(arrayDesordenado: Kapmae[]): number[] {
         // Copia el array recibido
         let outArray: number[] = [];
         arrayDesordenado.forEach(function (valor, key) {

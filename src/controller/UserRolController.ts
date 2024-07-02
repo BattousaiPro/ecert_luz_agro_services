@@ -5,11 +5,11 @@ import { AppDataSource } from "../data-source";
 
 export class UserRolController {
 
-    private repository = AppDataSource.getRepository(UserRol);
+    private static repository = AppDataSource.getRepository(UserRol);
 
     constructor() { }
 
-    async userRol(request: Request, response: Response) {
+    static userRol = async (request: Request, response: Response) => {
         console.log('method userRol');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: UserRol[] = [];
@@ -34,7 +34,7 @@ export class UserRolController {
             resp.code = '-3';
             resp.message = StatusCode.ERROR + ': Al obtener los roles de los usuario';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         // console.log('Paso Dos');
@@ -47,7 +47,7 @@ export class UserRolController {
                 resp.code = '-2';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
-                return resp;
+                return response.status(200).send(resp);
             }
         }
 
@@ -71,7 +71,7 @@ export class UserRolController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.status(200).send(resp);
     }
 
 }

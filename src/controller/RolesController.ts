@@ -6,14 +6,36 @@ import { RolesVO } from "../vo/RolesVO";
 import { PermisosVO } from "../vo/PermisosVO";
 import { Permisos } from "../entity/Permisos";
 import { Roles } from "../entity/Roles";
+import permisos from "../routes/PermisosRoutes";
 
 export class RolesController {
 
-    private repository = AppDataSource.getRepository(Roles);
+    private static repository = AppDataSource.getRepository(Roles);
 
     constructor() { }
 
-    async getAll(request: Request, response: Response) {
+    static getById = async (request: Request, response: Response) => {
+        // console.log('method getById');
+        let resp: GenericResponse = new GenericResponse();
+        try {
+            const id = parseInt(request.params.id);
+            const dataResponse: Roles = await this.repository.findOne({ where: { id } });
+            resp.data = dataResponse;
+            if (!dataResponse) {
+                resp.code = '1';
+                resp.data = new Roles();
+                console.log('Sin Data');
+            }
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+        }
+        return response.send(resp);
+    }
+
+    static getAll = async (request: Request, response: Response) => {
         // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles[] = [];
@@ -26,19 +48,19 @@ export class RolesController {
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
         if (dataResponse.length === 0) {
             resp.code = '-2';
             resp.message = StatusCode.ERROR + ', Sin Registros';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
         resp.data = this.convertToVOs(dataResponse, true);
-        return resp;
+        return response.send(resp);
     }
 
-    async new(request: Request, response: Response) {
+    static new = async (request: Request, response: Response) => {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
@@ -54,14 +76,14 @@ export class RolesController {
                     resp.code = '-4';
                     resp.data = null;
                     resp.message = 'Rol ya existe';
-                    return resp;
+                    return response.status(200).send(resp);
                 }
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
-                return resp;
+                return response.status(200).send(resp);
             }
 
             try {
@@ -82,10 +104,10 @@ export class RolesController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async edit(request: Request, response: Response) {
+    static edit = async (request: Request, response: Response) => {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Roles = new Roles();
@@ -97,34 +119,18 @@ export class RolesController {
                 resp.code = '-3';
                 resp.data = new Roles();
                 console.log('Rol no existe');
-                return resp;
+                return response.status(200).send(resp);
             }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         try {
-            const { name, descrip, code, estado } = request.body;
-            if (typeof name !== 'undefined' && name !== null && name !== '') {
-                console.log('name: [' + name + ']');
-                elementToEdit.name = name;
-            }
-            if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
-                console.log('descrip: [' + descrip + ']');
-                elementToEdit.descrip = descrip;
-            }
-            if (typeof code !== 'undefined' && code !== null && code !== '') {
-                console.log('code: [' + code + ']');
-                elementToEdit.code = code;
-            }
-            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
-                console.log('estado: [' + estado + ']');
-                elementToEdit.estado = estado;
-            }
+            elementToEdit = this.getObjectEdit(request, elementToEdit);
             dataResponse = await this.repository.save(elementToEdit);
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -132,10 +138,10 @@ export class RolesController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async delete(request: Request, response: Response) {
+    static delete = async (request: Request, response: Response) => {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let rolesToRemove: Roles = new Roles();
@@ -146,14 +152,14 @@ export class RolesController {
                 resp.code = '1';
                 resp.data = new Roles();
                 resp.message = StatusCode.ERROR + ': Rol no existe';
-                return resp;
+                return response.status(200).send(resp);
             }
         } catch (error) {
             // console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ': Al buscar el Rol';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         try {
@@ -165,10 +171,10 @@ export class RolesController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async findByFilter(request: Request, response: Response) {
+    static findByFilter = async (request: Request, response: Response) => {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { name, descrip, limit, pageSize } = request.body;
@@ -198,10 +204,10 @@ export class RolesController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    private convertToVOs(input: Roles[], showPermisos: boolean): RolesVO[] {
+    private static convertToVOs(input: Roles[], showPermisos: boolean): RolesVO[] {
         let salida: RolesVO[] = [];
         if (input) {
             for (let index = 0; index < input.length; index++) {
@@ -211,7 +217,7 @@ export class RolesController {
         return salida;
     }
 
-    private convertToVO(input: Roles, showPermisos: boolean): RolesVO {
+    private static convertToVO(input: Roles, showPermisos: boolean): RolesVO {
         let item: RolesVO = new RolesVO();
         item = new RolesVO();
         item.id = input.id;
@@ -225,7 +231,7 @@ export class RolesController {
         return item;
     }
 
-    private convertToPermisoVOs(input: Permisos[]): PermisosVO[] {
+    private static convertToPermisoVOs(input: Permisos[]): PermisosVO[] {
         let salida: PermisosVO[] = [];
         if (input) {
             for (let index = 0; index < input.length; index++) {
@@ -235,7 +241,7 @@ export class RolesController {
         return salida;
     }
 
-    private convertToPermisoVO(input: Permisos): PermisosVO {
+    private static convertToPermisoVO(input: Permisos): PermisosVO {
         let item: PermisosVO = new PermisosVO();
         item = new PermisosVO();
         item.id = input.id;
@@ -244,6 +250,27 @@ export class RolesController {
         item.code = input.code;
         item.estado = input.estado;
         return item;
+    }
+
+    private static getObjectEdit(request: Request, elementToEdit: Roles): Roles {
+        const { name, descrip, code, estado } = request.body;
+        if (typeof name !== 'undefined' && name !== null && name !== '') {
+            console.log('name: [' + name + ']');
+            elementToEdit.name = name;
+        }
+        if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
+            console.log('descrip: [' + descrip + ']');
+            elementToEdit.descrip = descrip;
+        }
+        if (typeof code !== 'undefined' && code !== null && code !== '') {
+            console.log('code: [' + code + ']');
+            elementToEdit.code = code;
+        }
+        if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+            console.log('estado: [' + estado + ']');
+            elementToEdit.estado = estado;
+        }
+        return elementToEdit;
     }
 
 }

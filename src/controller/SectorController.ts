@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
-import { AppDataSource } from "../data-source";
 import { Like } from "typeorm";
+import { AppDataSource } from "../data-source";
 import { SectorVO } from "../vo/SectorVO";
 import { Sector } from "../entity/Sector";
 
 export class SectorController {
 
-    private repository = AppDataSource.getRepository(Sector);
+    private static repository = AppDataSource.getRepository(Sector);
 
     constructor() { }
 
-    async getAll(request: Request, response: Response) {
+    static getAll = async (request: Request, response: Response) => {
         console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector[] = [];
@@ -23,19 +23,19 @@ export class SectorController {
             resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
         if (dataResponse.length === 0) {
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ', Sin Registros';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
         resp.data = this.convertToVOs(dataResponse);
-        return resp;
+        return response.send(resp);
     }
 
-    async new(request: Request, response: Response) {
+    static new = async (request: Request, response: Response) => {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
@@ -51,14 +51,14 @@ export class SectorController {
                     resp.code = '-4';
                     resp.data = null;
                     resp.message = 'Sector ya existe';
-                    return resp;
+                    return response.status(200).send(resp);
                 }
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
-                return resp;
+                return response.status(200).send(resp);
             }
 
             try {
@@ -79,60 +79,45 @@ export class SectorController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.status(200).send(resp);
     }
 
-    async edit(request: Request, response: Response) {
+    static edit = async (request: Request, response: Response) => {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector = new Sector();
-        let sectorToEdit: Sector = new Sector();
+        let elementToEdit: Sector = new Sector();
         try {
             const codigo = parseInt(request.params.codigo);
-            sectorToEdit = await this.repository.findOneBy({ codigo });
-            if (!sectorToEdit) {
+            elementToEdit = await this.repository.findOneBy({ codigo });
+            if (!elementToEdit) {
                 resp.code = '-3';
                 resp.data = new Sector();
                 console.log('Sector no existe');
-                return resp;
+                return response.status(200).send(resp);
             }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         try {
-            const { descrip, diaCar, codCob, estado } = request.body;
-            if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
-                console.log('descrip: [' + descrip + ']');
-                sectorToEdit.descrip = descrip;
-            }
-            if (typeof diaCar !== 'undefined' && diaCar !== null && diaCar !== '') {
-                console.log('diaCar: [' + diaCar + ']');
-                sectorToEdit.diaCar = diaCar;
-            }
-            if (typeof codCob !== 'undefined' && codCob !== null && codCob !== '') {
-                console.log('codCob: [' + codCob + ']');
-                sectorToEdit.codCob = codCob;
-            }
-            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
-                console.log('estado: [' + estado + ']');
-                sectorToEdit.estado = estado;
-            }
-            dataResponse = await this.repository.save(sectorToEdit);
+            elementToEdit = this.getObjectEdit(request, elementToEdit);
+            dataResponse = await this.repository.save(elementToEdit);
+            return response.send(resp);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.status(200).send(resp);
     }
 
-    async delete(request: Request, response: Response) {
+    static delete = async (request: Request, response: Response) => {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let sectorToRemove: Sector = new Sector();
@@ -143,13 +128,13 @@ export class SectorController {
                 resp.code = '3';
                 resp.data = new Sector();
                 resp.message = StatusCode.ERROR + ': Sector no existe';
-                return resp;
+                return response.status(200).send(resp);
             }
         } catch (error) {
             resp.code = '-2';
             resp.message = StatusCode.ERROR + ': Al buscar el Sector';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         try {
@@ -161,10 +146,10 @@ export class SectorController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async findByFilter(request: Request, response: Response) {
+    static findByFilter = async (request: Request, response: Response) => {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { codigo, descrip, limit, pageSize } = request.body;
@@ -192,10 +177,10 @@ export class SectorController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    private convertToVOs(inputUser: Sector[]): SectorVO[] {
+    private static convertToVOs(inputUser: Sector[]): SectorVO[] {
         let salidaUser: SectorVO[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
@@ -203,7 +188,7 @@ export class SectorController {
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Sector): SectorVO {
+    private static convertToVO(inputUser: Sector): SectorVO {
         let itemUser: SectorVO = new SectorVO();
         itemUser = new SectorVO();
         itemUser.codigo = inputUser.codigo;
@@ -212,6 +197,27 @@ export class SectorController {
         itemUser.codCob = inputUser.codCob;
         itemUser.estado = inputUser.estado;
         return itemUser;
+    }
+
+    private static getObjectEdit(request: Request, elementToEdit: Sector): Sector {
+        const { descrip, diaCar, codCob, estado } = request.body;
+        if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
+            console.log('descrip: [' + descrip + ']');
+            elementToEdit.descrip = descrip;
+        }
+        if (typeof diaCar !== 'undefined' && diaCar !== null && diaCar !== '') {
+            console.log('diaCar: [' + diaCar + ']');
+            elementToEdit.diaCar = diaCar;
+        }
+        if (typeof codCob !== 'undefined' && codCob !== null && codCob !== '') {
+            console.log('codCob: [' + codCob + ']');
+            elementToEdit.codCob = codCob;
+        }
+        if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+            console.log('estado: [' + estado + ']');
+            elementToEdit.estado = estado;
+        }
+        return elementToEdit;
     }
 
 }

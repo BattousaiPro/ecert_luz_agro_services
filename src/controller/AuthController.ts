@@ -3,14 +3,21 @@ import { AppDataSource } from "../data-source";
 import { GenericResponse } from "../vo/GenericResponse";
 import { UsuariosVO } from "../vo/UsuariosVO";
 import { Usuarios } from "../entity/Usuarios";
+import * as jwt from 'jsonwebtoken';
+import { validate } from 'class-validator';
+import { UserAuthVO } from "../vo/UserAuthVO";
+import config from "../config/config";
+import { Roles } from "../entity/Roles";
+import { RolPermisoController } from "./RolPermisoController";
+import { PermisosVO } from "../vo/PermisosVO";
 
 export class AuthController {
 
-    private repository = AppDataSource.getRepository(Usuarios);
+    private static repository = AppDataSource.getRepository(Usuarios);
 
-    constructor() { }
+    constructor(public rolPermisoController: RolPermisoController) { }
 
-    async login(request: Request, response: Response) {
+    static login = async (request: Request, response: Response) => {
         // console.log('method login');
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaPassWord } = request.body;
@@ -19,38 +26,42 @@ export class AuthController {
             resp.code = '-1';
             resp.message = 'Nombre de Usuario y contraseña son requeridos!';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         let user: Usuarios;
         try {
-            user = await this.repository.findOneOrFail({ where: { ctaUserName } });
+            user = await this.repository.findOneOrFail({
+                where: { ctaUserName },
+                relations: {
+                    roles: {
+                        permisos: true,
+                    }
+                }
+            });
         } catch (e) {
             //console.log(JSON.stringify(e));
             resp.code = '-2';
             resp.message = 'Nombre de Usuario o contraseña son incorrectos!';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         // Check password
-        /*
         if (!user.checkPassword(ctaPassWord)) {
             resp.code = '-3';
             resp.message = 'Nombre de Usuario o contraseña son incorrectos!';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         const token: string = jwt.sign({ userId: user.id, username: user.ctaUserName }, config.jwtSecret, { expiresIn: '1h' });
-        res.json({ message: 'OK', token, userId: user.id, role: user.role });
-        */
 
-        resp.data = this.convertToVO(user);
-        return resp;
+        resp.data = this.setUserAuthVO(token, user.roles);
+        return response.send(resp);
     }
 
-    async changePassword(request: Request, response: Response) {
+    static changePassword = async (request: Request, response: Response) => {
         // console.log('method changePassword');
         let resp: GenericResponse = new GenericResponse();
         const { userId } = response.locals.jwtPayload;
@@ -60,7 +71,7 @@ export class AuthController {
             resp.code = '-1';
             resp.data = null;
             console.log('Antigua contraseña & nueva contraseña Son requeridas');
-            return resp;
+            return response.status(200).send(resp);
         }
 
         let user: Usuarios;
@@ -70,23 +81,35 @@ export class AuthController {
             resp.code = '-2';
             resp.data = null;
             console.log('Algo salio mal');
-            return resp;
+            return response.status(200).send(resp);
         }
 
-        /*
         if (!user.checkPassword(oldPassword)) {
             resp.code = '-3';
             resp.data = null;
             resp.message = 'Comprueba tu antigua contrasña';
             console.log('Comprueba tu antigua contrasña');
-            return res.status(401).json({ message: 'Check your old Password' });
+            return response.status(200).send(resp);
         }
-        */
 
-        return resp;
+        user.ctaPassWord = newPassword;
+        const validationOps = { validationError: { target: false, value: false } };
+        const errors = await validate(user, validationOps);
+
+        if (errors.length > 0) {
+            resp.code = '-1';
+            resp.data = errors;
+            return response.status(200).send(resp);
+        }
+
+        // Hash password
+        user.hashPassword();
+        this.repository.save(user);
+        resp.message = 'Contraseña Guardada'
+        return response.send(resp);
     }
 
-    private convertToVO(inputUser: Usuarios): UsuariosVO {
+    private static convertToVO(inputUser: Usuarios): UsuariosVO {
         let itemUser: UsuariosVO = new UsuariosVO();
         itemUser = new UsuariosVO();
         itemUser.id = inputUser.id;
@@ -94,6 +117,28 @@ export class AuthController {
         itemUser.ctaEmail = inputUser.ctaEmail;
         itemUser.estado = inputUser.estado;
         return itemUser;
+    }
+
+    private static setUserAuthVO(token: string, roles: Roles[]): UserAuthVO {
+        let userResp: UserAuthVO = new UserAuthVO();
+        userResp.token = token;
+        userResp.permisos = this.obtenerPermisosByRol(roles);
+        return userResp;
+    }
+
+    private static obtenerPermisosByRol(roles: Roles[]): string[] {
+        let perResp: string[] = [];
+        for (let index = 0; index < roles.length; index++) {
+            for (let indexh = 0; indexh < roles[index].permisos.length; indexh++) {
+                const element = roles[index].permisos[indexh];
+                perResp.push(element.code);
+            }
+        }
+        let result: string[] = perResp.filter((item, index) => {
+            return perResp.indexOf(item) === index;
+        })
+        result.sort();
+        return result;
     }
 
 }

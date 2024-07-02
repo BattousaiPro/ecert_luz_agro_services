@@ -9,11 +9,11 @@ import { Roles } from "../entity/Roles";
 
 export class UserController {
 
-    private repository = AppDataSource.getRepository(Usuarios);
+    private static repository = AppDataSource.getRepository(Usuarios);
 
     constructor() { }
 
-    async getById(request: Request, response: Response) {
+    static getById = async (request: Request, response: Response) => {
         // console.log('method getById');
         let resp: GenericResponse = new GenericResponse();
         try {
@@ -31,10 +31,10 @@ export class UserController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async new(request: Request, response: Response) {
+    static new = async (request: Request, response: Response) => {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
@@ -50,20 +50,21 @@ export class UserController {
                     resp.code = '-4';
                     resp.data = null;
                     resp.message = 'Usuario ya existe';
-                    return resp;
+                    return response.status(200).send(resp);
                 }
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-3';
                 resp.message = StatusCode.ERROR;
                 resp.data = null;
-                return resp;
+                return response.status(200).send(resp);
             }
 
             try {
                 const newElement = Object.assign(new Usuarios(), {
                     ctaUserName, ctaPassWord, ctaEmail, estado: true
                 });
+                newElement.hashPassword();
                 dataResponse = await this.repository.save(newElement);
                 resp.data = dataResponse.id;
             } catch (error) {
@@ -78,10 +79,10 @@ export class UserController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async edit(request: Request, response: Response) {
+    static edit = async (request: Request, response: Response) => {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Usuarios = new Usuarios();
@@ -93,46 +94,29 @@ export class UserController {
                 resp.code = '-3';
                 resp.data = new Usuarios();
                 console.log('Usuarios no existe');
-                return resp;
+                return response.status(200).send(resp);
             }
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         try {
-            const { ctaUserName, ctaPassWord, ctaEmail, estado } = request.body;
-            if (typeof ctaUserName !== 'undefined' && ctaUserName !== null && ctaUserName !== '') {
-                console.log('ctaUserName: [' + ctaUserName + ']');
-                elementToEdit.ctaUserName = ctaUserName;
-            }
-            if (typeof ctaEmail !== 'undefined' && ctaEmail !== null && ctaEmail !== '') {
-                console.log('ctaEmail: [' + ctaEmail + ']');
-                elementToEdit.ctaEmail = ctaEmail;
-            }
-            if (typeof ctaPassWord !== 'undefined' && ctaPassWord !== null && ctaPassWord !== '') {
-                console.log('ctaPassWord: [' + ctaPassWord + ']');
-                elementToEdit.ctaPassWord = ctaPassWord;
-            }
-            if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
-                console.log('estado: [' + estado + ']');
-                elementToEdit.estado = estado;
-            }
+            elementToEdit = this.getObjectEdit(request, elementToEdit);
             dataResponse = await this.repository.save(elementToEdit);
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
-            return resp;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async delete(request: Request, response: Response) {
+    static delete = async (request: Request, response: Response) => {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let userToRemove: Usuarios = new Usuarios();
@@ -143,13 +127,13 @@ export class UserController {
                 resp.code = '1';
                 resp.data = new Usuarios();
                 resp.message = StatusCode.ERROR + ': Usuario no existe';
-                return resp;
+                return response.status(200).send(resp);
             }
         } catch (error) {
             resp.code = '-1';
             resp.message = StatusCode.ERROR + ': Al buscar el Usuario';
             resp.data = null;
-            return resp;
+            return response.status(200).send(resp);
         }
 
         try {
@@ -161,24 +145,24 @@ export class UserController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    async findByFilter(request: Request, response: Response) {
+    static findByFilter = async (request: Request, response: Response) => {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaEmail, limit, pageSize } = request.body;
         try {
             const [resultsReg, totalReg] = await this.repository.findAndCount(
                 {
-                    relations: { roles: true },
-                    where: {
-                        ctaUserName: ctaUserName ? Like(ctaUserName + '%') : null,
-                        ctaEmail: ctaEmail ? Like(ctaEmail + '%') : null,
-                    },
-                    order: { id: "DESC" },
                     take: limit,
                     skip: pageSize,
+                    relations: { roles: true },
+                    where: {
+                        ctaUserName: ctaUserName ? Like('%' + ctaUserName + '%') : null,
+                        ctaEmail: ctaEmail ? Like('%' + ctaEmail + '%') : null,
+                    },
+                    order: { id: "DESC" },
                 }
             );
             let results = this.convertToVOs(resultsReg);
@@ -194,10 +178,10 @@ export class UserController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
-    private convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
+    private static convertToVOs(inputUser: Usuarios[]): UsuariosVO[] {
         let salidaUser: UsuariosVO[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
@@ -205,7 +189,7 @@ export class UserController {
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Usuarios): UsuariosVO {
+    private static convertToVO(inputUser: Usuarios): UsuariosVO {
         let itemUser: UsuariosVO = new UsuariosVO();
         itemUser = new UsuariosVO();
         itemUser.id = inputUser.id;
@@ -219,7 +203,7 @@ export class UserController {
         return itemUser;
     }
 
-    private convertToRolVOs(input: Roles[]): RolesVO[] {
+    private static convertToRolVOs(input: Roles[]): RolesVO[] {
         let salida: RolesVO[] = [];
         if (input) {
             for (let index = 0; index < input.length; index++) {
@@ -228,7 +212,8 @@ export class UserController {
         }
         return salida;
     }
-    private convertToRolVO(input: Roles): RolesVO {
+
+    private static convertToRolVO(input: Roles): RolesVO {
         let item: RolesVO = new RolesVO();
         item = new RolesVO();
         item.id = input.id;
@@ -238,4 +223,26 @@ export class UserController {
         item.estado = input.estado;
         return item;
     }
+
+    private static getObjectEdit(request: Request, elementToEdit: Usuarios): Usuarios {
+        const { ctaUserName, ctaPassWord, ctaEmail, estado } = request.body;
+        if (typeof ctaUserName !== 'undefined' && ctaUserName !== null && ctaUserName !== '') {
+            console.log('ctaUserName: [' + ctaUserName + ']');
+            elementToEdit.ctaUserName = ctaUserName;
+        }
+        if (typeof ctaEmail !== 'undefined' && ctaEmail !== null && ctaEmail !== '') {
+            console.log('ctaEmail: [' + ctaEmail + ']');
+            elementToEdit.ctaEmail = ctaEmail;
+        }
+        if (typeof ctaPassWord !== 'undefined' && ctaPassWord !== null && ctaPassWord !== '') {
+            console.log('ctaPassWord: [' + ctaPassWord + ']');
+            elementToEdit.ctaPassWord = ctaPassWord;
+        }
+        if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
+            console.log('estado: [' + estado + ']');
+            elementToEdit.estado = estado;
+        }
+        return elementToEdit;
+    }
+
 }
