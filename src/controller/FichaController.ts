@@ -29,7 +29,7 @@ export class FichaController {
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
-        return resp;
+        return response.status(200).send(resp);
     }
 
     private static reOrdenar(arrayDesordenado: Kapmae[]): number[] {
