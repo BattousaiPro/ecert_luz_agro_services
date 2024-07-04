@@ -10,11 +10,11 @@ Steps to run this project:
 ### Extras.
 
 ## Stack tecnologico (Dependencias)
+    * nvm           (versión: 1.1.11)
     * node js       (versión: 18.13.0)
+    * npm           (versión: 8.19.3)    
     * express       (versión: 4.17.2)
     * typescript    (versión: 5.4.5)
-    * npm           (versión: 8.19.3)
-    * nvm           (versión: 1.1.11)
     * mysql         (versión: 2.18.1)
     * typeorm       (versión: 0.3.20)
     * jsonwebtoken  (versión: 9.0.2)
