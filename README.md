@@ -9,12 +9,15 @@ Steps to run this project:
 
 ### Extras.
 
-Stack tecnologico
-* node js (versión: ??) con express (verión: ??) para los servicios  y se codificado en typescript (versión: ??)
-* para realziar la conecoión a BBDD se utilizará TypeOrm (versión: ??) (framework)
-* para la BBDD se utilizará MySql
-
-* para gestion de usuarios y token, se utilizará JWT (versión: ??)
+## Stack tecnologico (Dependencias)
+    * node js       (versión: 18.13.0)
+    * express       (versión: 4.17.2)
+    * typescript    (versión: 5.4.5)
+    * npm           (versión: 8.19.3)
+    * nvm           (versión: 1.1.11)
+    * mysql         (versión: 2.18.1)
+    * typeorm       (versión: 0.3.20)
+    * jsonwebtoken  (versión: 9.0.2)
 
 ## Ejecución de comandos.
 
@@ -25,11 +28,9 @@ Stack tecnologico
     * npm i cors jsonwebtoken bcryptjs class-validator
 
     * npm i -D ts-node-dev typescript @types/bcryptjs @types/cors @types/jsonwebtoken @types/express @types/node
+    
+    * npm i helmet
 
 
 ## Llegado a esta paso se recomienda eliminar la carpeta node_modules y ejectar
     * npm i
-
-## Ejecución de comandos.
-
-    * npm i helmet
