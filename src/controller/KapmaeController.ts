@@ -202,10 +202,12 @@ export class KapmaeController {
             }
             resp.data = pathImg;
         } catch (error) {
-            console.log('soy un error :D');
             console.log(error);
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
         }
-        return resp;
+        return response.send(resp);
     }
 
     private static getObjectEdit(request: Request, elementToEdit: Kapmae): Kapmae {
