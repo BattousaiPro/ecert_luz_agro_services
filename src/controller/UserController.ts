@@ -237,6 +237,7 @@ export class UserController {
         if (typeof ctaPassWord !== 'undefined' && ctaPassWord !== null && ctaPassWord !== '') {
             console.log('ctaPassWord: [' + ctaPassWord + ']');
             elementToEdit.ctaPassWord = ctaPassWord;
+            elementToEdit.hashPassword();
         }
         if (typeof estado !== 'undefined' && estado !== null && estado !== '') {
             console.log('estado: [' + estado + ']');
