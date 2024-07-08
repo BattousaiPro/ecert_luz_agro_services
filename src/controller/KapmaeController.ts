@@ -153,13 +153,13 @@ export class KapmaeController {
                             descrip: com_pos ? Like('%' + com_pos + '%') : null,
                         },
                     },
+                    order: { rut_cop: "ASC" },
+                    take: limit,
+                    skip: (pageSize - 1) * limit,
                     relations: {
                         sec_cop: true,
                         com_pos: true,
                     },
-                    order: { rut_cop: "ASC" },
-                    take: limit,
-                    skip: (pageSize - 1) * limit
                 }
             );
             resp.data = {

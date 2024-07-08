@@ -159,7 +159,7 @@ export class ComunasController {
                         codigo: codigo ? codigo : null,
                         descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
-                    order: { codigo: "DESC" },
+                    order: { codigo: "ASC" },
                     take: limit,
                     skip: (pageSize - 1) * limit
                 }

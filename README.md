@@ -1,5 +1,4 @@
 # ecert_luz_agro_services
-# Awesome Project Build with TypeORM
 
 Steps to run this project:
 

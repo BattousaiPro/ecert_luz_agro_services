@@ -155,14 +155,14 @@ export class UserController {
         try {
             const [resultsReg, totalReg] = await this.repository.findAndCount(
                 {
-                    take: limit,
-                    skip: pageSize,
-                    relations: { roles: true },
                     where: {
                         ctaUserName: ctaUserName ? Like('%' + ctaUserName + '%') : null,
                         ctaEmail: ctaEmail ? Like('%' + ctaEmail + '%') : null,
                     },
                     order: { id: "DESC" },
+                    take: limit,
+                    skip: (pageSize - 1) * limit,
+                    relations: { roles: true }
                 }
             );
             let results = this.convertToVOs(resultsReg);
