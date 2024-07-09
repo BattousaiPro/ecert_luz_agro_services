@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn } from "typeorm";
 
-@Entity({ name: 'rol_permiso' })
+@Entity({ name: 'ROL_PERMISO' })
 export class RolPermiso {
 
     @PrimaryColumn({ name: 'rol_id' })
