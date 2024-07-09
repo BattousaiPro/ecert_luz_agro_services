@@ -1,0 +1,67 @@
+-- SELECT * from USUARIOS;
+-- DROP TABLE USUARIOS;
+-- TRUNCATE TABLE USUARIOS;
+
+CREATE TABLE USUARIOS (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    cta_username varchar(150) NOT NULL,
+    cta_password varchar(250) NOT NULL,
+    cta_email varchar(250) NOT NULL,
+    estado tinyint(4) NOT NULL,
+    CONSTRAINT USUARIOS_pk PRIMARY KEY (id)
+);
+
+
+--
+-- SELECT * from ROLES;
+-- DROP TABLE ROLES;
+-- TRUNCATE TABLE ROLES;
+
+CREATE TABLE ROLES (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    name varchar(50) NOT NULL,
+    descrip varchar(250) NULL,
+	code varchar(250) NOT NULL,
+    estado tinyint(4) NOT NULL,
+	CONSTRAINT ROLES_pk PRIMARY KEY (id)
+);
+
+--
+-- SELECT * from PERMISOS;
+-- DROP TABLE PERMISOS;
+-- TRUNCATE TABLE PERMISOS;
+
+CREATE TABLE PERMISOS (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(50) NOT NULL,
+	descrip varchar(250) NULL,
+	code varchar(250) NOT NULL,
+    estado tinyint(4) NOT NULL,
+CONSTRAINT PERMISOS_pk PRIMARY KEY (id)
+);
+
+-- SELECT * from USER_ROL;
+-- DROP TABLE USER_ROL;
+
+CREATE TABLE USER_ROL (
+  user_id int(11) NOT NULL,
+  rol_id int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`rol_id`),
+  KEY `IDX_USER_ROL_user_id` (`user_id`),
+  KEY `IDX_USER_ROL_rol_id` (`rol_id`),
+  CONSTRAINT fk_USER_ROL_USUARIOS FOREIGN KEY (user_id) REFERENCES USUARIOS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT fk_USER_ROL_ROLES FOREIGN KEY (rol_id) REFERENCES ROLES(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+-- SELECT * from ROL_PERMISO;
+-- DROP TABLE ROL_PERMISO;
+
+CREATE TABLE ROL_PERMISO (
+  rol_id int(11) NOT NULL,
+  permiso_id int(11) NOT NULL,
+  PRIMARY KEY (`rol_id`, `permiso_id`),
+  KEY `IDX_ROL_PERMISO_rol_id` (`rol_id`),
+  KEY `IDX_ROL_PERMISO_permiso_id` (`permiso_id`),
+  CONSTRAINT fk_ROL_PERMISO_ROLES FOREIGN KEY (rol_id) REFERENCES ROLES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT fk_ROL_PERMISO_PERMISOS FOREIGN KEY (permiso_id) REFERENCES PERMISOS(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
