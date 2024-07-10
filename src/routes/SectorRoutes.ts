@@ -1,26 +1,28 @@
-//import { checkRole } from './../middlewares/role';
+//import { checkPermisos } from './../middlewares/role';
 //import { checkJwt } from './../middlewares/jwt';
 import { Router } from 'express';
 import { SectorController } from '../controller/SectorController';
 
 const sector = Router();
 
-sector.get('/', SectorController.getAll);
+sector.get('/'
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_MENU_SECTOR'])]
+    , SectorController.getAll);
 
 sector.post('/'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_SECTOR_CREATE'])]
     , SectorController.new);
 
 sector.patch('/:codigo'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_SECTOR_EDIT'])]
     , SectorController.edit);
 
 sector.delete('/:codigo'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_SECTOR_DELETE'])]
     , SectorController.delete);
 
 sector.post('/findByFilter'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_MENU_SECTOR'])]
     , SectorController.findByFilter);
 
 export default sector;

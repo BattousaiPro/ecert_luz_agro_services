@@ -1,4 +1,4 @@
-//import { checkRole } from './../middlewares/role';
+//import { checkPermisos } from './../middlewares/role';
 //import { checkJwt } from './../middlewares/jwt';
 import { Router } from 'express';
 import { UserRolController } from '../controller/UserRolController';
@@ -6,7 +6,7 @@ import { UserRolController } from '../controller/UserRolController';
 const userrol = Router();
 
 userrol.post('/:iduser'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_MENU_USUARIO', 'LUZ_AGRO_MENU_ROL'])]
     , UserRolController.userRol);
 
 export default userrol;

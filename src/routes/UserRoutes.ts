@@ -1,4 +1,4 @@
-//import { checkRole } from './../middlewares/role';
+//import { checkPermisos } from './../middlewares/role';
 //import { checkJwt } from './../middlewares/jwt';
 import { Router } from 'express';
 import { UserController } from '../controller/UserController';
@@ -7,21 +7,19 @@ import { checkJwt } from '../middlewares/jwt';
 const users = Router();
 
 users.post('/'
-    //, [checkJwt
-    //    ,checkRole(['admin'])
-    //]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_USER_CREATE'])]
     , UserController.new);
 
 users.patch('/:id'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_USER_EDIT'])]
     , UserController.edit);
 
 users.delete('/:id'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_USER_DELETE'])]
     , UserController.delete);
 
 users.post('/findByFilter'
-    //, [checkJwt, checkRole(['admin'])]
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_MENU_USUARIO'])]
     , UserController.findByFilter);
 
 export default users;
