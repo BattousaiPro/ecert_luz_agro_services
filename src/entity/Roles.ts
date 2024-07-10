@@ -30,7 +30,7 @@ export class Roles {
     @ManyToMany(() => Permisos, (permiso) => permiso.roles
         , { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
     @JoinTable({
-        name: 'rol_permiso',
+        name: 'ROL_PERMISO',
         joinColumn: {
             name: 'rol_id',
             referencedColumnName: 'id',

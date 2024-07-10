@@ -23,7 +23,7 @@ export class Usuarios {
     @ManyToMany(() => Roles, (rol) => rol.users
         , { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
     @JoinTable({
-        name: 'user_rol',
+        name: 'USER_ROL',
         joinColumn: {
             name: 'user_id',
             referencedColumnName: 'id',
