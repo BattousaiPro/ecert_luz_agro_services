@@ -4,6 +4,12 @@
 INSERT INTO KAPMAE
 (rut_cop, ape_pat, ape_mat, nombres, cod_cop, cod_lli, cod_ant, cod_nvo, cod_ori, sec_cop, ano_inc, mto_inc, fec_inc, ano_tra, kap_tra, fec_tra, acc_tra, acc_ret, acc_apo, fec_act, est_tra, est_bon, dir_pos, nro_te1, nro_te2, nro_te3, nro_te4, com_pos, obs_cap, nro_sol, fec_sol, fec_apr, fec_can, est_sol, sec_cte, area, sec_imp, est_reg, acc_con, aju_acc)
 VALUES
+
+
+
+
+
+
 ('009.063.900-5', 'ABALOSS', 'GODOY', 'JUAN CARLOS', 4782, 4782, 0, 0, 4782, 240, 2003, 0, DATE('2003-10-06'), 0, 111, DATE('2009-05-12'), 1, 0, 1, DATE('2009-05-12'), NULL, 1, 'QUINTA LA LIBERTAD      0', NULL, NULL, NULL, NULL, 1, '* SOCIOS SIN CAPITAL *', 0, NULL, NULL, NULL, 'NOR', 2, 5, 5116, 'NOR', NULL, 1),
 ('004.904.239-6', 'ABARZA', 'TORRES', 'MARIA TERESA', 2861, 2861, 0, 0, 2861, 337, 1980, 88856, DATE('1980-08-29'), 0, 219152, DATE('2009-05-12'), 1972, 0, 1971, DATE('2009-05-12'), NULL, 1, 'SAN JUANITO', NULL, NULL, NULL, '973707094', 2, 'TRASPASO SISTEMA ANTIGUO', 0, NULL, NULL, NULL, 'NOR', 2, 9, 440, 'NOR', NULL, 1),
 ('003.363.064-6', 'ABARZA', 'CACERES', 'DINA LUISA', 8740, 8740, 0, 0, 8740, 96, 1993, 85309, DATE('1993-04-19'), 0, 210373, DATE('2009-05-12'), 1893, 1893, 1893, DATE('2009-05-12'), NULL, 0, 'QUILQUILMO', NULL, NULL, NULL, NULL, 5, 'TRASPASO SISTEMA ANTIGUO', 262, DATE('2011-11-02'), NULL, NULL, 'PRO', 1, 4, 1056, 'NOR', NULL, 0),
