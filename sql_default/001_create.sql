@@ -1,5 +1,5 @@
 
--- SELECT count(*) from SECTOR;
+-- SELECT * from SECTOR;
 -- DROP TABLE SECTOR;
 -- TRUNCATE TABLE SECTOR;
 
