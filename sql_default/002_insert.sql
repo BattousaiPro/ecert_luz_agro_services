@@ -5,6 +5,14 @@
 INSERT INTO PERMISOS
 (name, descrip, code, estado)
 VALUES
+('Ver menú Socio', 'descripción', 'LUZ_AGRO_MENU_SOCIO', true),
+('Ver menú Ficha', 'descripción', 'LUZ_AGRO_MENU_FICHA', true),
+('Ver menú Sector', 'descripción', 'LUZ_AGRO_MENU_SECTOR', true),
+('Ver menú Comuna', 'descripción', 'LUZ_AGRO_MENU_COMUNA', true),
+('Ver menú Usuario', 'descripción', 'LUZ_AGRO_MENU_USUARIO', true),
+('Ver menú Rol', 'descripción', 'LUZ_AGRO_MENU_ROL', true),
+('Ver menú Permiso', 'descripción', 'LUZ_AGRO_MENU_PERMISO', true),
+
 ('Leer Comunas', 'descripción', 'LUZ_AGRO_COMUNA_READ', true),
 ('Crear Comunas', 'descripción', 'LUZ_AGRO_COMUNA_CREATE', true),
 ('Eliminar Comunas', 'descripción', 'LUZ_AGRO_COMUNA_DELETE', true),
@@ -55,6 +63,8 @@ VALUES
 
 
 -- Set All Permis to Rol "TP"
+-- TRUNCATE TABLE ROL_PERMISO;
+-- select * from ROL_PERMISO;
 INSERT INTO ROL_PERMISO
 (rol_id, permiso_id)
 VALUES
@@ -63,7 +73,8 @@ VALUES
 (1, 11), (1, 12), (1, 13), (1, 14), (1, 15),
 (1, 16), (1, 17), (1, 18), (1, 19), (1, 20),
 (1, 21), (1, 22), (1, 23), (1, 24), (1, 25),
-(1, 26), (1, 27), (1, 28)
+(1, 26), (1, 27), (1, 28), (1, 29), (1, 30),
+(1, 31), (1, 32), (1, 33), (1, 34), (1, 35)
 ;
 
 INSERT INTO USUARIOS
@@ -72,6 +83,9 @@ VALUES
 ('adminCop', '$2a$10$F9NuYVFPJdCy6kfBkuPszuOSbeiyNU6yAu7pXwqWaFqRtiBXmZw6.', 'admin@admin.com', true)
 ;
 
+
+-- TRUNCATE TABLE USER_ROL;
+-- select * from USER_ROL;
 INSERT INTO USER_ROL
 (user_id, rol_id)
 VALUES(1, 1)
