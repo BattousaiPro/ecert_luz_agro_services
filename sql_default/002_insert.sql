@@ -83,6 +83,7 @@ VALUES(1, 1)
 
 INSERT INTO COMUNAS
 (codigo, descrip, estado) VALUES 
+(0, '', true),
 (1, 'LINARES', true),
 (2, 'YERBAS BUENAS', true),
 (3, 'COLBUN', true),
