@@ -132,7 +132,7 @@ CREATE TABLE KAPMAE (
     sec_cte int(11),
     area int(11),
     sec_imp int(11),
-    est_reg varchar(3) NOT NULL,
+    est_reg varchar(3),
     acc_con int(11),
     aju_acc int(11),
     PRIMARY KEY (`rut_cop`, `cod_cop`),
