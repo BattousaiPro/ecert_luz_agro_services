@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { GenericResponse } from "../vo/GenericResponse";
 import { UsuariosVO } from "../vo/UsuariosVO";
@@ -9,7 +9,6 @@ import { UserAuthVO } from "../vo/UserAuthVO";
 import config from "../config/config";
 import { Roles } from "../entity/Roles";
 import { RolPermisoController } from "./RolPermisoController";
-import { PermisosVO } from "../vo/PermisosVO";
 
 export class AuthController {
 

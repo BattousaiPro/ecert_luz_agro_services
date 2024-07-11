@@ -3,20 +3,21 @@ import * as jwt from 'jsonwebtoken';
 import config from '../config/config';
 import { GenericResponse } from '../vo/GenericResponse';
 
-export const checkJwt = (req: Request, res: Response) => {
+export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   const token = <string>req.headers['auth'];
   let jwtPayload;
   let resp: GenericResponse = new GenericResponse();
 
   try {
     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
+    // console.log('jwtPayload: ' + JSON.stringify(jwtPayload));
     res.locals.jwtPayload = jwtPayload;
   } catch (e) {
+    console.log('error de verify');
     resp.code = '-99';
     resp.message = 'Usuario No autoriado para esta acción!';
     resp.data = null;
     return res.status(200).send(resp);
-    //return res.status(401).json({ message: 'Not Authorized' });
   }
 
   const { userId, username } = jwtPayload;

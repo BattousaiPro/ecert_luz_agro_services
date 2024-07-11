@@ -1,4 +1,4 @@
-//import { checkPermisos } from './../middlewares/role';
+//import { checkPermisos } from '../middlewares/permisos';
 //import { checkJwt } from './../middlewares/jwt';
 import { Router } from 'express';
 import { FichaController } from '../controller/FichaController';

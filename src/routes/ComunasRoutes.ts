@@ -1,13 +1,13 @@
-//import { checkPermisos } from './../middlewares/role';
+//import { checkPermisos } from '../middlewares/permisos';
 //import { checkJwt } from './../middlewares/jwt';
 import { Router } from 'express';
 import { ComunasController } from '../controller/ComunasController';
 
 const comunas = Router();
 
-comunas.get('/',
+comunas.get('/'
     //, [checkJwt, checkPermisos(['LUZ_AGRO_MENU_COMUNA'])]
-    ComunasController.getAll);
+    , ComunasController.getAll);
 
 comunas.post('/'
     //, [checkJwt, checkPermisos(['LUZ_AGRO_COMUNA_CREATE'])]
