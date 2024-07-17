@@ -185,15 +185,7 @@ export class KapmaeController {
             const code: number = parseInt(request.params.codCop);
             console.log('method code: [' + code + ']');
             let filesResult: string[] = [];
-            let filesa: any = fs.readdirSync(this.baeePath);
-            let files: string[] = fs.readdirSync(this.baeePath);
-            // console.log('files: [' + files.length + '] Imagenes');
-            for (let index = 0; index < files.length; index++) {
-                const element = files[index];
-                if (!element.indexOf('' + code)) {
-                    filesResult.push(element);
-                }
-            }
+            filesResult.push(...await this.readAllFiles0(this.baeePath, filesResult));
             // console.log('filesResult: [' + filesResult.length + '] Imagenes');
             pathImg.basepath = this.baeePath;
             pathImg.imgs = filesResult;
@@ -208,6 +200,19 @@ export class KapmaeController {
             resp.data = null;
         }
         return response.send(resp);
+    }
+
+    static async readAllFiles0(path, arrayOfFiles = []) {
+        const files = fs.readdirSync(path)
+        files.forEach(file => {
+            const stat = fs.statSync(`${path}/${file}`)
+            if (stat.isDirectory()) {
+                this.readAllFiles0(`${path}/${file}`, arrayOfFiles)
+            } else {
+                arrayOfFiles.push(`${path}/${file}`)
+            }
+        })
+        return arrayOfFiles
     }
 
     private static getObjectEdit(request: Request, elementToEdit: Kapmae): Kapmae {
