@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { AppDataSource } from "../data-source";
 import { Kapmae } from "../entity/Kapmae";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
-import { pathImgVO } from "../vo/pathImgVO";
+import { pathImgsVO } from "../vo/pathImgVO";
 
 
 export class KapmaeController {
@@ -180,18 +180,20 @@ export class KapmaeController {
     static findImgByCodCop = async (request: Request, response: Response) => {
         console.log('method findImgByCodCop');
         let resp: GenericResponse = new GenericResponse();
-        let pathImg: pathImgVO = new pathImgVO();
+        let pathImg: pathImgsVO = new pathImgsVO();
         try {
             const code: number = parseInt(request.params.codCop);
             console.log('method code: [' + code + ']');
             let filesResult: string[] = [];
             filesResult.push(...await this.readAllFiles0(this.baeePath, filesResult));
             // console.log('filesResult: [' + filesResult.length + '] Imagenes');
+            if (filesResult.length > 0) {
+                for (let index = 0; index < filesResult.length; index++) {
+                    filesResult[index] = filesResult[index].replace(this.baeePath, '');
+                }
+            }
             pathImg.basepath = this.baeePath;
             pathImg.imgs = filesResult;
-            if (filesResult.length > 0) {
-                pathImg.basepath = this.baeePath;
-            }
             resp.data = pathImg;
         } catch (error) {
             console.log(error);
