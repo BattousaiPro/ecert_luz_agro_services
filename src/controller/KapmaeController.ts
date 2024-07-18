@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { AppDataSource } from "../data-source";
 import { Kapmae } from "../entity/Kapmae";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
-import { pathImgsVO } from "../vo/pathImgVO";
+import { imgVO, pathImgsVO } from "../vo/pathImgVO";
 
 
 export class KapmaeController {
@@ -181,19 +181,33 @@ export class KapmaeController {
         console.log('method findImgByCodCop');
         let resp: GenericResponse = new GenericResponse();
         let pathImg: pathImgsVO = new pathImgsVO();
+        let imgVo: imgVO = new imgVO();
         try {
             const code: number = parseInt(request.params.codCop);
             console.log('method code: [' + code + ']');
+            let filesResultServices: string[] = [];
             let filesResult: string[] = [];
-            filesResult.push(...await this.readAllFiles0(this.baeePath, filesResult));
+            await this.readAllFiles(this.baeePath, filesResultServices);
+            // console.log('filesResultServices: [' + filesResultServices.length + '] Imagenes');
+            for (let index = 0; index < filesResultServices.length; index++) {
+                if (filesResultServices[index].includes(String(code))) {
+                    filesResult.push(filesResultServices[index]);
+                }
+            }
             // console.log('filesResult: [' + filesResult.length + '] Imagenes');
             if (filesResult.length > 0) {
+                pathImg.imgs = [];
                 for (let index = 0; index < filesResult.length; index++) {
+                    // TODO: buscr como dejar img en base 64 
+                    imgVo = new imgVO();
+                    imgVo.base64 = 'base 64 -> filesResult[index]' + filesResult[index];// convert filesResult[index] to base 64.
                     filesResult[index] = filesResult[index].replace(this.baeePath, '');
+                    imgVo.pathImg = filesResult[index];
+                    pathImg.imgs.push(imgVo);
                 }
             }
             pathImg.basepath = this.baeePath;
-            pathImg.imgs = filesResult;
+            //pathImg.imgs = filesResult;
             resp.data = pathImg;
         } catch (error) {
             console.log(error);
@@ -204,12 +218,12 @@ export class KapmaeController {
         return response.send(resp);
     }
 
-    static async readAllFiles0(path, arrayOfFiles = []) {
+    static async readAllFiles(path, arrayOfFiles = []) {
         const files = fs.readdirSync(path)
         files.forEach(file => {
             const stat = fs.statSync(`${path}/${file}`)
             if (stat.isDirectory()) {
-                this.readAllFiles0(`${path}/${file}`, arrayOfFiles)
+                this.readAllFiles(`${path}/${file}`, arrayOfFiles)
             } else {
                 arrayOfFiles.push(`${path}/${file}`)
             }
