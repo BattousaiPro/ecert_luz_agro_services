@@ -198,16 +198,14 @@ export class KapmaeController {
             if (filesResult.length > 0) {
                 pathImg.imgs = [];
                 for (let index = 0; index < filesResult.length; index++) {
-                    // TODO: buscr como dejar img en base 64 
                     imgVo = new imgVO();
-                    imgVo.base64 = 'base 64 -> filesResult[index]' + filesResult[index];// convert filesResult[index] to base 64.
+                    imgVo.base64 = await this.base64_encode(filesResult[index]);
                     filesResult[index] = filesResult[index].replace(this.baeePath, '');
                     imgVo.pathImg = filesResult[index];
                     pathImg.imgs.push(imgVo);
                 }
             }
             pathImg.basepath = this.baeePath;
-            //pathImg.imgs = filesResult;
             resp.data = pathImg;
         } catch (error) {
             console.log(error);
@@ -218,8 +216,13 @@ export class KapmaeController {
         return response.send(resp);
     }
 
+    static async base64_encode(file: string): Promise<string> {
+        var bitmap = await fs.readFileSync(file);
+        return new Buffer(bitmap).toString('base64');
+    }
+
     static async readAllFiles(path, arrayOfFiles = []) {
-        const files = fs.readdirSync(path)
+        const files: string[] = fs.readdirSync(path)
         files.forEach(file => {
             const stat = fs.statSync(`${path}/${file}`)
             if (stat.isDirectory()) {
