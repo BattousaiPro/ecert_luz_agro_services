@@ -185,12 +185,17 @@ export class KapmaeController {
         try {
             const code: number = parseInt(request.params.codCop);
             console.log('method code: [' + code + ']');
+            const codeStr = String(code) + '_';
             let filesResultServices: string[] = [];
             let filesResult: string[] = [];
             await this.readAllFiles(this.baeePath, filesResultServices);
             // console.log('filesResultServices: [' + filesResultServices.length + '] Imagenes');
             for (let index = 0; index < filesResultServices.length; index++) {
-                if (filesResultServices[index].includes(String(code))) {
+                //console.log('method filesResultServices[index]: [' + filesResultServices[index] + ']');
+                const codeNameFile = filesResultServices[index]
+                    .replace(this.baeePath, '')
+                    .substring(1, codeStr.length + 1);
+                if (codeNameFile.includes(codeStr)) {
                     filesResult.push(filesResultServices[index]);
                 }
             }
@@ -222,16 +227,16 @@ export class KapmaeController {
     }
 
     static async readAllFiles(path, arrayOfFiles = []) {
-        const files: string[] = fs.readdirSync(path)
+        const files: string[] = fs.readdirSync(path);
         files.forEach(file => {
-            const stat = fs.statSync(`${path}/${file}`)
+            const stat = fs.statSync(`${path}/${file}`);
             if (stat.isDirectory()) {
-                this.readAllFiles(`${path}/${file}`, arrayOfFiles)
+                this.readAllFiles(`${path}/${file}`, arrayOfFiles);
             } else {
-                arrayOfFiles.push(`${path}/${file}`)
+                arrayOfFiles.push(`${path}/${file}`);
             }
         })
-        return arrayOfFiles
+        return arrayOfFiles;
     }
 
     private static getObjectEdit(request: Request, elementToEdit: Kapmae): Kapmae {
