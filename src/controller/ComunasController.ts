@@ -44,9 +44,9 @@ export class ComunasController {
                 codigo, descrip
             } = request.body;
             try {
-                let toNew: Comunas = await this.repository.findOneBy({
-                    codigo
-                });
+                let toNew: Comunas = await this.repository.findOneBy(
+                    [{ codigo }, { descrip }]
+                );
                 if (toNew) {
                     resp.code = '-4';
                     resp.data = null;
