@@ -30,6 +30,8 @@ Steps to run this project:
     
     * npm i helmet
 
+    * npm i --save pdf-creator-node
+
 
 ## Llegado a esta paso se recomienda eliminar la carpeta node_modules y ejectar
     * npm i

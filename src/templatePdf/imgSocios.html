@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF</title>
+</head>
+
+<body>
+
+
+
+
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="row" style="display: flex;justify-content: space-between;">
+                <div style="display: flex;justify-content: center;align-items: center;font-size: 14px;">
+                    <img src="data:image/png;base64, {{header.logoBase64}}" style="width: 150px;height: 70px;" />
+                </div>
+                <div class="col-6">
+                    REGISTRO SOCIOS
+                </div>
+                <div class="col-3" style="display: flex;flex-direction: column;">
+                    <div>Página : 000000001</div>
+                    <div>Fecha : 29/04/2024</div>
+                    <div>Hora : 11:25:39</div>
+                    <div>svd</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-6 bg-background rounded-lg shadow-md">
+        <!--
+        <div class="flex items-center mb-4">
+            <img src="https://openui.fly.dev/openui/24x24.svg?text=Luzagro" alt="Luzagro Logo" class="h-10 mr-2" />
+            <h1 class="text-2xl font-bold">REGISTRO SOCIOS</h1>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+                <label class="block text-muted-foreground">RUT</label>
+                <input type="text" class="border border-border rounded p-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-muted-foreground">CÓDIGO</label>
+                <input type="text" class="border border-border rounded p-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-muted-foreground">NOMBRE</label>
+                <input type="text" class="border border-border rounded p-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-muted-foreground">DIRECCIÓN</label>
+                <input type="text" class="border border-border rounded p-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-muted-foreground">CUOTAS DE PARTICIPACIÓN</label>
+                <input type="text" class="border border-border rounded p-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-muted-foreground">FECHA INGRESO</label>
+                <input type="date" class="border border-border rounded p-2 w-full" />
+            </div>
+        </div>
+        -->
+
+        <!--
+        <h2 class="text-lg font-semibold mb-2">NOTAS:</h2>
+
+        <div class="mb-4">
+            <label class="block text-muted-foreground">Transferencias:</label>
+            <textarea class="border border-border rounded p-2 w-full h-24"></textarea>
+        </div>
+        <div class="mb-4">
+            <label class="block text-muted-foreground">Designación Mandatario:</label>
+            <textarea class="border border-border rounded p-2 w-full h-24"></textarea>
+        </div>
+        <div class="mb-4">
+            <label class="block text-muted-foreground">Otras Observaciones o Anotaciones:</label>
+            <textarea class="border border-border rounded p-2 w-full h-24"></textarea>
+        </div>
+    </div>
+    -->
+
+    <!--
+    <h1>My first PDF</h1><br><br>
+
+    <h2>{{ header.name }} - {{header.dateDoc}}</h2><br><br>
+    -->
+        <ul>
+            {{#each body.imgs}}
+            <li>
+                <h3>{{this}}</h3>
+            </li>
+            {{/each }}
+        </ul>
+
+        <!--
+    <div style="display: flex;justify-content: center;align-items: center;font-size: 14px;">
+        <img src="data:image/png;base64, {{header.logoBase64}}" style="width: 150px;height: 150px;" />
+    </div>
+    -->
+
+</body>
+
+</html>

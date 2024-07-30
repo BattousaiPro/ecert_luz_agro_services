@@ -8,13 +8,12 @@ import { validate } from 'class-validator';
 import { UserAuthVO } from "../vo/UserAuthVO";
 import config from "../config/config";
 import { Roles } from "../entity/Roles";
-import { RolPermisoController } from "./RolPermisoController";
 
 export class AuthController {
 
     private static repository = AppDataSource.getRepository(Usuarios);
 
-    constructor(public rolPermisoController: RolPermisoController) { }
+    constructor() { }
 
     static login = async (request: Request, response: Response) => {
         // console.log('method login');

@@ -1,11 +1,12 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { Like } from "typeorm";
+import * as pdf from 'pdf-creator-node';
 import * as fs from 'fs';
 import { AppDataSource } from "../data-source";
 import { Kapmae } from "../entity/Kapmae";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
-import { imgVO, pathImgsVO } from "../vo/pathImgVO";
-
+import { imgPdfVO, imgVO, pathImgsVO } from "../vo/pathImgVO";
+import path = require("path");
 
 export class KapmaeController {
 
@@ -221,9 +222,89 @@ export class KapmaeController {
         return response.send(resp);
     }
 
+    static getPdfDocumentImg = async (request: Request, response: Response) => {
+        console.log('method getPdfDocumentImg');
+        let resp: GenericResponse = new GenericResponse();
+        try {
+            const { imgs } = request.body;
+            let listImgPdf: imgPdfVO[] = [];
+            for (let index = 0; index < imgs.length; index++) {
+                const element = imgs[index];
+                console.log('bloque dos [index]: ' + element);
+                listImgPdf.push(element);
+            }
+            console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));
+
+            const template = await this.readFile('./templatePdf/imgSocios.html');
+            let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
+            const options = {
+                format: "A4",
+                orientation: "portrait",
+                border: "10mm"
+            };
+            const document = {
+                html: template,
+                data: {
+                    message: 'dynamic Message',
+                    header: {
+                        name: 'name ;)',
+                        dateDoc: new Date(),
+                        logoBase64: base64
+                    },
+                    body: {
+                        imgs: listImgPdf
+                    }
+                },
+                path: './pdfs/myNewPdf.pdf'
+            };
+            //console.log('method getPdfDocumentImg - 4');
+            pdf
+                .create(document, options)
+                .then(async (res) => {
+                    console.log('method getPdfDocumentImg - 5');
+                    console.log(res);
+                    console.log('method getPdfDocumentImg - 5.1');
+                    var bitmap: Buffer = await fs.readFileSync(res.filename);
+                    resp.data = bitmap.toString('base64');
+                    console.log('method getPdfDocumentImg - 5.2');
+                    return response.send(resp);
+                })
+                .catch((error) => {
+                    console.log('method getPdfDocumentImg - 6');
+                    console.log(error);
+                    resp.code = '-1';
+                    resp.message = StatusCode.ERROR;
+                    resp.data = null;
+                    return response.send(resp);
+                });
+        } catch (error) {
+            console.log('method getPdfDocumentImg - 7');
+            console.log(error);
+            resp.code = '-2';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            return response.send(resp);
+        }
+    }
+
+    static async readFile(inputPath: string): Promise<string> {
+        console.log('method readFile');
+        let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
+        console.log('urlPath: ' + urlPath);
+        return await fs.readFileSync(urlPath, 'utf-8');
+    }
+
+    static async base64_encodeInternal(inputPath: string): Promise<string> {
+        console.log('method readFile');
+        let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
+        console.log('urlPath: ' + urlPath);
+        var bitmap: Buffer = await fs.readFileSync(urlPath);
+        return bitmap.toString('base64');
+    }
+
     static async base64_encode(file: string): Promise<string> {
-        var bitmap = await fs.readFileSync(file);
-        return new Buffer(bitmap).toString('base64');
+        var bitmap: Buffer = await fs.readFileSync(file);
+        return bitmap.toString('base64');
     }
 
     static async readAllFiles(path, arrayOfFiles = []) {

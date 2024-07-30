@@ -25,4 +25,8 @@ kapmae.get('/findImgByCodCop/:codCop'
     //, [checkJwt, checkPermisos(['LUZ_AGRO_SOCIO_BUSCAR_IMG_COD'])]
     , KapmaeController.findImgByCodCop);
 
+kapmae.post('/getPdfDocumentImg'
+    //, [checkJwt, checkPermisos(['LUZ_AGRO_SOCIO_BUSCAR_IMG_COD'])]
+    , KapmaeController.getPdfDocumentImg);
+
 export default kapmae;
