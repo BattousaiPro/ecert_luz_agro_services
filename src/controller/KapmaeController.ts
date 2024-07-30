@@ -226,8 +226,22 @@ export class KapmaeController {
         console.log('method getPdfDocumentImg');
         let resp: GenericResponse = new GenericResponse();
         try {
-            const { imgs } = request.body;
-
+            const { imgs, rutCop, codCop } = request.body;
+            console.log('imgs.rutCop: ' + imgs.rutCop);
+            console.log('imgs.codCop: ' + imgs.codCop);
+            let respElementSocio: Kapmae[] = await this.repository.find({
+                where: { rut_cop: rutCop, cod_cop: codCop },
+                relations: {
+                    sec_cop: true,
+                },
+            });
+            if (!respElementSocio) {
+                resp.code = '-3';
+                resp.data = new Kapmae();
+                console.log('Socio no existe');
+                return response.status(200).send(resp);
+            }
+            let elementSocio: Kapmae = respElementSocio[0];
 
             const template = await this.readFile('./templatePdf/imgSocios.html');
             let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
@@ -235,14 +249,22 @@ export class KapmaeController {
             console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
             for (let index = 0; index < imgs.length; index++) {
-                const element: imgPdfVO = new imgPdfVO();;
+                const element: imgPdfVO = new imgPdfVO();
+                let dat = new Date();
                 //element.basePath = this.baeePath + imgs[index];
                 element.basePath = await this.base64_encode(this.baeePath + imgs[index]);
                 element.logoBase64 = base64;
                 element.indexImg = (index + 1);
-                element.dateDoc = '01/02/2023';
-                element.dateHDoc = '18:25:39';
+                element.dateDoc = dat.getDate() + '/' + (dat.getMonth() + 1) + '/' + dat.getFullYear();
+                element.dateHDoc = dat.getHours() + ':' + dat.getMinutes() + ':' + dat.getSeconds();
                 element.userName = 'UserTestPdf';
+
+                element.rutCop = elementSocio.rut_cop;
+                element.codCop = elementSocio.cod_cop;
+                element.nombreCompleto = elementSocio.nombres + ' ' + elementSocio.ape_pat + ' ' + elementSocio.ape_mat;
+                element.direccionSector = elementSocio.sec_cop.descrip;
+                element.cuotaParticipacion = 1;
+                element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear(); elementSocio.fec_inc;// 06/10/2003
                 listImgPdf.push(element);
             }
             // console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));

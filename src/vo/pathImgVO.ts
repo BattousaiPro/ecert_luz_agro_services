@@ -15,6 +15,13 @@ export interface imgPdfVO {
     dateDoc: string;
     dateHDoc: string;
     userName: string;
+
+    rutCop: string;
+    codCop: number;
+    nombreCompleto: string;
+    direccionSector: string;
+    cuotaParticipacion: number;
+    fec_inc: string;
 }
 export class imgPdfVO {
     constructor() { }
