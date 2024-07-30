@@ -227,16 +227,25 @@ export class KapmaeController {
         let resp: GenericResponse = new GenericResponse();
         try {
             const { imgs } = request.body;
-            let listImgPdf: imgPdfVO[] = [];
-            for (let index = 0; index < imgs.length; index++) {
-                const element = imgs[index];
-                console.log('bloque dos [index]: ' + element);
-                listImgPdf.push(element);
-            }
-            console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));
+
 
             const template = await this.readFile('./templatePdf/imgSocios.html');
             let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
+
+            console.log('**********************************************');
+            let listImgPdf: imgPdfVO[] = [];
+            for (let index = 0; index < imgs.length; index++) {
+                const element: imgPdfVO = new imgPdfVO();;
+                //element.basePath = this.baeePath + imgs[index];
+                element.basePath = await this.base64_encode(this.baeePath + imgs[index]);
+                element.logoBase64 = base64;
+                element.indexImg = (index + 1);
+                element.dateDoc = '01/02/2023';
+                element.dateHDoc = '18:25:39';
+                element.userName = 'UserTestPdf';
+                listImgPdf.push(element);
+            }
+            // console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));
             const options = {
                 format: "A4",
                 orientation: "portrait",
@@ -248,7 +257,6 @@ export class KapmaeController {
                     message: 'dynamic Message',
                     header: {
                         name: 'name ;)',
-                        dateDoc: new Date(),
                         logoBase64: base64
                     },
                     body: {
