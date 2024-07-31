@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,7 +20,7 @@
     {{#each body.imgs}}
     <div>
         <div>
-            <div style="display: flex;justify-content: space-between;">
+            <div style="display: flex;justify-content: space-around;">
                 <div style="display: flex;justify-content: center;align-items: center;font-size: 14px;">
                     <img src="data:image/png;base64, {{this.logoBase64}}" style="width: 150px;height: 70px;" />
                 </div>
