@@ -273,16 +273,11 @@ export class KapmaeController {
             const options = {
                 format: "A4",
                 orientation: "portrait",
-                border: "10mm"
+                border: "5mm"
             };
             const document = {
                 html: template,
                 data: {
-                    message: 'dynamic Message',
-                    header: {
-                        name: 'name ;)',
-                        logoBase64: base64
-                    },
                     body: {
                         imgs: listImgPdf
                     }
