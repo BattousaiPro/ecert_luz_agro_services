@@ -273,7 +273,7 @@ export class KapmaeController {
             const options = {
                 format: "A4",
                 orientation: "portrait",
-                border: "5mm"
+                border: "1mm",
             };
             const document = {
                 html: template,
