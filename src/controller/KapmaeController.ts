@@ -86,6 +86,7 @@ export class KapmaeController {
             }
             try {
                 elementToEdit = this.getObjectEdit(request, elementToEdit);
+                //console.log(JSON.stringify(elementToEdit));
                 dataResponse = await this.repository.save(elementToEdit);
             } catch (error) {
                 // console.log(JSON.stringify(error));
