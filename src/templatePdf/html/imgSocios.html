@@ -4,107 +4,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF</title>
-    <style>
-        .mb20 {
-            margin-bottom: 20px;
-        }
-
-        .lateralBorTable {
-            width: 30%;
-            border-right: 1px solid black;
-        }
-
-        .dimentionContainer {
-            border: 2px solid black;
-            display: flex;
-        }
-
-        .dimentionHeader {
-            border: 5px solid black;
-            width: 250px;
-            height: 90px;
-        }
-
-        .m15 {
-            margin: 15px;
-        }
-
-        .fs12 {
-            font-size: 12px;
-        }
-    </style>
+    <title>PDF Socio</title>
 </head>
 
 <body>
 
     {{#each body.imgs}}
-    <div class="mb20">
-        <div>
-            <div class="dimentionContainer">
-                <div class="dimentionHeader m15 fs12">
-                    <img src="data:image/png;base64, {{this.logoBase64}}" style="width: 150px;" />
-                </div>
-                <div class="m15" style="display: flex;justify-content: center;align-items: center;">
-                    <img src="data:image/png;base64, {{this.logoBase64}}" style="width: 150px;height: 70px;" />
-                </div>
-                <div class="dimentionHeader m15">
-                    REGISTRO SOCIOS
-                </div>
-                <div class="dimentionHeader m15 fs12">
-                    <div>
-                        <div>Página : {{this.indexImg}}</div>
-                        <div>Fecha : {{this.dateDoc}}</div>
-                        <div>Hora : {{this.dateHDoc}}</div>
-                        <div>{{this.userName}}</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="mb20">
-        <div>
-            <h3>DATOS DEL CLIENTE</h3>
-        </div>
-        <div style="border: 1px solid black;">
-            <table style="width: 100%;">
+    <div>
+        <div style="margin-top: 25px;margin-bottom: 50px;">
+            <table width="100%" cellspacing="0" border="0">
                 <tbody>
                     <tr>
-                        <td class="lateralBorTable">RUT</td>
-                        <td>{{this.rutCop}}</td>
+                        <td width="50%" align="left" valign="middle">
+                            <img src="data:image/png;base64, {{this.logoBase64}}" style="width: 180px;"
+                                height="100px" />
+                            <div style="padding-left: 10px;font-weight: bold;">
+                                DATOS DEL SOCIOS
+                            </div>
+                        </td>
+                        <td width="10%" valign="top" nowrap="">
+                            <table width="100%" cellspacing="0" style="font-size: 11px;">
+                                <tbody>
+                                    <tr>
+                                        <td width="50%">Página</td>
+                                        <td width="50%">: {{this.indexImg}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%">Fecha</td>
+                                        <td width="50%">: {{this.dateDoc}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%">Hora</td>
+                                        <td width="50%">: {{this.dateHDoc}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="100%" colspan="2">{{this.userName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="lateralBorTable">CODIGO</td>
-                        <td>{{this.codCop}}</td>
-                    </tr>
-                    <tr>
-                        <td class="lateralBorTable">NOMBRE</td>
-                        <td>{{this.nombreCompleto}}</td>
-                    </tr>
-                    <tr>
-                        <td class="lateralBorTable">DIRECCION</td>
-                        <td>{{this.direccionSector}}</td>
-                    </tr>
-                    <tr>
-                        <td class="lateralBorTable">CUOTAS DE PARTICIPACION</td>
-                        <td>{{this.cuotaParticipacion}},00 (Origen Pendiente)</td>
-                    </tr>
-                    <tr>
-                        <td class="lateralBorTable">FECHA INCRIPCIÓN</td>
-                        <td>{{this.fec_inc}}</td>
+                        <table width="100%" cellspacing="0" border="0"
+                            style="margin-top: 25px;border: solid #000000 2px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border-right: solid #000000 2px;padding-left: 10px;">RUT</td>
+                                    <td style="padding-left: 10px;">{{this.rutCop}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: solid #000000 2px;padding-left: 10px;">CÓDIGO</td>
+                                    <td style="padding-left: 10px;">{{this.codCop}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: solid #000000 2px;padding-left: 10px;">NOMBRE</td>
+                                    <td style="padding-left: 10px;">{{this.nombreCompleto}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: solid #000000 2px;padding-left: 10px;">DIRECCIÓN</td>
+                                    <td style="padding-left: 10px;">{{this.direccionSector}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: solid #000000 2px;padding-left: 10px;">CUOTAS DE
+                                        PARTICIPACION</td>
+                                    <td style="padding-left: 10px;">{{this.cuotaParticipacion}},00 (Origen Pendiente)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: solid #000000 2px;padding-left: 10px;">FECHA INCRIPCIÓN
+                                    </td>
+                                    <td style="padding-left: 10px;">{{this.fec_inc}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    <div class="p-6 bg-background rounded-lg shadow-md mb20">
-        <div style="display: flex;justify-content: center;align-items: center;">
-            <img src="data:image/png;base64, {{this.basePath}}" style="width: 100%;height: 350px;" />
+            <div style="margin-top: 25px;">
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <img src="data:image/png;base64, {{this.basePath}}" style="width: 100%;height: 730px;" />
+                </div>
+            </div>
         </div>
     </div>
     {{/each }}
-
 </body>
 
 </html>
