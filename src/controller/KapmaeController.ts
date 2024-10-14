@@ -53,6 +53,7 @@ export class KapmaeController {
                     com_pos, obs_cap, nro_sol, fec_sol, fec_apr, fec_can, est_sol, sec_cte, area,
                     sec_imp, est_reg, acc_con, aju_acc
                 });
+                //console.log(JSON.stringify(newElement));
                 dataResponse = await this.repository.save(newElement);
                 resp.data = { rut_cop: dataResponse.rut_cop, cod_cop: dataResponse.cod_cop };
             } catch (error) {
@@ -85,8 +86,8 @@ export class KapmaeController {
                 return response.status(200).send(resp);
             }
             try {
-                elementToEdit = this.getObjectEdit(request, elementToEdit);
                 //console.log(JSON.stringify(elementToEdit));
+                elementToEdit = this.getObjectEdit(request, elementToEdit);
                 dataResponse = await this.repository.save(elementToEdit);
             } catch (error) {
                 // console.log(JSON.stringify(error));
@@ -246,7 +247,7 @@ export class KapmaeController {
             }
             let elementSocio: Kapmae = respElementSocio[0];
 
-            const template = await this.readFile('./templatePdf/imgSocios.html');
+            const template = await this.readFile('./templatePdf/html/imgSocios.html');
             let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
 
             // console.log('**********************************************');
