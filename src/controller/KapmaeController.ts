@@ -255,10 +255,11 @@ export class KapmaeController {
             for (let index = 0; index < imgs.length; index++) {
                 const element: imgPdfVO = new imgPdfVO();
                 let dat = new Date();
+                let itemIndex = '00000000' + (index + 1);
                 //element.basePath = this.baeePath + imgs[index];
                 element.basePath = await this.base64_encode(this.baeePath + imgs[index]);
                 element.logoBase64 = base64;
-                element.indexImg = (index + 1);
+                element.indexImg = itemIndex.substring((itemIndex.length - 9), itemIndex.length);
                 element.dateDoc = dat.getDate() + '/' + (dat.getMonth() + 1) + '/' + dat.getFullYear();
                 element.dateHDoc = dat.getHours() + ':' + dat.getMinutes() + ':' + dat.getSeconds();
                 element.userName = 'UserTestPdf';
