@@ -11,7 +11,7 @@ export class imgVO {
 export interface imgPdfVO {
     basePath: string;
     logoBase64: string;
-    indexImg: number;
+    indexImg: string;
     dateDoc: string;
     dateHDoc: string;
     userName: string;
