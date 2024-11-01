@@ -26,7 +26,8 @@ Steps to run this project:
 
 ## Ejecución de comandos.
 
-    * npm i typeorm -g
+    * npm i typeorm 
+    * npm i -g firebase-tools
 
     * typeorm init --name ecert_luz_agro_web --database mysql --express
 
