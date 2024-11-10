@@ -15,6 +15,32 @@ export class KapmaeController {
 
     constructor() { }
 
+    static getAll = async (request: Request, response: Response) => {
+        // console.log('method getAll');
+        let resp: GenericResponse = new GenericResponse();
+        let dataResponse: Kapmae[] = [];
+        try {
+            dataResponse = await this.repository.find({
+                select: ['rut_cop', 'ape_pat', 'ape_mat', 'nombres', 'cod_cop', 'sec_cop']
+            });
+        } catch (error) {
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ': ' + error;
+            resp.data = null;
+            console.log(JSON.stringify(resp));
+            return response.status(200).send(resp);
+        }
+        if (dataResponse.length === 0) {
+            resp.code = '-2';
+            resp.message = StatusCode.ERROR + ', Sin Registros';
+            resp.data = null;
+            return response.status(200).send(resp);
+        }
+        //resp.data = this.convertToVOs(dataResponse);
+        resp.data = dataResponse;
+        return response.send(resp);
+    }
+
     static new = async (request: Request, response: Response) => {
         console.log('method new');
         let resp: GenericResponse = new GenericResponse();
