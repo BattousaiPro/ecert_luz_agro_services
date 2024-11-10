@@ -21,8 +21,9 @@ export class SectorController {
             });
         } catch (e) {
             resp.code = '-2';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': ' + e;
             resp.data = null;
+            console.log(JSON.stringify(resp));
             return response.status(200).send(resp);
         }
         if (dataResponse.length === 0) {

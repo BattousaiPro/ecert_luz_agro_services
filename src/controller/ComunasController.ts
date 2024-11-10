@@ -21,12 +21,13 @@ export class ComunasController {
             });
         } catch (error) {
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + ': ' + error;
             resp.data = null;
+            console.log(JSON.stringify(resp));
             return response.status(200).send(resp);
         }
         if (dataResponse.length === 0) {
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR + ', Sin Registros';
             resp.data = null;
             return response.status(200).send(resp);
@@ -141,7 +142,7 @@ export class ComunasController {
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
-            resp.code = '-1';
+            resp.code = '-2';
             resp.message = StatusCode.ERROR;
             resp.data = null;
         }
