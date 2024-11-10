@@ -15,7 +15,7 @@ export class KapmaeController {
 
     constructor() { }
 
-    static getAll = async (request: Request, response: Response) => {
+    /*static getAll = async (request: Request, response: Response) => {
         // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae[] = [];
@@ -39,7 +39,7 @@ export class KapmaeController {
         //resp.data = this.convertToVOs(dataResponse);
         resp.data = dataResponse;
         return response.send(resp);
-    }
+    }*/
 
     static new = async (request: Request, response: Response) => {
         console.log('method new');

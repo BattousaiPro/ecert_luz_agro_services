@@ -5,9 +5,9 @@ import { KapmaeController } from '../controller/KapmaeController';
 
 const kapmae = Router();
 
-kapmae.get('/'
+/*kapmae.get('/'
     //, [checkJwt, checkPermisos(['LUZ_AGRO_MENU_SOCIO'])]
-    , KapmaeController.getAll);
+    , KapmaeController.getAll);*/
 
 kapmae.post('/'
     //, [checkJwt, checkPermisos(['LUZ_AGRO_SOCIO_CREATE'])]

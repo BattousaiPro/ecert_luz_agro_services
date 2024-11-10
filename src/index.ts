@@ -26,7 +26,7 @@ AppDataSource.initialize()
 
         // start express server
         app.listen(PORT, () => {
-            console.log(`Server running on port: ${PORT}`)
+            console.log(`Server running on port: ${PORT}`);
         });
 
         console.log('Express server has started on port ' + PORT +

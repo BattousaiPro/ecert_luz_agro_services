@@ -18,6 +18,14 @@ const port_bd_Env: number = <number>(process.env.PORT_BD_ENV || 3306);
 const synchronize_bd_Env: boolean = <boolean>(process.env.SYNCHRONIZE_BD_ENV || false);
 const logging_bd_Env: boolean = <boolean>(process.env.LOGGING_BD_ENV || false);
 
+console.log(`Server date host_bd_Env: ${host_bd_Env}`);
+console.log(`Server date username_bd_Env: ${username_bd_Env}`);
+console.log(`Server date password_bd_Env: ${password_bd_Env}`);
+console.log(`Server date database_bd_Env: ${database_bd_Env}`);
+console.log(`Server date port_bd_Env: ${port_bd_Env}`);
+console.log(`Server date synchronize_bd_Env: ${synchronize_bd_Env}`);
+console.log(`Server date logging_bd_Env: ${logging_bd_Env}`);
+
 export const AppDataSource = new DataSource({
     host: host_bd_Env,
     username: username_bd_Env,
