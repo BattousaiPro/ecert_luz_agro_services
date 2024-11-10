@@ -1,19 +1,21 @@
 import 'reflect-metadata';
 import * as express from "express";
+import * as cors from 'cors';
+import helmet from 'helmet';
 
 const PORT = process.env.PORT || 3000;
 
 // create express app
 const app = express();
 // Middlewares
-/*app.use(cors());
+app.use(cors());
 app.use(helmet());
 
 app.use(express.json());
-*/
+
 
 app.get('/', (req, res) => {
-    res.send({ 'status': 'Okey 1' })
+    res.send({ 'status': 'Okey 5' })
 });
 
 // start express server
