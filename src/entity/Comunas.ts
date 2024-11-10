@@ -13,7 +13,7 @@ export class Comunas {
     @Column({ name: 'estado' })
     estado: boolean;
 
-    //@OneToOne(() => Kapmae, (kapmae) => kapmae.com_pos)
-    //kapmae: Kapmae;
+    @OneToOne(() => Kapmae, (kapmae) => kapmae.com_pos)
+    kapmae: Kapmae;
 
 }

@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 
-//import { Usuarios } from "./entity/Usuarios";
-//import { Roles } from "./entity/Roles";
-//import { Permisos } from "./entity/Permisos";
-import { Comunas } from "./entity/Comunas";
+import { Usuarios } from "./entity/Usuarios";
+import { Roles } from "./entity/Roles";
+import { Permisos } from "./entity/Permisos";
+//import { Comunas } from "./entity/Comunas";
 //import { Sector } from "./entity/Sector";
 //import { Kapmae } from "./entity/Kapmae";
-//import { RolPermiso } from "./entity/RolPermiso";
-//import { UserRol } from "./entity/UserRol";
+import { RolPermiso } from "./entity/RolPermiso";
+import { UserRol } from "./entity/UserRol";
 
 const host_bd_Env = process.env.HOST_BD_ENV || 'localhost';
 const username_bd_Env = process.env.USERNAME_BD_ENV || 'test';
@@ -28,14 +28,14 @@ export const AppDataSource = new DataSource({
     synchronize: synchronize_bd_Env,
     logging: logging_bd_Env,
     entities: [
-        //Usuarios,
-        //Roles,
-        //Permisos,
-        Comunas,
+        Usuarios,
+        Roles,
+        Permisos,
+        //Comunas,
         //Sector,
         //Kapmae,
-        //RolPermiso,
-        //UserRol,
+        RolPermiso,
+        UserRol,
     ],
     migrations: [],
     subscribers: [],
