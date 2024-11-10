@@ -1,7 +1,7 @@
 import { Router } from 'express';
-/*
+
 import comunas from './routes/ComunasRoutes';
-import ficha from './routes/FichaRoutes';
+/*import ficha from './routes/FichaRoutes';
 import kapmae from './routes/KapmaeRoutes';
 import permisos from './routes/PermisosRoutes';
 import roles from './routes/RolesRoutes';
@@ -12,9 +12,10 @@ import users from './routes/UserRoutes';
 import auth from './routes/AuthRoutes';*/
 
 const routes = Router();
-/*
-routes.use('/auth', auth);
+
+//routes.use('/auth', auth);
 routes.use('/comunas', comunas);
+/*
 routes.use('/ficha', ficha);
 routes.use('/kapmae', kapmae);
 routes.use('/permisos', permisos);
