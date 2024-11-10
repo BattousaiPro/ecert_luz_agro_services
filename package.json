@@ -1,7 +1,7 @@
 {
   "name": "ecert_luz_agro_services",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
   "main": "index.js",
   "type": "commonjs",
   "devDependencies": {
@@ -45,5 +45,9 @@
   "bugs": {
     "url": "https://github.com/BattousaiPro/ecert_luz_agro_services/issues"
   },
-  "homepage": "https://github.com/BattousaiPro/ecert_luz_agro_services#readme"
+  "homepage": "https://github.com/BattousaiPro/ecert_luz_agro_services#readme",
+  "engines": {
+    "node": "v18.13.0",
+    "npm": "8.19.3"
+  }
 }

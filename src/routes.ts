@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 //import comunas from './routes/ComunasRoutes';
 import ficha from './routes/FichaRoutes';
-import kapmae from './routes/KapmaeRoutes';
+//import kapmae from './routes/KapmaeRoutes';
 import permisos from './routes/PermisosRoutes';
 import roles from './routes/RolesRoutes';
 import rolpermiso from './routes/RolPermisoRoutes';
@@ -16,7 +16,7 @@ const routes = Router();
 routes.use('/auth', auth);
 //routes.use('/comunas', comunas);
 routes.use('/ficha', ficha);
-routes.use('/kapmae', kapmae);
+//routes.use('/kapmae', kapmae);
 routes.use('/permisos', permisos);
 routes.use('/roles', roles);
 routes.use('/rol-permiso', rolpermiso);

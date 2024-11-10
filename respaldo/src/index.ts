@@ -16,11 +16,15 @@ AppDataSource.initialize()
         app.use(helmet());
 
         app.use(express.json());
+
         // Routes
         app.use('/', routes);
 
         // start express server
-        app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
-        console.log('Express server has started on port ' + PORT + '. Open http://localhost:' + PORT + '/ to see results');
+        app.listen(PORT, () => {
+            console.log(`Server running on port: ${PORT}`)
+        });
+        console.log('Express server has started on port ' + PORT +
+             '. Open http://localhost:' + PORT + '/ to see results');
     })
     .catch(error => console.log(error));

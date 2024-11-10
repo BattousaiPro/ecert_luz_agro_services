@@ -28,8 +28,8 @@ AppDataSource.initialize()
         app.listen(PORT, () => {
             console.log(`Server running on port: ${PORT}`)
         });
+
         console.log('Express server has started on port ' + PORT +
             '. Open http://localhost:' + PORT + '/ to see results');
-
     })
     .catch(error => console.log(error));
