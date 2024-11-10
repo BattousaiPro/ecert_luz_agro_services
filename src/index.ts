@@ -1,27 +1,33 @@
 import 'reflect-metadata';
 import * as express from "express";
+import { AppDataSource } from "./data-source";
 import * as cors from 'cors';
 import helmet from 'helmet';
 
 const PORT = process.env.PORT || 3000;
 
-// create express app
-const app = express();
-// Middlewares
-app.use(cors());
-app.use(helmet());
+AppDataSource.initialize()
+    .then(async () => {
+        // create express app
+        const app = express();
+        // Middlewares
+        app.use(cors());
+        app.use(helmet());
 
-app.use(express.json());
+        app.use(express.json());
 
 
-app.get('/', (req, res) => {
-    res.send({ 'status': 'Okey 5' })
-});
+        app.get('/:id', (req, res) => {
 
-// start express server
-app.listen(PORT, () => {
-    console.log(`Server running on port: ${PORT}`)
-});
-console.log('Express server has started on port ' + PORT +
-    '. Open http://localhost:' + PORT + '/ to see results');
+            res.send({ 'status': 'Okey ' + req.params.id })
+        });
 
+        // start express server
+        app.listen(PORT, () => {
+            console.log(`Server running on port: ${PORT}`)
+        });
+        console.log('Express server has started on port ' + PORT +
+            '. Open http://localhost:' + PORT + '/ to see results');
+
+    })
+    .catch(error => console.log(error));
