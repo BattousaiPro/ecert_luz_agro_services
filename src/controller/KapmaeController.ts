@@ -40,8 +40,9 @@ export class KapmaeController {
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-3';
-                resp.message = StatusCode.ERROR;
+                resp.message = StatusCode.ERROR + ': ' + error;
                 resp.data = null;
+                console.log(JSON.stringify(resp));
                 return response.status(200).send(resp);
             }
 
