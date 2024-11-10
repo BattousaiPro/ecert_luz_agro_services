@@ -33,7 +33,7 @@
       "tsc": "tsc",
       "deploy": "firebase deploy --only hosting",
       "build": "tsc",
-      "build2": "npm run build && npm run deploy"
+      "build2": "npm run build && node dist/index.ts"
    },
    "engines": {
       "node": "v18.13.0",
