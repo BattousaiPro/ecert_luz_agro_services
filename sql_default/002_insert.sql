@@ -41,7 +41,6 @@ VALUES
 ('Obtener Certicado Socio', 'descripción', 'LUZ_AGRO_SOCIO_CERTIFICADO', true),
 ('Obtener Certicado Socio', 'descripción', 'LUZ_AGRO_SOCIO_SELECCIONAR', true),
 ('Buscar Imagenes pos Codigo de socio', 'descripción', 'LUZ_AGRO_SOCIO_BUSCAR_IMG_COD', true)
-
 ;
 
 
