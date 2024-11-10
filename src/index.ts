@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import * as express from "express";
 import { AppDataSource } from "./data-source";
+import routes from './routes';
 import * as cors from 'cors';
 import helmet from 'helmet';
 
@@ -16,9 +17,10 @@ AppDataSource.initialize()
 
         app.use(express.json());
 
+        // Routes
+        app.use('/', routes);
 
         app.get('/:id', (req, res) => {
-
             res.send({ 'status': 'Okey ' + req.params.id })
         });
 
