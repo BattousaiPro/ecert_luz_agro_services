@@ -12,7 +12,7 @@ app.use(express.json());
 */
 
 app.get('/', (req, res) => {
-    res.send({ 'status': 'Okey' })
+    res.send({ 'status': 'Okey 1' })
 });
 
 // start express server

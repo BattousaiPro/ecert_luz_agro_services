@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "dependencies": {
+    "ecert_luz_agro_services": "file:",
+    "express": "^4.21.1",
+    "mysql": "^2.18.1",
+    "typeorm": "^0.3.20"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +24,5 @@
   "bugs": {
     "url": "https://github.com/BattousaiPro/ecert_luz_agro_services/issues"
   },
-  "homepage": "https://github.com/BattousaiPro/ecert_luz_agro_services#readme",
-  "dependencies": {
-    "ecert_luz_agro_services": "file:",
-    "express": "^4.21.1"
-  }
+  "homepage": "https://github.com/BattousaiPro/ecert_luz_agro_services#readme"
 }
