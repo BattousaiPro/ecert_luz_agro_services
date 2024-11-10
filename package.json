@@ -3,16 +3,25 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "ecert_luz_agro_services": "file:",
     "express": "^4.21.1",
     "mysql": "^2.18.1",
+    "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typeorm": "^0.3.20"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "start": "ts-node src/index.ts",
+    "start0": "ts-node src/index.ts",
+    "adda": "++++++++++++++++++++++",
+    "addad": "++++++++++++++++++++++",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "tsc": "tsc",
+    "dev": "set debug=* && ts-node-dev --respawn --transpile-only ./src/index.ts"
   },
   "repository": {
     "type": "git",
