@@ -20,7 +20,7 @@ AppDataSource.initialize()
         // Routes
         app.use('/', routes);
 
-        app.get('/:id', (req, res) => {
+        app.get('/test/:id', (req, res) => {
             res.send({ 'status': 'Okey ' + req.params.id })
         });
 
