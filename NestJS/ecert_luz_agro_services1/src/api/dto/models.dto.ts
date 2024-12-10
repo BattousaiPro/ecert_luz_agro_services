@@ -60,3 +60,18 @@ export class PermisoRequestDto {
     this.limit = 10;
   }
 }
+export interface RolRequestVO extends PaginRequestDto {
+  id: number;
+  name: string;
+  descrip: string;
+  code: string;
+  estado: boolean;
+  permisos: PermisoDto[];
+}
+export class RolRequestVO {
+  constructor() {
+    this.name = '';
+    this.pageSize = 1;
+    this.limit = 10;
+  }
+}
