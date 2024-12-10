@@ -2,27 +2,26 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
 import { GenericResponse, StatusCode } from "../dto/GenericResponse.dto";
-import { SectorRequestDto } from "../dto/models.dto";
-import { Sector } from "../entity/sector.entity";
+import { Permiso } from "../entity/permiso.entity";
+import { PermisoRequestDto } from "../dto/models.dto";
 
 @Injectable()
-export class SectorService {
+export class PermisoService {
 
-    constructor(@InjectRepository(Sector) private repository: Repository<Sector>) { }
+    constructor(@InjectRepository(Permiso) private repository: Repository<Permiso>) { }
 
     async getAll(): Promise<GenericResponse> {
         // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Sector[] = [];
+        let dataResponse: Permiso[] = [];
         try {
             dataResponse = await this.repository.find({
-                select: ['codigo', 'descrip', 'diaCar', 'codCob', 'estado']
+                select: ['id', 'name', 'descrip', 'code', 'estado']
             });
-        } catch (e) {
+        } catch (error) {
             resp.code = '-2';
-            resp.message = StatusCode.ERROR + ': ' + e;
+            resp.message = StatusCode.ERROR;
             resp.data = null;
-            console.log(JSON.stringify(resp));
             return resp;
         }
         if (dataResponse.length === 0) {
@@ -35,20 +34,22 @@ export class SectorService {
         return resp;
     }
 
-    async new(reqNew: SectorRequestDto): Promise<GenericResponse> {
+    async new(reqNew: PermisoRequestDto): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Sector = new Sector();
+        let dataResponse: Permiso = new Permiso();
         try {
-            const { codigo, descrip, diaCar, codCob } = reqNew;
+            const {
+                name, descrip, code
+            } = reqNew;
             try {
-                let toNew: Sector = await this.repository.findOneBy({
-                    codigo
+                let toNew: Permiso = await this.repository.findOneBy({
+                    name, code
                 });
                 if (toNew) {
                     resp.code = '-4';
                     resp.data = null;
-                    resp.message = 'Sector ya existe';
+                    resp.message = 'Permiso ya existe';
                     return resp;
                 }
             } catch (error) {
@@ -60,11 +61,11 @@ export class SectorService {
             }
 
             try {
-                const newElement = Object.assign(new Sector(), {
-                    codigo, descrip, diaCar, codCob, estado: true
+                const newElement = Object.assign(new Permiso(), {
+                    name, descrip, code, estado: true
                 });
                 dataResponse = await this.repository.save(newElement);
-                resp.data = dataResponse.codigo;
+                resp.data = dataResponse.id;
             } catch (error) {
                 // console.log(JSON.stringify(error));
                 resp.code = '-2';
@@ -80,18 +81,18 @@ export class SectorService {
         return resp;
     }
 
-    async edit(reqEdit: SectorRequestDto, codigo: number): Promise<GenericResponse> {
+    async edit(reqEdit: PermisoRequestDto, id: number): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Sector = new Sector();
-        let elementToEdit: Sector = new Sector();
+        let dataResponse: Permiso = new Permiso();
+        let elementToEdit: Permiso = new Permiso();
         try {
-            //const codigo = parseInt(codigo);
-            elementToEdit = await this.repository.findOneBy({ codigo });
+            //const id = parseInt(request.params.id);
+            elementToEdit = await this.repository.findOneBy({ id });
             if (!elementToEdit) {
                 resp.code = '-3';
-                resp.data = new Sector();
-                console.log('Sector no existe');
+                resp.data = new Permiso();
+                console.log('Permiso no existe');
                 return resp;
             }
         } catch (error) {
@@ -105,38 +106,38 @@ export class SectorService {
         try {
             elementToEdit = this.getObjectEdit(reqEdit, elementToEdit);
             dataResponse = await this.repository.save(elementToEdit);
-            return resp;
         } catch (error) {
             console.log(JSON.stringify(error));
             resp.code = '-1';
             resp.message = StatusCode.ERROR;
             resp.data = null;
+            return resp;
         }
         return resp;
     }
 
-    async delete(codigo: number): Promise<GenericResponse> {
+    async delete(id: number): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let sectorToRemove: Sector = new Sector();
+        let RegistroToRemove: Permiso = new Permiso();
         try {
-            //const codigo = parseInt(request.params.codigo);
-            sectorToRemove = await this.repository.findOneBy({ codigo });
-            if (!sectorToRemove) {
-                resp.code = '3';
-                resp.data = new Sector();
-                resp.message = StatusCode.ERROR + ': Sector no existe';
+            //const id = parseInt(request.params.id);
+            RegistroToRemove = await this.repository.findOneBy({ id });
+            if (!RegistroToRemove) {
+                resp.code = '1';
+                resp.data = new Permiso();
+                resp.message = StatusCode.ERROR + ': Permiso no existe';
                 return resp;
             }
         } catch (error) {
-            resp.code = '-2';
-            resp.message = StatusCode.ERROR + ': Al buscar el Sector';
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR + ': Al buscar el Permiso';
             resp.data = null;
             return resp;
         }
 
         try {
-            const removeVal: Sector = await this.repository.remove(sectorToRemove);
+            const removeVal: Permiso = await this.repository.remove(RegistroToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -147,18 +148,18 @@ export class SectorService {
         return resp;
     }
 
-    async findByFilter(reqFindByFilter: SectorRequestDto): Promise<GenericResponse> {
+    async findByFilter(reqFindByFilter: PermisoRequestDto): Promise<GenericResponse> {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
-        const { codigo, descrip, limit, pageSize } = reqFindByFilter;
+        const { name, descrip, limit, pageSize } = reqFindByFilter;
         try {
             const [results, totalReg] = await this.repository.findAndCount(
                 {
                     where: {
-                        codigo: codigo ? parseInt(codigo) : null,
+                        name: name ? Like('%' + name + '%') : null,
                         descrip: descrip ? Like('%' + descrip + '%') : null,
                     },
-                    order: { codigo: "ASC" },
+                    order: { id: "DESC" },
                     take: limit,
                     skip: (pageSize - 1) * limit
                 }
@@ -178,38 +179,38 @@ export class SectorService {
         return resp;
     }
 
-    private convertToVOs(inputUser: Sector[]): SectorRequestDto[] {
-        let salidaUser: SectorRequestDto[] = [];
+    private convertToVOs(inputUser: Permiso[]): PermisoRequestDto[] {
+        let salidaUser: PermisoRequestDto[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Sector): SectorRequestDto {
-        let itemUser: SectorRequestDto = new SectorRequestDto();
-        itemUser = new SectorRequestDto();
-        itemUser.codigo = inputUser.codigo;
+    private convertToVO(inputUser: Permiso): PermisoRequestDto {
+        let itemUser: PermisoRequestDto = new PermisoRequestDto();
+        itemUser = new PermisoRequestDto();
+        itemUser.id = inputUser.id;
+        itemUser.name = inputUser.name;
         itemUser.descrip = inputUser.descrip;
-        itemUser.diaCar = inputUser.diaCar;
-        itemUser.codCob = inputUser.codCob;
+        itemUser.code = inputUser.code;
         itemUser.estado = inputUser.estado;
         return itemUser;
     }
 
-    private getObjectEdit(request: SectorRequestDto, elementToEdit: Sector): Sector {
-        const { descrip, diaCar, codCob, estado } = request;
+    private getObjectEdit(request: PermisoRequestDto, elementToEdit: Permiso): Permiso {
+        const { name, descrip, code, estado } = request;
+        if (typeof name !== 'undefined' && name !== null && name !== '') {
+            console.log('name: [' + name + ']');
+            elementToEdit.name = name;
+        }
         if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
             console.log('descrip: [' + descrip + ']');
             elementToEdit.descrip = descrip;
         }
-        if (typeof diaCar !== 'undefined' && diaCar !== null) {
-            console.log('diaCar: [' + diaCar + ']');
-            elementToEdit.diaCar = diaCar;
-        }
-        if (typeof codCob !== 'undefined' && codCob !== null) {
-            console.log('codCob: [' + codCob + ']');
-            elementToEdit.codCob = codCob;
+        if (typeof code !== 'undefined' && code !== null && code !== '') {
+            console.log('code: [' + code + ']');
+            elementToEdit.code = code;
         }
         if (typeof estado !== 'undefined' && estado !== null) {
             console.log('estado: [' + estado + ']');

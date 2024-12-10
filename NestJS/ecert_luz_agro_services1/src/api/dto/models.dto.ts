@@ -1,3 +1,4 @@
+*//*
 export interface SectorDto {
   codigo: number;
   descrip: string;
@@ -10,6 +11,7 @@ export class SectorDto {
     this.descrip = '';
   }
 }
+*//*
 export interface PaginRequestDto {
   limit: number;
   pageSize: number;
@@ -31,12 +33,29 @@ export class ComunaRequestDto {
   }
 }
 export interface SectorRequestDto extends PaginRequestDto {
-  codigo: string;// Nombres
-  descrip: string;// Descripción
+  codigo: any;
+  descrip: string;
+  diaCar: number;
+  codCob: number;
+  estado: boolean;
 }
 export class SectorRequestDto {
   constructor() {
-    this.codigo = '';
+    this.pageSize = 1;
+    this.limit = 10;
+  }
+}
+
+export interface PermisoRequestDto extends PaginRequestDto {
+  id: number;
+  name: string;
+  descrip: string;
+  code: string;
+  estado: boolean;
+}
+export class PermisoRequestDto {
+  constructor() {
+    this.name = '';
     this.pageSize = 1;
     this.limit = 10;
   }
