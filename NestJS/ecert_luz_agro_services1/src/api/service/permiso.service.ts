@@ -4,6 +4,7 @@ import { Like, Repository } from "typeorm";
 import { GenericResponse, StatusCode } from "../dto/GenericResponse.dto";
 import { Permiso } from "../entity/permiso.entity";
 import { PermisoRequestDto } from "../dto/models.dto";
+import { PermisoDto } from "../dto/Permiso.dto";
 
 @Injectable()
 export class PermisoService {
@@ -179,17 +180,17 @@ export class PermisoService {
         return resp;
     }
 
-    private convertToVOs(inputUser: Permiso[]): PermisoRequestDto[] {
-        let salidaUser: PermisoRequestDto[] = [];
+    private convertToVOs(inputUser: Permiso[]): PermisoDto[] {
+        let salidaUser: PermisoDto[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Permiso): PermisoRequestDto {
-        let itemUser: PermisoRequestDto = new PermisoRequestDto();
-        itemUser = new PermisoRequestDto();
+    private convertToVO(inputUser: Permiso): PermisoDto {
+        let itemUser: PermisoDto = new PermisoDto();
+        itemUser = new PermisoDto();
         itemUser.id = inputUser.id;
         itemUser.name = inputUser.name;
         itemUser.descrip = inputUser.descrip;

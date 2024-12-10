@@ -4,6 +4,7 @@ import { Like, Repository } from "typeorm";
 import { GenericResponse, StatusCode } from "../dto/GenericResponse.dto";
 import { SectorRequestDto } from "../dto/models.dto";
 import { Sector } from "../entity/sector.entity";
+import { SectorDto } from "../dto/Sector.dto";
 
 @Injectable()
 export class SectorService {
@@ -178,17 +179,17 @@ export class SectorService {
         return resp;
     }
 
-    private convertToVOs(inputUser: Sector[]): SectorRequestDto[] {
-        let salidaUser: SectorRequestDto[] = [];
+    private convertToVOs(inputUser: Sector[]): SectorDto[] {
+        let salidaUser: SectorDto[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Sector): SectorRequestDto {
-        let itemUser: SectorRequestDto = new SectorRequestDto();
-        itemUser = new SectorRequestDto();
+    private convertToVO(inputUser: Sector): SectorDto {
+        let itemUser: SectorDto = new SectorDto();
+        itemUser = new SectorDto();
         itemUser.codigo = inputUser.codigo;
         itemUser.descrip = inputUser.descrip;
         itemUser.diaCar = inputUser.diaCar;
