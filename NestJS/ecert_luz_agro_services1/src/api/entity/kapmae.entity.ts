@@ -1,5 +1,5 @@
 import { Entity, Column, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
-import { Comunas } from "./comunas.entity";
+import { Comuna } from "./comuna.entity";
 import { Sector } from "./sector.entity";
 
 @Entity({ name: 'KAPMAE' })
@@ -89,10 +89,10 @@ export class Kapmae {
     @Column({ name: 'nro_te4' })
     nro_te4: string;
 
-    /** Init Comunas Sector **/
-    @OneToOne(() => Comunas, (comuna) => comuna.kapmae)
+    /** Init Comuna Sector **/
+    @OneToOne(() => Comuna, (comuna) => comuna.kapmae)
     @JoinColumn({ name: 'com_pos' })
-    com_pos: Comunas;
+    com_pos: Comuna;
     /** Fin Comunas Sector **/
 
     @Column({ name: 'obs_cap' })

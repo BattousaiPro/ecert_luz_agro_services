@@ -1,20 +1,20 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
-import { Comunas } from "../entity/comunas.entity";
+import { Comuna } from "../entity/comuna.entity";
 import { GenericResponse, StatusCode } from "../dto/GenericResponse.dto";
 import { ComunasVO } from "../dto/Comunas.dto";
 import { ComunasRequestDto } from "../dto/models.dto";
 
 @Injectable()
-export class ComunasService {
+export class ComunaService {
 
-    constructor(@InjectRepository(Comunas) private repository: Repository<Comunas>) { }
+    constructor(@InjectRepository(Comuna) private repository: Repository<Comuna>) { }
 
     async getAll(): Promise<GenericResponse> {
         // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Comunas[] = [];
+        let dataResponse: Comuna[] = [];
         try {
             dataResponse = await this.repository.find({
                 select: ['codigo', 'descrip', 'estado']
@@ -39,11 +39,11 @@ export class ComunasService {
     async new(reqNew: ComunasRequestDto): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Comunas = new Comunas();
+        let dataResponse: Comuna = new Comuna();
         try {
             const { codigo, descrip } = reqNew;
             try {
-                let toNew: Comunas = await this.repository.findOneBy(
+                let toNew: Comuna = await this.repository.findOneBy(
                     [{ codigo: parseInt(codigo) }, { descrip }]
                 );
                 if (toNew) {
@@ -61,7 +61,7 @@ export class ComunasService {
             }
 
             try {
-                const newElement = Object.assign(new Comunas(), {
+                const newElement = Object.assign(new Comuna(), {
                     codigo, descrip, estado: true
                 });
                 dataResponse = await this.repository.save(newElement);
@@ -84,14 +84,14 @@ export class ComunasService {
     async edit(reqEdit: ComunasRequestDto, codigo: number): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
-        let dataResponse: Comunas = new Comunas();
-        let elementToEdit: Comunas = new Comunas();
+        let dataResponse: Comuna = new Comuna();
+        let elementToEdit: Comuna = new Comuna();
         try {
             //const codigo = parseInt(codigo);
             elementToEdit = await this.repository.findOneBy({ codigo });
             if (!elementToEdit) {
                 resp.code = '-3';
-                resp.data = new Comunas();
+                resp.data = new Comuna();
                 console.log('Comuna no existe');
                 return resp;
             }
@@ -118,13 +118,13 @@ export class ComunasService {
     async delete(codigo: number): Promise<GenericResponse> {
         // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
-        let RegistroToRemove: Comunas = new Comunas();
+        let RegistroToRemove: Comuna = new Comuna();
         try {
             //const codigo = parseInt(request.params.codigo);
             RegistroToRemove = await this.repository.findOneBy({ codigo });
             if (!RegistroToRemove) {
                 resp.code = '1';
-                resp.data = new Comunas();
+                resp.data = new Comuna();
                 resp.message = StatusCode.ERROR + ': Comuna no existe';
                 return resp;
             }
@@ -136,7 +136,7 @@ export class ComunasService {
         }
 
         try {
-            const removeVal: Comunas = await this.repository.remove(RegistroToRemove);
+            const removeVal: Comuna = await this.repository.remove(RegistroToRemove);
             resp.data = null;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -178,7 +178,7 @@ export class ComunasService {
         return resp;
     }
 
-    private convertToVOs(inputUser: Comunas[]): ComunasVO[] {
+    private convertToVOs(inputUser: Comuna[]): ComunasVO[] {
         let salidaUser: ComunasVO[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
@@ -186,7 +186,7 @@ export class ComunasService {
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Comunas): ComunasVO {
+    private convertToVO(inputUser: Comuna): ComunasVO {
         let itemUser: ComunasVO = new ComunasVO();
         itemUser = new ComunasVO();
         itemUser.codigo = inputUser.codigo;
@@ -195,7 +195,7 @@ export class ComunasService {
         return itemUser;
     }
 
-    private getObjectEdit(reqEdit: ComunasRequestDto, elementToEdit: Comunas): Comunas {
+    private getObjectEdit(reqEdit: ComunasRequestDto, elementToEdit: Comuna): Comuna {
         const { descrip, estado } = reqEdit;
         if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
             console.log('descrip: [' + descrip + ']');

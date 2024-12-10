@@ -1,9 +1,11 @@
 import { Module } from "@nestjs/common";
-import { ComunasModule } from "./modules/comunas.module";
+import { ComunaModule } from "./modules/comuna.module";
+import { SectorModule } from "./modules/sector.module";
 
 @Module({
   imports: [
-    ComunasModule
+    ComunaModule,
+    SectorModule,
   ],
 })
 export class ApiModule { }

@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
 import { Kapmae } from "./kapmae.entity";
 
 @Entity({ name: 'COMUNAS' })
-export class Comunas {
+export class Comuna {
 
     @PrimaryGeneratedColumn({ name: 'codigo' })
     codigo: number;
