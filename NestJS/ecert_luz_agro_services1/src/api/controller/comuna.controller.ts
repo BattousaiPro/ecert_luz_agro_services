@@ -8,7 +8,7 @@ import { GenericResponse } from "../dto/GenericResponse.dto";
 @ApiBearerAuth()
 @ApiTags("comuna")
 @Controller('/comuna')
-export class ComunasController {
+export class ComunaController {
 
     constructor(private comunaService: ComunaService) {}
 

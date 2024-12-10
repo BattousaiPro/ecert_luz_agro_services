@@ -3,8 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
 import { Comuna } from "../entity/comuna.entity";
 import { GenericResponse, StatusCode } from "../dto/GenericResponse.dto";
-import { ComunasVO } from "../dto/Comunas.dto";
-import { ComunasRequestDto } from "../dto/models.dto";
+import { ComunaDto } from "../dto/Comuna.dto";
+import { ComunaRequestDto } from "../dto/models.dto";
 
 @Injectable()
 export class ComunaService {
@@ -36,7 +36,7 @@ export class ComunaService {
         return resp;
     }
 
-    async new(reqNew: ComunasRequestDto): Promise<GenericResponse> {
+    async new(reqNew: ComunaRequestDto): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comuna = new Comuna();
@@ -81,7 +81,7 @@ export class ComunaService {
         return resp;
     }
 
-    async edit(reqEdit: ComunasRequestDto, codigo: number): Promise<GenericResponse> {
+    async edit(reqEdit: ComunaRequestDto, codigo: number): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Comuna = new Comuna();
@@ -147,7 +147,7 @@ export class ComunaService {
         return resp;
     }
 
-    async findByFilter(reqFindByFilter: ComunasRequestDto): Promise<GenericResponse> {
+    async findByFilter(reqFindByFilter: ComunaRequestDto): Promise<GenericResponse> {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { codigo, descrip, limit, pageSize } = reqFindByFilter;
@@ -178,24 +178,24 @@ export class ComunaService {
         return resp;
     }
 
-    private convertToVOs(inputUser: Comuna[]): ComunasVO[] {
-        let salidaUser: ComunasVO[] = [];
+    private convertToVOs(inputUser: Comuna[]): ComunaDto[] {
+        let salidaUser: ComunaDto[] = [];
         for (let index = 0; index < inputUser.length; index++) {
             salidaUser.push(this.convertToVO(inputUser[index]));
         }
         return salidaUser;
     }
 
-    private convertToVO(inputUser: Comuna): ComunasVO {
-        let itemUser: ComunasVO = new ComunasVO();
-        itemUser = new ComunasVO();
+    private convertToVO(inputUser: Comuna): ComunaDto {
+        let itemUser: ComunaDto = new ComunaDto();
+        itemUser = new ComunaDto();
         itemUser.codigo = inputUser.codigo;
         itemUser.descrip = inputUser.descrip;
         itemUser.estado = inputUser.estado;
         return itemUser;
     }
 
-    private getObjectEdit(reqEdit: ComunasRequestDto, elementToEdit: Comuna): Comuna {
+    private getObjectEdit(reqEdit: ComunaRequestDto, elementToEdit: Comuna): Comuna {
         const { descrip, estado } = reqEdit;
         if (typeof descrip !== 'undefined' && descrip !== null && descrip !== '') {
             console.log('descrip: [' + descrip + ']');

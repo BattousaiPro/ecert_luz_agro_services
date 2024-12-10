@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
 import { GenericResponse, StatusCode } from "../dto/GenericResponse.dto";
-import { SectoresRequestDto, SectorDto } from "../dto/models.dto";
+import { SectorRequestDto, SectorDto } from "../dto/models.dto";
 import { Sector } from "../entity/sector.entity";
 
 @Injectable()
@@ -147,7 +147,7 @@ export class SectorService {
         return resp;
     }
 
-    async findByFilter(reqFindByFilter: SectoresRequestDto): Promise<GenericResponse> {
+    async findByFilter(reqFindByFilter: SectorRequestDto): Promise<GenericResponse> {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { codigo, descrip, limit, pageSize } = reqFindByFilter;

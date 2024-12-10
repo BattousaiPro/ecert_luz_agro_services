@@ -89,11 +89,11 @@ export class Kapmae {
     @Column({ name: 'nro_te4' })
     nro_te4: string;
 
-    /** Init Comuna Sector **/
+    /** Init Sección Comuna **/
     @OneToOne(() => Comuna, (comuna) => comuna.kapmae)
     @JoinColumn({ name: 'com_pos' })
     com_pos: Comuna;
-    /** Fin Comunas Sector **/
+    /** Fin Sección Comuna **/
 
     @Column({ name: 'obs_cap' })
     obs_cap: string;

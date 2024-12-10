@@ -18,23 +18,23 @@ export class PaginRequestDto {
   constructor() { }
 }
 
-export interface ComunasRequestDto extends PaginRequestDto {
+export interface ComunaRequestDto extends PaginRequestDto {
   codigo: any;// Nombres
   descrip: string;// Descripción
   estado: boolean;// active / inactive
 }
-export class ComunasRequestDto {
+export class ComunaRequestDto {
   constructor() {
     this.codigo = '';
     this.pageSize = 1;
     this.limit = 10;
   }
 }
-export interface SectoresRequestDto extends PaginRequestDto {
+export interface SectorRequestDto extends PaginRequestDto {
   codigo: string;// Nombres
   descrip: string;// Descripción
 }
-export class SectoresRequestDto {
+export class SectorRequestDto {
   constructor() {
     this.codigo = '';
     this.pageSize = 1;
