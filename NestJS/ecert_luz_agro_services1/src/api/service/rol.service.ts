@@ -3,10 +3,10 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
 import { GenericResponse, StatusCode } from "../dto/GenericResponse.dto";
 import { Permiso } from "../entity/permiso.entity";
-import { PermisoRequestDto, RolRequestVO } from "../dto/models.dto";
+import { RolRequestDto } from "../dto/models.dto";
 import { PermisoDto } from "../dto/Permiso.dto";
 import { Rol } from "../entity/rol.entity";
-import { RolDto } from "../dto/RolDto";
+import { RolDto } from "../dto/Rol.dto";
 
 @Injectable()
 export class RolService {
@@ -59,7 +59,7 @@ export class RolService {
         return resp;
     }
 
-    async new(reqNew: RolRequestVO): Promise<GenericResponse> {
+    async new(reqNew: RolRequestDto): Promise<GenericResponse> {
         // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Rol = new Rol();
@@ -106,7 +106,7 @@ export class RolService {
         return resp;
     }
 
-    async edit(reqEdit: RolRequestVO, id: number): Promise<GenericResponse> {
+    async edit(reqEdit: RolRequestDto, id: number): Promise<GenericResponse> {
         // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Rol = new Rol();
@@ -173,7 +173,7 @@ export class RolService {
         return resp;
     }
 
-    async findByFilter(reqFindByFilter: RolRequestVO): Promise<GenericResponse> {
+    async findByFilter(reqFindByFilter: RolRequestDto): Promise<GenericResponse> {
         // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { name, descrip, limit, pageSize } = reqFindByFilter;
@@ -251,7 +251,7 @@ export class RolService {
         return item;
     }
 
-    private getObjectEdit(request: RolRequestVO, elementToEdit: Rol): Rol {
+    private getObjectEdit(request: RolRequestDto, elementToEdit: Rol): Rol {
         const { name, descrip, code, estado } = request;
         if (typeof name !== 'undefined' && name !== null && name !== '') {
             console.log('name: [' + name + ']');
