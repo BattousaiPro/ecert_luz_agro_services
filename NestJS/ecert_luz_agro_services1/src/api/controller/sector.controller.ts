@@ -4,8 +4,8 @@ import { JwtAuthGuard } from "../jwt/jwt-auth.guard";
 import { SectorService } from "../service/sector.service";
 import { GenericResponse } from "../dto/GenericResponse.dto";
 
-//@ApiSecurity("Bearer")
-//@ApiBearerAuth()
+@ApiSecurity("Bearer")
+@ApiBearerAuth()
 @ApiTags("sector")
 @Controller('/sector')
 export class SectorController {

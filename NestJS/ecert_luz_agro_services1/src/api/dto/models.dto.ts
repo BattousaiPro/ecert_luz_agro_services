@@ -254,6 +254,24 @@ export class PermisoRequestDto {
   }
 }
 
+export interface UserRolRequestDto {
+  listRolesId: number[];
+}
+export class UserRolRequestDto {
+  constructor() {
+    this.listRolesId = [];
+  }
+}
+
+export interface RolPermisoRequestDto {
+  listPermisosId: number[];
+}
+export class RolPermisoRequestDto {
+  constructor() {
+    this.listPermisosId = [];
+  }
+}
+
 export interface UserRequestDto extends PaginRequestDto {
   id: number;
   ctaUserName: string;
