@@ -18,19 +18,31 @@ export const checkPermisos = (permisos: Array<string>) => {
     } catch (e) {
       //console.log(JSON.stringify(e));
       resp.code = '98';
-      resp.message = 'No Autenticado!';
+      resp.message = 'Usuario no existe, No Autenticado!';
       resp.data = null;
       return response.status(200).send(resp);
     }
 
     // Obtener la lista de permisos según al listado de roles.
     let permisosBack: string[] = [];
+    const { roles } = user;
+    for (const key in roles) {
+      if (Object.prototype.hasOwnProperty.call(roles, key)) {
+        const itemRol = roles[key];
+        for (const key in itemRol.permisos) {
+          if (Object.prototype.hasOwnProperty.call(itemRol.permisos, key)) {
+            const element = itemRol.permisos[key];
+            permisosBack.push(element.name);
+          }
+        }
+      }
+    }
 
     // TODO: validar la lista de permisos de entrada con la obtenida desde BBDD.
+    // permisos vs permisosBack
     isValidPermis = true;
 
     //Check
-    const { roles } = user;
     if (isValidPermis) {
       next();
     } else {
