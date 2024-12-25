@@ -14,7 +14,14 @@ export const checkPermisos = (permisos: Array<string>) => {
     let user: Usuarios;
 
     try {
-      user = await userRepository.findOneOrFail(userId);
+      user = await userRepository.findOneOrFail({
+        where: { id: userId },
+        relations: {
+          roles: {
+            permisos: true,
+          }
+        }
+      });
     } catch (e) {
       //console.log(JSON.stringify(e));
       resp.code = '98';
@@ -32,16 +39,28 @@ export const checkPermisos = (permisos: Array<string>) => {
         for (const key in itemRol.permisos) {
           if (Object.prototype.hasOwnProperty.call(itemRol.permisos, key)) {
             const element = itemRol.permisos[key];
-            permisosBack.push(element.name);
+            permisosBack.push(element.code);
           }
         }
       }
     }
-
-    // TODO: validar la lista de permisos de entrada con la obtenida desde BBDD.
-    // permisos vs permisosBack
-    isValidPermis = true;
-
+    permisosBack.push(...permisosBack);
+    const uniqueArr = [];
+    permisosBack.forEach((item) => {
+      if (!uniqueArr.includes(item)) {
+        uniqueArr.push(item);
+      }
+    })
+    permisosBack = [];
+    permisosBack.push(...uniqueArr);
+    permisosBack.sort();
+    for (let index = 0; index < permisos.length; index++) {
+      const element = permisos[index];
+      if (permisosBack.includes(element)) {
+        isValidPermis = true;
+        break;
+      }
+    }
     //Check
     if (isValidPermis) {
       next();
