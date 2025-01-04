@@ -10,7 +10,8 @@ import path = require("path");
 
 export class KapmaeController {
 
-    private static baeePath: string = 'Base_path';
+    //private static baeePath: string = 'C:/repoBattousaiPro/ecert/001_Docs/entregas_ejemplos/Socios';
+    private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || 'basePath');
     private static repository = AppDataSource.getRepository(Kapmae);
 
     constructor() { }
@@ -218,6 +219,7 @@ export class KapmaeController {
             const codeStr = '/' + String(code) + '_';
             let filesResultServices: string[] = [];
             let filesResult: string[] = [];
+            console.log('this.baeePath: ' + this.baeePath);
             await this.readAllFiles(this.baeePath, filesResultServices);
             // console.log('filesResultServices: [' + filesResultServices.length + '] Imagenes');
             for (let index = 0; index < filesResultServices.length; index++) {
