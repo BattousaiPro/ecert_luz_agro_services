@@ -33,8 +33,8 @@ export const AppDataSource = new DataSource({
     database: database_bd_Env,
     port: port_bd_Env,
     type: "mysql",
-    synchronize: synchronize_bd_Env,
-    logging: logging_bd_Env,
+    synchronize: false,
+    logging: false,
     entities: [
         Usuarios,
         Roles,
