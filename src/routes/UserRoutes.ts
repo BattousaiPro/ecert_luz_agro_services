@@ -1,8 +1,7 @@
 import { checkPermisos } from '../middlewares/permisos';
-import { checkJwt } from './../middlewares/jwt';
+import { checkJwt } from '../middlewares/jwt';
 import { Router } from 'express';
 import { UserController } from '../controller/UserController';
-import { checkJwt } from '../middlewares/jwt';
 
 const users = Router();
 

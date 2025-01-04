@@ -4,10 +4,19 @@ import config from '../config/config';
 import { GenericResponse } from '../vo/GenericResponse';
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
-  const token = <string>req.headers['auth'];
   let jwtPayload;
   let resp: GenericResponse = new GenericResponse();
+  const tokenIn = <string>req.headers['authorization'];
+  // console.log('req.headers: ' + JSON.stringify(req.headers));
+  // console.log('tokenIn: ' + JSON.stringify(tokenIn));
+  if (!tokenIn) {
+    resp.code = '-98';
+    resp.message = 'Sin Token.';
+    resp.data = null;
+    return res.status(401).send(resp);
+  }
 
+  const [type, token] = tokenIn.split(' ');
   try {
     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
     // console.log('jwtPayload: ' + JSON.stringify(jwtPayload));
@@ -17,7 +26,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     resp.code = '-99';
     resp.message = 'Usuario No autoriado para esta acción!';
     resp.data = null;
-    return res.status(200).send(resp);
+    return res.status(401).send(resp);
   }
 
   const { userId, username } = jwtPayload;

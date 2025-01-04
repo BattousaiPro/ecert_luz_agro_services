@@ -14,14 +14,14 @@ import auth from './routes/AuthRoutes';
 const routes = Router();
 
 routes.use('/auth', auth);
-routes.use('/comunas', comunas);
+routes.use('/comuna', comunas);
 routes.use('/ficha', ficha);
 routes.use('/kapmae', kapmae);
-routes.use('/permisos', permisos);
-routes.use('/roles', roles);
+routes.use('/permiso', permisos);
+routes.use('/rol', roles);
 routes.use('/rol-permiso', rolpermiso);
 routes.use('/sector', sector);
 routes.use('/user-rol', userrol);
-routes.use('/users', users);
+routes.use('/user', users);
 
 export default routes;
