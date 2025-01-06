@@ -6,12 +6,13 @@ import { AppDataSource } from "../data-source";
 import { Kapmae } from "../entity/Kapmae";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
 import { imgPdfVO, imgVO, pathImgsVO } from "../vo/pathImgVO";
-import path = require("path");
+import * as path from "path";
 
 export class KapmaeController {
 
     //private static baeePath: string = 'C:/repoBattousaiPro/ecert/001_Docs/entregas_ejemplos/Socios';
-    private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || 'basePath');
+    //private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || 'C:/repoBattousaiPro/ecert/001_Docs/entregas_ejemplos/Socios');
+    private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || 'C:/repoBattousaiPro/ecert/ecert_luz_agro_services/') + 'src/templatePdf/Socios';
     private static repository = AppDataSource.getRepository(Kapmae);
 
     constructor() { }
@@ -224,8 +225,7 @@ export class KapmaeController {
             // console.log('filesResultServices: [' + filesResultServices.length + '] Imagenes');
             for (let index = 0; index < filesResultServices.length; index++) {
                 // console.log('method filesResultServices[index]: [' + filesResultServices[index] + ']');
-                const codeNameFile = filesResultServices[index]
-                    .replace(this.baeePath, '');
+                const codeNameFile = filesResultServices[index].replace(this.baeePath, '');
                 // console.log('codeStr: [' + codeStr + ']');
                 // console.log('codeNameFile: [' + codeNameFile + ']');
                 if (codeNameFile.includes(codeStr)) {
@@ -361,7 +361,7 @@ export class KapmaeController {
         return bitmap.toString('base64');
     }
 
-    static async readAllFiles(path, arrayOfFiles = []) {
+    static async readAllFiles(path: string, arrayOfFiles = []) {
         const files: string[] = fs.readdirSync(path);
         files.forEach(file => {
             const stat = fs.statSync(`${path}/${file}`);
