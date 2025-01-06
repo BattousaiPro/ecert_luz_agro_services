@@ -12,7 +12,7 @@ export class SectorController {
     constructor() { }
 
     static getAll = async (request: Request, response: Response) => {
-        console.log('method getAll');
+        // console.log('method getAll');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Sector[] = [];
         try {

@@ -10,7 +10,7 @@ export class UserRolController {
     constructor() { }
 
     static userRol = async (request: Request, response: Response) => {
-        console.log('method userRol');
+        // console.log('method userRol');
         let resp: GenericResponse = new GenericResponse();
         let registroToRemove: UserRol[] = [];
         let isDelete: boolean = false;

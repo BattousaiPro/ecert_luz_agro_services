@@ -43,7 +43,7 @@ export class KapmaeController {
     }*/
 
     static new = async (request: Request, response: Response) => {
-        console.log('method new');
+        // console.log('method new');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
         try {
@@ -100,7 +100,7 @@ export class KapmaeController {
     }
 
     static edit = async (request: Request, response: Response) => {
-        console.log('method edit');
+        // console.log('method edit');
         let resp: GenericResponse = new GenericResponse();
         let dataResponse: Kapmae = new Kapmae();
         let elementToEdit: Kapmae = new Kapmae();
@@ -133,7 +133,7 @@ export class KapmaeController {
     }
 
     static delete = async (request: Request, response: Response) => {
-        console.log('method delete');
+        // console.log('method delete');
         let resp: GenericResponse = new GenericResponse();
         let RegistroToRemove: Kapmae = new Kapmae();
         try {
@@ -165,7 +165,7 @@ export class KapmaeController {
     }
 
     static findByFilter = async (request: Request, response: Response) => {
-        console.log('method findByFilter');
+        // console.log('method findByFilter');
         let resp: GenericResponse = new GenericResponse();
         const { rut_cop, nombres, ape_pat, ape_mat, cod_cop, sec_cop, com_pos, limit, pageSize } = request.body;
         try {
@@ -209,7 +209,7 @@ export class KapmaeController {
     }
 
     static findImgByCodCop = async (request: Request, response: Response) => {
-        console.log('method findImgByCodCop');
+        // console.log('method findImgByCodCop');
         let resp: GenericResponse = new GenericResponse();
         let pathImg: pathImgsVO = new pathImgsVO();
         let imgVo: imgVO = new imgVO();
@@ -223,7 +223,7 @@ export class KapmaeController {
             await this.readAllFiles(this.baeePath, filesResultServices);
             // console.log('filesResultServices: [' + filesResultServices.length + '] Imagenes');
             for (let index = 0; index < filesResultServices.length; index++) {
-                //console.log('method filesResultServices[index]: [' + filesResultServices[index] + ']');
+                // console.log('method filesResultServices[index]: [' + filesResultServices[index] + ']');
                 const codeNameFile = filesResultServices[index]
                     .replace(this.baeePath, '');
                 // console.log('codeStr: [' + codeStr + ']');
@@ -256,7 +256,7 @@ export class KapmaeController {
     }
 
     static getPdfDocumentImg = async (request: Request, response: Response) => {
-        console.log('method getPdfDocumentImg');
+        // console.log('method getPdfDocumentImg');
         let resp: GenericResponse = new GenericResponse();
         try {
             const { imgs, rutCop, codCop } = request.body;
@@ -316,7 +316,7 @@ export class KapmaeController {
                 },
                 path: './pdfs/myNewPdf.pdf'
             };
-            //console.log('method getPdfDocumentImg - 4');
+            // console.log('method getPdfDocumentImg - 4');
             pdf
                 .create(document, options)
                 .then(async (res) => {
@@ -342,14 +342,14 @@ export class KapmaeController {
     }
 
     static async readFile(inputPath: string): Promise<string> {
-        console.log('method readFile');
+        // console.log('method readFile');
         let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
     }
 
     static async base64_encodeInternal(inputPath: string): Promise<string> {
-        console.log('method readFile');
+        // console.log('method readFile');
         let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
         // console.log('urlPath: ' + urlPath);
         var bitmap: Buffer = await fs.readFileSync(urlPath);

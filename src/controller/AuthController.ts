@@ -16,7 +16,7 @@ export class AuthController {
     constructor() { }
 
     static login = async (request: Request, response: Response) => {
-        // console.log('method login');
+        console.log('method login: ' + new Date().toLocaleString().split(', ')[1]);
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaPassWord } = request.body;
         if (!(ctaUserName && ctaPassWord)) {
@@ -27,6 +27,7 @@ export class AuthController {
             return response.status(200).send(resp);
         }
 
+        console.log('validaión user pass existe: ' + new Date().toLocaleString().split(', ')[1]);
         let user: Usuarios;
         try {
             user = await this.repository.findOneOrFail({
@@ -44,6 +45,7 @@ export class AuthController {
             resp.data = null;
             return response.status(200).send(resp);
         }
+        console.log('encontrar user exitente: ' + new Date().toLocaleString().split(', ')[1]);
 
         // Check password
         if (!user.checkPassword(ctaPassWord)) {
@@ -53,9 +55,12 @@ export class AuthController {
             return response.status(200).send(resp);
         }
 
+        console.log('chequeo encript pass: ' + new Date().toLocaleString().split(', ')[1]);
         const token: string = jwt.sign({ userId: user.id, username: user.ctaUserName }, config.jwtSecret, { expiresIn: '1h' });
+        console.log('generate Toekb jwt: ' + new Date().toLocaleString().split(', ')[1]);
 
         resp.data = this.setUserAuthVO(token, user.roles);
+        console.log('mapper user VO: ' + new Date().toLocaleString().split(', ')[1]);
         return response.send(resp);
     }
 
