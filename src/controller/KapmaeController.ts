@@ -283,9 +283,9 @@ export class KapmaeController {
             mensaje+='paso 3;;';
             let elementSocio: Kapmae = respElementSocio[0];
             mensaje+='paso 4;;';
-            const template = await this.readFile('./src/templatePdf/html/imgSocios.html');
+            const template = await this.readFile('./templatePdf/html/imgSocios.html');
             mensaje+='paso 4.1;;';
-            let base64: string = await this.base64_encodeInternal('./src/templatePdf/img/Luzagro.jpg');
+            let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
             mensaje+='paso 5;;';
             // console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
@@ -347,8 +347,9 @@ export class KapmaeController {
         } catch (error) {
             // console.log(JSON.stringify(error));
             resp.code = '-2';
-            resp.message = StatusCode.ERROR +': '+ mensaje;
+            resp.message = StatusCode.ERROR + ': ' + mensaje + ': ' + JSON.stringify(error);
             resp.data = null;
+            console.log(JSON.stringify(resp.message));
             return response.send(resp);
         }
     }
