@@ -285,9 +285,9 @@ export class KapmaeController {
             mensaje+='paso 4;;-;;';
             mensaje += '__dirname: [' + __dirname + ']';
 
-            let urlPath_1 = __dirname.replace('src/controller', 'src/templatePdf/html/imgSocios.html');
+            let urlPath_1 = __dirname.replace('src/src/controller', 'src/templatePdf/html/imgSocios.html');
             mensaje += 'urlPath_1: [' + urlPath_1 + ']';
-            let urlPath_2 = __dirname.replace('src/controller', 'src/templatePdf/img/Luzagro.jpg');
+            let urlPath_2 = __dirname.replace('src/src/controller', 'src/templatePdf/img/Luzagro.jpg');
             mensaje += 'urlPath_2: [' + urlPath_2 + ']';
 
             const template = await this.readFile('src/templatePdf/html/imgSocios.html');
