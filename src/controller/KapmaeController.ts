@@ -284,10 +284,9 @@ export class KapmaeController {
             let elementSocio: Kapmae = respElementSocio[0];
             mensaje+='paso 4;;-;;';
             mensaje += '__dirname: [' + __dirname + ']';
-            let urlPath = path.join(__dirname.replace('\\controller', ''), './templatePdf/img/Luzagro.jpg');
-            const template = await this.readFileTest(urlPath);
+            const template = await this.readFile('/templatePdf/html/imgSocios.html');
             mensaje+='paso 4.1;;';
-            let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
+            let base64: string = await this.base64_encodeInternal('/templatePdf/img/Luzagro.jpg');
             mensaje+='paso 5;;';
             // console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
@@ -355,24 +354,24 @@ export class KapmaeController {
             return response.send(resp);
         }
     }
-
+/*
     static async readFileTest(urlPath: string): Promise<string> {
         // console.log('method readFile');
         //let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
-    }
+    }*/
 
     static async readFile(inputPath: string): Promise<string> {
         // console.log('method readFile');
-        let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
+        let urlPath = __dirname.replace('\\controller', inputPath);
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
     }
 
     static async base64_encodeInternal(inputPath: string): Promise<string> {
         // console.log('method readFile');
-        let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
+        let urlPath = __dirname.replace('\\controller', inputPath);
         // console.log('urlPath: ' + urlPath);
         var bitmap: Buffer = await fs.readFileSync(urlPath);
         return bitmap.toString('base64');
