@@ -252,7 +252,7 @@ export class KapmaeController {
         } catch (error) {
             // console.log(JSON.stringify(error));
             resp.code = '-1';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR + '[' + this.baeePath + ']';
             resp.data = null;
         }
         return response.send(resp);
