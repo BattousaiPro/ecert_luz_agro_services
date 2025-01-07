@@ -285,14 +285,14 @@ export class KapmaeController {
             mensaje+='paso 4;;-;;';
             mensaje += '__dirname: [' + __dirname + ']';
 
-            let urlPath_1 = __dirname.replace('\\controller', '/templatePdf/html/imgSocios.html');
+            let urlPath_1 = __dirname.replace('src/controller', 'src/templatePdf/html/imgSocios.html');
             mensaje += 'urlPath_1: [' + urlPath_1 + ']';
-            let urlPath_2 = __dirname.replace('\\controller', '/templatePdf/img/Luzagro.jpg');
+            let urlPath_2 = __dirname.replace('src/controller', 'src/templatePdf/img/Luzagro.jpg');
             mensaje += 'urlPath_2: [' + urlPath_2 + ']';
 
-            const template = await this.readFile('/templatePdf/html/imgSocios.html');
+            const template = await this.readFile('src/templatePdf/html/imgSocios.html');
             mensaje+='paso 4.1;;';
-            let base64: string = await this.base64_encodeInternal('/templatePdf/img/Luzagro.jpg');
+            let base64: string = await this.base64_encodeInternal('src/templatePdf/img/Luzagro.jpg');
             mensaje+='paso 5;;';
             // console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
@@ -360,24 +360,17 @@ export class KapmaeController {
             return response.send(resp);
         }
     }
-/*
-    static async readFileTest(urlPath: string): Promise<string> {
-        // console.log('method readFile');
-        //let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
-        // console.log('urlPath: ' + urlPath);
-        return await fs.readFileSync(urlPath, 'utf-8');
-    }*/
 
     static async readFile(inputPath: string): Promise<string> {
         // console.log('method readFile');
-        let urlPath = __dirname.replace('\\controller', inputPath);
+        let urlPath = __dirname.replace('src/src/controller', inputPath);
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
     }
 
     static async base64_encodeInternal(inputPath: string): Promise<string> {
         // console.log('method readFile');
-        let urlPath = __dirname.replace('\\controller', inputPath);
+        let urlPath = __dirname.replace('src/src/controller', inputPath);
         // console.log('urlPath: ' + urlPath);
         var bitmap: Buffer = await fs.readFileSync(urlPath);
         return bitmap.toString('base64');
