@@ -293,6 +293,12 @@ export class KapmaeController {
             var jsonPath = path.join(__dirname, '..', 'config', 'dev', 'foobar.json');
             mensaje += 'jsonPath: [' + jsonPath + ']';
 
+            var jsonPath1 = path.join(__dirname, '..', 'templatePdf', 'html', 'imgSocios.html');
+            mensaje += 'jsonPath1: [' + jsonPath1 + ']';
+
+            var jsonPath2 = path.join(__dirname, '..', 'templatePdf', 'img', 'Luzagro.jpg');
+            mensaje += 'jsonPath2: [' + jsonPath2 + ']';
+
             const template = await this.readFile('src/templatePdf/html/imgSocios.html');
             mensaje+='paso 4.1;;';
             let base64: string = await this.base64_encodeInternal('src/templatePdf/img/Luzagro.jpg');
