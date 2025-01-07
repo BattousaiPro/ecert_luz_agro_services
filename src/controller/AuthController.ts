@@ -47,6 +47,7 @@ export class AuthController {
         }
         // console.log('encontrar user exitente: ' + new Date().toLocaleString().split(', ')[1]);
 
+/*
         // Check password
         if (!user.checkPassword(ctaPassWord)) {
             resp.code = '-3';
@@ -54,6 +55,7 @@ export class AuthController {
             resp.data = null;
             return response.status(200).send(resp);
         }
+*/
 
         // console.log('chequeo encript pass: ' + new Date().toLocaleString().split(', ')[1]);
         const token: string = jwt.sign({ userId: user.id, username: user.ctaUserName }, config.jwtSecret, { expiresIn: '1h' });
