@@ -372,14 +372,16 @@ export class KapmaeController {
 
     static async readFile(inputPath: string): Promise<string> {
         // console.log('method readFile');
-        let urlPath = __dirname.replace('src/src/controller', inputPath);
+        //let urlPath = __dirname.replace('src/src/controller', inputPath);
+        var urlPath = path.join(__dirname, '..', 'templatePdf', 'html', 'imgSocios.html');
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
     }
 
     static async base64_encodeInternal(inputPath: string): Promise<string> {
         // console.log('method readFile');
-        let urlPath = __dirname.replace('src/src/controller', inputPath);
+        //let urlPath = __dirname.replace('src/src/controller', inputPath);
+        var urlPath = path.join(__dirname, '..', 'templatePdf', 'img', 'Luzagro.jpg');
         // console.log('urlPath: ' + urlPath);
         var bitmap: Buffer = await fs.readFileSync(urlPath);
         return bitmap.toString('base64');
