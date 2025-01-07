@@ -260,8 +260,10 @@ export class KapmaeController {
 
     static getPdfDocumentImg = async (request: Request, response: Response) => {
         // console.log('method getPdfDocumentImg');
+        let mensaje:string = '';
         let resp: GenericResponse = new GenericResponse();
         try {
+            mensaje+='paso 1;;';
             const { imgs, rutCop, codCop } = request.body;
             // console.log('imgs.rutCop: ' + imgs.rutCop);
             // console.log('imgs.codCop: ' + imgs.codCop);
@@ -271,17 +273,19 @@ export class KapmaeController {
                     sec_cop: true,
                 },
             });
+            mensaje+='paso 2;;';
             if (!respElementSocio) {
                 resp.code = '-3';
                 resp.data = new Kapmae();
                 // console.log('Socio no existe');
                 return response.status(200).send(resp);
             }
+            mensaje+='paso 3;;';
             let elementSocio: Kapmae = respElementSocio[0];
-
+            mensaje+='paso 4;;';
             const template = await this.readFile('./templatePdf/html/imgSocios.html');
             let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
-
+            mensaje+='paso 5;;';
             // console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
             for (let index = 0; index < imgs.length; index++) {
@@ -304,12 +308,14 @@ export class KapmaeController {
                 element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear(); elementSocio.fec_inc;// 06/10/2003
                 listImgPdf.push(element);
             }
+            mensaje+='paso 6;;';
             // console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));
             const options = {
                 format: "A4",
                 orientation: "portrait",
                 border: "1mm",
             };
+            mensaje+='paso 7;;';
             const document = {
                 html: template,
                 data: {
@@ -319,6 +325,7 @@ export class KapmaeController {
                 },
                 path: './pdfs/myNewPdf.pdf'
             };
+            mensaje+='paso 8;;';
             // console.log('method getPdfDocumentImg - 4');
             pdf
                 .create(document, options)
@@ -335,10 +342,11 @@ export class KapmaeController {
                     resp.data = null;
                     return response.send(resp);
                 });
+                mensaje+='paso 9;;';
         } catch (error) {
             // console.log(JSON.stringify(error));
             resp.code = '-2';
-            resp.message = StatusCode.ERROR;
+            resp.message = StatusCode.ERROR +': '+ mensaje;
             resp.data = null;
             return response.send(resp);
         }
