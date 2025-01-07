@@ -290,6 +290,9 @@ export class KapmaeController {
             let urlPath_2 = __dirname.replace('src/src/controller', 'src/templatePdf/img/Luzagro.jpg');
             mensaje += 'urlPath_2: [' + urlPath_2 + ']';
 
+            var jsonPath = path.join(__dirname, '..', 'config', 'dev', 'foobar.json');
+            mensaje += 'jsonPath: [' + jsonPath + ']';
+
             const template = await this.readFile('src/templatePdf/html/imgSocios.html');
             mensaje+='paso 4.1;;';
             let base64: string = await this.base64_encodeInternal('src/templatePdf/img/Luzagro.jpg');
