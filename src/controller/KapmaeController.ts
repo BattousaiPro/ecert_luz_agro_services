@@ -328,9 +328,22 @@ export class KapmaeController {
             mensaje+='paso 6;;';
             // console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));
             const options = {
-                format: "A4",
-                orientation: "portrait",
-                border: "1mm",
+                format: "Carta",// unidades permitidas: A3, A4, A5, Legal, Carta, Tabloide
+                orientation: "portrait", // retrato u portrait
+                border: "10mm",
+                header : { 
+                    height : "45mm" , 
+                    contents : '<div style="text-align: center;">Author: Shyam Hajare</div>' 
+                } ,
+                footer : { 
+                    height : "28mm" , 
+                    contents : { 
+                        first : 'Portada' , 
+                        2 : 'Segunda página' ,  // Cualquier número de página funciona. Índice basado en 1 
+                        predeterminado : '<span style="color: #444;">page</span>/<span>pages</span>' ,  // valor de reserva 
+                        last : 'Última página' 
+                    } 
+                }
             };
             mensaje+='paso 7;;';
             const document = {
@@ -340,7 +353,8 @@ export class KapmaeController {
                         imgs: listImgPdf
                     }
                 },
-                path: './pdfs/myNewPdf.pdf'
+                path: './pdfs/myNewPdf.pdf', 
+                type : "" ,
             };
             mensaje+='paso 8;;';
             // console.log('method getPdfDocumentImg - 4');
