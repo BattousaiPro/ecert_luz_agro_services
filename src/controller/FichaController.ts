@@ -17,11 +17,11 @@ export class FichaController {
                 select: { ano_inc: true },
                 //distinct: ['ano_inc']
             });
-            console.log(JSON.stringify(dataResponse));
+            // console.log(JSON.stringify(dataResponse));
             resp.data = this.reOrdenar(dataResponse);
             if (!dataResponse) {
                 resp.code = '1';
-                console.log('Sin Data');
+                resp.message = 'Sin Data';
             }
         } catch (error) {
             console.log(JSON.stringify(error));
