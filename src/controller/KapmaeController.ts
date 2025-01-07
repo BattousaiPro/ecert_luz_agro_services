@@ -284,7 +284,7 @@ export class KapmaeController {
             let elementSocio: Kapmae = respElementSocio[0];
             mensaje+='paso 4;;-;;';
             mensaje += '__dirname: [' + __dirname + ']';
-            let urlPath = './templatePdf/img/Luzagro.jpg';//path.join(__dirname.replace('\\controller', ''), inputPath);
+            let urlPath = path.join(__dirname.replace('\\controller', ''), './templatePdf/img/Luzagro.jpg');
             const template = await this.readFileTest(urlPath);
             mensaje+='paso 4.1;;';
             let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
@@ -354,6 +354,13 @@ export class KapmaeController {
             console.log(JSON.stringify(resp.message));
             return response.send(resp);
         }
+    }
+
+    static async readFileTest(urlPath: string): Promise<string> {
+        // console.log('method readFile');
+        //let urlPath = path.join(__dirname.replace('\\controller', ''), inputPath);
+        // console.log('urlPath: ' + urlPath);
+        return await fs.readFileSync(urlPath, 'utf-8');
     }
 
     static async readFile(inputPath: string): Promise<string> {
