@@ -282,7 +282,7 @@ export class KapmaeController {
             }
             mensaje+='paso 3;;';
             let elementSocio: Kapmae = respElementSocio[0];
-            mensaje+='paso 4;;';
+            mensaje+='paso 4;;-;;';
             const template = await this.readFile('./templatePdf/html/imgSocios.html');
             mensaje+='paso 4.1;;';
             let base64: string = await this.base64_encodeInternal('./templatePdf/img/Luzagro.jpg');
@@ -347,7 +347,7 @@ export class KapmaeController {
         } catch (error) {
             // console.log(JSON.stringify(error));
             resp.code = '-2';
-            resp.message = StatusCode.ERROR + ': ' + mensaje + ': ' + JSON.stringify(error);
+            resp.message = StatusCode.ERROR + ' _ ' + mensaje + ' _ ' + JSON.stringify(error);
             resp.data = null;
             console.log(JSON.stringify(resp.message));
             return response.send(resp);
