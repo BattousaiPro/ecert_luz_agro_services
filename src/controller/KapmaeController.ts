@@ -284,6 +284,12 @@ export class KapmaeController {
             let elementSocio: Kapmae = respElementSocio[0];
             mensaje+='paso 4;;-;;';
             mensaje += '__dirname: [' + __dirname + ']';
+
+            let urlPath_1 = __dirname.replace('\\controller', '/templatePdf/html/imgSocios.html');
+            mensaje += 'urlPath_1: [' + urlPath_1 + ']';
+            let urlPath_2 = __dirname.replace('\\controller', '/templatePdf/img/Luzagro.jpg');
+            mensaje += 'urlPath_2: [' + urlPath_2 + ']';
+
             const template = await this.readFile('/templatePdf/html/imgSocios.html');
             mensaje+='paso 4.1;;';
             let base64: string = await this.base64_encodeInternal('/templatePdf/img/Luzagro.jpg');
