@@ -318,7 +318,7 @@ export class KapmaeController {
                     }
                 },
                 path: './pdfs/myNewPdf.pdf',
-                type: "buffer", // by using "buffer" or "stream" respectively.
+                type: "",
             };
             // console.log('method getPdfDocumentImg - 4');
             pdf
