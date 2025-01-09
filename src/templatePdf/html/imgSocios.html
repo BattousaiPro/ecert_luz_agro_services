@@ -16,8 +16,7 @@
                 <tbody>
                     <tr>
                         <td width="50%" align="left" valign="middle">
-                            <img src="data:image/png;base64, {{this.logoBase64}}" style="width: 180px;"
-                                height="75px" />
+                            <img src="data:image/png;base64, {{this.logoBase64}}" style="width: 180px;" height="75px" />
                             <div style="padding-left: 10px;font-weight: bold;">
                                 DATOS DEL SOCIOS
                             </div>
@@ -87,7 +86,11 @@
             </div>
         </div>
     </div>
+
+    {{#ifCond this.lastPage '===' false}}</li>
     <div style='page-break-after: always;'> </div>
+    {{/ifCond}}
+
     {{/each }}
 </body>
 

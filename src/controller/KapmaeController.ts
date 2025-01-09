@@ -241,7 +241,7 @@ export class KapmaeController {
                 pathImg.imgs = [];
                 for (let index = 0; index < filesResult.length; index++) {
                     imgVo = new imgVO();
-                    imgVo.base64 = await this.base64_encode(filesResult[index]);
+                    imgVo.base64 = await this.base64Encode(filesResult[index]);
                     filesResult[index] = filesResult[index].replace(this.baeePath, '');
                     imgVo.pathImg = filesResult[index];
                     pathImg.imgs.push(imgVo);
@@ -279,7 +279,7 @@ export class KapmaeController {
             }
             let elementSocio: Kapmae = respElementSocio[0];
             const template = await this.readFile();
-            let base64: string = await this.base64_encodeInternal();
+            let base64: string = await this.base64EncodeInternalLogo();
             // console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
             for (let index = 0; index < imgs.length; index++) {
@@ -287,8 +287,9 @@ export class KapmaeController {
                 let dat = new Date();
                 let itemIndex = '00000000' + (index + 1);
                 //element.basePath = this.baeePath + imgs[index];
-                element.basePath = await this.base64_encode(this.baeePath + imgs[index]);
+                element.basePath = await this.base64Encode(this.baeePath + imgs[index]);
                 element.logoBase64 = base64;
+                element.lastPage = false;
                 element.indexImg = itemIndex.substring((itemIndex.length - 9), itemIndex.length);
                 element.dateDoc = dat.getDate() + '/' + (dat.getMonth() + 1) + '/' + dat.getFullYear();
                 element.dateHDoc = dat.getHours() + ':' + dat.getMinutes() + ':' + dat.getSeconds();
@@ -302,6 +303,7 @@ export class KapmaeController {
                 element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear(); elementSocio.fec_inc;// 06/10/2003
                 listImgPdf.push(element);
             }
+            listImgPdf[listImgPdf.length - 1].lastPage = true;
             // console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));
             const options = {
                 format: "Carta",// unidades permitidas: A3, A4, A5, Legal, Carta, Tabloide
@@ -315,8 +317,8 @@ export class KapmaeController {
                         imgs: listImgPdf
                     }
                 },
-                path: './pdfs/myNewPdf.pdf', 
-                type : "" ,
+                path: './pdfs/myNewPdf.pdf',
+                type: "buffer", // by using "buffer" or "stream" respectively.
             };
             // console.log('method getPdfDocumentImg - 4');
             pdf
@@ -351,7 +353,7 @@ export class KapmaeController {
         return await fs.readFileSync(urlPath, 'utf-8');
     }
 
-    static async base64_encodeInternal(): Promise<string> {
+    static async base64EncodeInternalLogo(): Promise<string> {
         // console.log('method readFile');
         var urlPath = path.join(__dirname, '..', 'templatePdf', 'img', 'Luzagro.jpg');
         // console.log('urlPath: ' + urlPath);
@@ -359,7 +361,7 @@ export class KapmaeController {
         return bitmap.toString('base64');
     }
 
-    static async base64_encode(file: string): Promise<string> {
+    static async base64Encode(file: string): Promise<string> {
         var bitmap: Buffer = await fs.readFileSync(file);
         return bitmap.toString('base64');
     }

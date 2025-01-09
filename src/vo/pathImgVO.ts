@@ -22,6 +22,8 @@ export interface imgPdfVO {
     direccionSector: string;
     cuotaParticipacion: number;
     fec_inc: string;
+
+    lastPage: boolean;
 }
 export class imgPdfVO {
     constructor() { }
