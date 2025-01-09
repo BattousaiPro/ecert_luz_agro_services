@@ -260,10 +260,8 @@ export class KapmaeController {
 
     static getPdfDocumentImg = async (request: Request, response: Response) => {
         // console.log('method getPdfDocumentImg');
-        let mensaje:string = '';
         let resp: GenericResponse = new GenericResponse();
         try {
-            mensaje+='paso 1;;';
             const { imgs, rutCop, codCop } = request.body;
             // console.log('imgs.rutCop: ' + imgs.rutCop);
             // console.log('imgs.codCop: ' + imgs.codCop);
@@ -273,36 +271,15 @@ export class KapmaeController {
                     sec_cop: true,
                 },
             });
-            mensaje+='paso 2;;';
             if (!respElementSocio) {
                 resp.code = '-3';
                 resp.data = new Kapmae();
                 // console.log('Socio no existe');
                 return response.status(200).send(resp);
             }
-            mensaje+='paso 3;;';
             let elementSocio: Kapmae = respElementSocio[0];
-            mensaje+='paso 4;;-;;';
-            mensaje += '__dirname: [' + __dirname + ']';
-
-            let urlPath_1 = __dirname.replace('src/src/controller', 'src/templatePdf/html/imgSocios.html');
-            mensaje += 'urlPath_1: [' + urlPath_1 + ']';
-            let urlPath_2 = __dirname.replace('src/src/controller', 'src/templatePdf/img/Luzagro.jpg');
-            mensaje += 'urlPath_2: [' + urlPath_2 + ']';
-
-            var jsonPath = path.join(__dirname, '..', 'config', 'dev', 'foobar.json');
-            mensaje += 'jsonPath: [' + jsonPath + ']';
-
-            var jsonPath1 = path.join(__dirname, '..', 'templatePdf', 'html', 'imgSocios.html');
-            mensaje += 'jsonPath1: [' + jsonPath1 + ']';
-
-            var jsonPath2 = path.join(__dirname, '..', 'templatePdf', 'img', 'Luzagro.jpg');
-            mensaje += 'jsonPath2: [' + jsonPath2 + ']';
-
-            const template = await this.readFile('src/templatePdf/html/imgSocios.html');
-            mensaje+='paso 4.1;;';
-            let base64: string = await this.base64_encodeInternal('src/templatePdf/img/Luzagro.jpg');
-            mensaje+='paso 5;;';
+            const template = await this.readFile();
+            let base64: string = await this.base64_encodeInternal();
             // console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
             for (let index = 0; index < imgs.length; index++) {
@@ -325,27 +302,12 @@ export class KapmaeController {
                 element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear(); elementSocio.fec_inc;// 06/10/2003
                 listImgPdf.push(element);
             }
-            mensaje+='paso 6;;';
             // console.log('JSON.stringify(listImgPdf): ' + JSON.stringify(listImgPdf));
             const options = {
                 format: "Carta",// unidades permitidas: A3, A4, A5, Legal, Carta, Tabloide
                 orientation: "portrait", // retrato u portrait
                 border: "10mm",
-                header : { 
-                    height : "45mm" , 
-                    contents : '<div style="text-align: center;">Author: Shyam Hajare</div>' 
-                } ,
-                footer : { 
-                    height : "28mm" , 
-                    contents : { 
-                        first : 'Portada' , 
-                        2 : 'Segunda página' ,  // Cualquier número de página funciona. Índice basado en 1 
-                        predeterminado : '<span style="color: #444;">page</span>/<span>pages</span>' ,  // valor de reserva 
-                        last : 'Última página' 
-                    } 
-                }
             };
-            mensaje+='paso 7;;';
             const document = {
                 html: template,
                 data: {
@@ -356,7 +318,6 @@ export class KapmaeController {
                 path: './pdfs/myNewPdf.pdf', 
                 type : "" ,
             };
-            mensaje+='paso 8;;';
             // console.log('method getPdfDocumentImg - 4');
             pdf
                 .create(document, options)
@@ -373,28 +334,25 @@ export class KapmaeController {
                     resp.data = null;
                     return response.send(resp);
                 });
-                mensaje+='paso 9;;';
         } catch (error) {
             // console.log(JSON.stringify(error));
             resp.code = '-2';
-            resp.message = StatusCode.ERROR + ' _ ' + mensaje + ' _ ' + JSON.stringify(error);
+            resp.message = StatusCode.ERROR;
             resp.data = null;
             console.log(JSON.stringify(resp.message));
             return response.send(resp);
         }
     }
 
-    static async readFile(inputPath: string): Promise<string> {
+    static async readFile(): Promise<string> {
         // console.log('method readFile');
-        //let urlPath = __dirname.replace('src/src/controller', inputPath);
         var urlPath = path.join(__dirname, '..', 'templatePdf', 'html', 'imgSocios.html');
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
     }
 
-    static async base64_encodeInternal(inputPath: string): Promise<string> {
+    static async base64_encodeInternal(): Promise<string> {
         // console.log('method readFile');
-        //let urlPath = __dirname.replace('src/src/controller', inputPath);
         var urlPath = path.join(__dirname, '..', 'templatePdf', 'img', 'Luzagro.jpg');
         // console.log('urlPath: ' + urlPath);
         var bitmap: Buffer = await fs.readFileSync(urlPath);
