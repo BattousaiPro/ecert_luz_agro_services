@@ -10,10 +10,10 @@ import { Kapmae } from "./entity/Kapmae";
 import { RolPermiso } from "./entity/RolPermiso";
 import { UserRol } from "./entity/UserRol";
 
-const host_bd_Env = process.env.HOST_BD_ENV || 'localhost';
-const username_bd_Env = process.env.USERNAME_BD_ENV || 'test';
-const password_bd_Env = process.env.PASSWORD_BD_ENV || 'test';
-const database_bd_Env = process.env.DATABASE_BD_ENV || 'test';
+const host_bd_Env = process.env.HOST_BD_ENV || '82.197.82.107';                   // 'localhost';
+const username_bd_Env = process.env.USERNAME_BD_ENV || 'u134865480_dev_root';     // 'test';
+const password_bd_Env = process.env.PASSWORD_BD_ENV || 'Ge5]Kj2i?nA';             // 'test';
+const database_bd_Env = process.env.DATABASE_BD_ENV || 'u134865480_Test_Agro_BD'; // 'test';
 const port_bd_Env: number = <number>(process.env.PORT_BD_ENV || 3306);
 const synchronize_bd_Env: boolean = <boolean>(process.env.SYNCHRONIZE_BD_ENV || false);
 const logging_bd_Env: boolean = <boolean>(process.env.LOGGING_BD_ENV || false);

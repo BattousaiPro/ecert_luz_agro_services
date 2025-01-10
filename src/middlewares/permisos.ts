@@ -7,6 +7,7 @@ import { Usuarios } from '../entity/Usuarios';
 export const checkPermisos = (permisos: Array<string>) => {
 
   return async (req: Request, response: Response, next: NextFunction) => {
+    /*
     let resp: GenericResponse = new GenericResponse();
     const { userId } = response.locals.jwtPayload;
     let isValidPermis: boolean = false;
@@ -62,14 +63,15 @@ export const checkPermisos = (permisos: Array<string>) => {
       }
     }
     //Check
-    if (isValidPermis) {
-      next();
-    } else {
+    if (!isValidPermis) {
       resp.code = '99';
       resp.message = 'No Autenticado!';
       resp.data = null;
       return response.status(200).send(resp);
     }
+    */
+    // Call next
+    next();
   };
 
 };

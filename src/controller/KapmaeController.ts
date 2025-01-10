@@ -10,12 +10,7 @@ import * as path from "path";
 
 export class KapmaeController {
 
-    //private static baeePath: string = 'C:/repoBattousaiPro/ecert/001_Docs/entregas_ejemplos/Socios';
-    //private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || 'C:/repoBattousaiPro/ecert/001_Docs/entregas_ejemplos/Socios');
-    //private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || 'C:/repoBattousaiPro/ecert/ecert_luz_agro_services/') + 'src/templatePdf/Socios';
-    //private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || './') + 'src/templatePdf/Socios';
-    private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || 'basePath');
-    //private static baeePath: string = './src/templatePdf/Socios';
+    private static baeePath: string = <string>(process.env.BASE_PATH_DOCUMENT || './src/templatePdf/Socios'); // 'basePath');
     private static repository = AppDataSource.getRepository(Kapmae);
 
     constructor() { }

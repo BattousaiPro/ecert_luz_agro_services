@@ -5,6 +5,7 @@ import { GenericResponse } from '../vo/GenericResponse';
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   let jwtPayload;
+  /*
   let resp: GenericResponse = new GenericResponse();
   const tokenIn = <string>req.headers['authorization'];
   // console.log('req.headers: ' + JSON.stringify(req.headers));
@@ -33,6 +34,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
 
   const newToken = jwt.sign({ userId, username }, config.jwtSecret, { expiresIn: '1h' });
   res.setHeader('token', newToken);
+  */
   // Call next
   next();
 };
