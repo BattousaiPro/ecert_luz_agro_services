@@ -19,13 +19,13 @@ export class AuthController {
         // console.log('method login: ' + new Date().toLocaleString().split(', ')[1]);
         let resp: GenericResponse = new GenericResponse();
         const { ctaUserName, ctaPassWord } = request.body;
-        if (!(ctaUserName && ctaPassWord)) {
+        /*if (!(ctaUserName && ctaPassWord)) {
             //console.log(JSON.stringify(e));
             resp.code = '-1';
             resp.message = 'Nombre de Usuario y contraseña son requeridos!';
             resp.data = null;
             return response.status(200).send(resp);
-        }
+        }*/
 
         // console.log('validaión user pass existe: ' + new Date().toLocaleString().split(', ')[1]);
         let user: Usuarios;
@@ -58,7 +58,7 @@ export class AuthController {
 */
 
         // console.log('chequeo encript pass: ' + new Date().toLocaleString().split(', ')[1]);
-        const token: string = jwt.sign({ userId: user.id, username: user.ctaUserName }, config.jwtSecret, { expiresIn: '1h' });
+        const token: string = '';//jwt.sign({ userId: user.id, username: user.ctaUserName }, config.jwtSecret, { expiresIn: '1h' });
         // console.log('generate Toekb jwt: ' + new Date().toLocaleString().split(', ')[1]);
 
         resp.data = this.setUserAuthVO(token, user.roles);
