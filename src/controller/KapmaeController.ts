@@ -343,7 +343,7 @@ export class KapmaeController {
 
     static async readFile(): Promise<string> {
         // console.log('method readFile');
-        var urlPath = path.join(__dirname, '..', 'templatePdf', 'html', 'imgSocios.html');
+        var urlPath = path.join(__dirname, '..', 'templatePdf', 'html', 'imgDocSocios.html');
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
     }
