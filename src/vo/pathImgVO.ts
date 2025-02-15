@@ -20,7 +20,7 @@ export interface imgPdfVO {
     codCop: number;
     nombreCompleto: string;
     direccionSector: string;
-    cuotaParticipacion: number;
+    cuotaParticipacion: string;
     fec_inc: string;
 
     lastPage: boolean;

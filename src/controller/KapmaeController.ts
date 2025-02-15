@@ -294,7 +294,7 @@ export class KapmaeController {
                 element.codCop = elementSocio.cod_cop;
                 element.nombreCompleto = elementSocio.nombres + ' ' + elementSocio.ape_pat + ' ' + elementSocio.ape_mat;
                 element.direccionSector = elementSocio.sec_cop.descrip;
-                element.cuotaParticipacion = 1;
+                element.cuotaParticipacion = elementSocio.acc_tra == 0 ? ',00' : elementSocio.acc_tra.toString();
                 element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear(); elementSocio.fec_inc;// 06/10/2003
                 listImgPdf.push(element);
             }
