@@ -279,7 +279,7 @@ export class KapmaeController {
             // let listImgPdf: imgPdfVO[] = [];
             // const element: imgPdfVO = new imgPdfVO();
             resp.code = '20';
-            if (codCop !== 7009) {
+            if (codCop === 7009) {
                 resp.code = '22';
             }
             resp.data = 'Base64ByCertificado - [' + rutCop + '] - [' + codCop + ']';
