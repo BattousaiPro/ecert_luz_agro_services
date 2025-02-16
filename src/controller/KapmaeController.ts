@@ -253,6 +253,47 @@ export class KapmaeController {
         return response.send(resp);
     }
 
+    static getPdfCertificado = async (request: Request, response: Response) => {
+        // console.log('method getPdfCertificado');
+        let resp: GenericResponse = new GenericResponse();
+        try {
+            const { rutCop, codCop } = request.body;
+            // console.log('imgs.rutCop: ' + imgs.rutCop);
+            // console.log('imgs.codCop: ' + imgs.codCop);
+            let respElementSocio: Kapmae[] = await this.repository.find({
+                where: { rut_cop: rutCop, cod_cop: codCop },
+                relations: {
+                    sec_cop: true,
+                },
+            });
+            if (!respElementSocio) {
+                resp.code = '-3';
+                resp.data = new Kapmae();
+                // console.log('Socio no existe');
+                return response.status(200).send(resp);
+            }
+            let elementSocio: Kapmae = respElementSocio[0];
+            const template = await this.readFile('registroSocio.html');
+            let base64: string = await this.base64EncodeInternalLogo();
+            // console.log('**********************************************');
+            // let listImgPdf: imgPdfVO[] = [];
+            // const element: imgPdfVO = new imgPdfVO();
+            resp.code = '20';
+            if (codCop !== 7009) {
+                resp.code = '22';
+            }
+            resp.data = 'Base64ByCertificado - [' + rutCop + '] - [' + codCop + ']';
+            return response.send(resp);
+        } catch (error) {
+            // console.log(JSON.stringify(error));
+            resp.code = '-1';
+            resp.message = StatusCode.ERROR;
+            resp.data = null;
+            console.log(JSON.stringify(resp.message));
+            return response.send(resp);
+        }
+    }
+
     static getPdfDocumentImg = async (request: Request, response: Response) => {
         // console.log('method getPdfDocumentImg');
         let resp: GenericResponse = new GenericResponse();
@@ -273,7 +314,7 @@ export class KapmaeController {
                 return response.status(200).send(resp);
             }
             let elementSocio: Kapmae = respElementSocio[0];
-            const template = await this.readFile();
+            const template = await this.readFile('imgDocSocios.html');
             let base64: string = await this.base64EncodeInternalLogo();
             // console.log('**********************************************');
             let listImgPdf: imgPdfVO[] = [];
@@ -341,9 +382,9 @@ export class KapmaeController {
         }
     }
 
-    static async readFile(): Promise<string> {
+    static async readFile(nameFile: string): Promise<string> {
         // console.log('method readFile');
-        var urlPath = path.join(__dirname, '..', 'templatePdf', 'html', 'imgDocSocios.html');
+        var urlPath = path.join(__dirname, '..', 'templatePdf', 'html', nameFile);
         // console.log('urlPath: ' + urlPath);
         return await fs.readFileSync(urlPath, 'utf-8');
     }

@@ -29,8 +29,12 @@ kapmae.get('/findImgByCodCop/:codCop'
     , [checkJwt, checkPermisos(['LUZ_AGRO_SOCIO_BUSCAR_IMG_COD'])]
     , KapmaeController.findImgByCodCop);
 
+kapmae.post('/getPdfCertificado'
+    , [checkJwt, checkPermisos(['LUZ_AGRO_SOCIO_CERTIFICADO'])]
+    , KapmaeController.getPdfCertificado);
+
 kapmae.post('/getPdfDocumentImg'
-    , [checkJwt, checkPermisos(['LUZ_AGRO_SOCIO_BUSCAR_IMG_COD'])]
+    , [checkJwt, checkPermisos(['LUZ_AGRO_SOCIO_SELECCIONAR'])]
     , KapmaeController.getPdfDocumentImg);
 
 export default kapmae;
