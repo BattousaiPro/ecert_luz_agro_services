@@ -140,3 +140,10 @@ CREATE TABLE KAPMAE (
 	CONSTRAINT fk_SECTOR FOREIGN KEY (sec_cop) REFERENCES SECTOR(codigo),
 	CONSTRAINT fk_COMUNAS FOREIGN KEY (com_pos) REFERENCES COMUNAS(codigo)
 );
+
+los indices de 
+    KEY `IDX_KAPMAE_rut_cop` (`rut_cop`),
+    KEY `IDX_KAPMAE_cod_cop` (`cod_cop`),
+
+    quedaron como laves unicas ..... pero no debe ser asi ................validar el script del
+    agregar de manera explicia Nul a lo campos de todas la tablas.
