@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import { AppDataSource } from "../data-source";
 import { Kapmae } from "../entity/Kapmae";
 import { GenericResponse, StatusCode } from "../vo/GenericResponse";
-import { imgPdfVO, imgVO, pathImgsVO } from "../vo/pathImgVO";
+import { certificadoPdfVO, imgPdfVO, imgVO, pathImgsVO } from "../vo/pathImgVO";
 import * as path from "path";
 
 export class KapmaeController {
@@ -277,13 +277,52 @@ export class KapmaeController {
             let base64: string = await this.base64EncodeInternalLogo();
             // console.log('**********************************************');
             // let listImgPdf: imgPdfVO[] = [];
-            // const element: imgPdfVO = new imgPdfVO();
-            resp.code = '20';
-            if (codCop === 7009) {
-                resp.code = '22';
-            }
-            resp.data = 'Base64ByCertificado - [' + rutCop + '] - [' + codCop + ']';
-            return response.send(resp);
+            const element: certificadoPdfVO = new certificadoPdfVO();
+            let dat = new Date();
+            let itemIndex = '00000000' + 1;
+            element.logoBase64 = base64;
+            element.lastPage = false;
+            element.indexImg = itemIndex.substring((itemIndex.length - 9), itemIndex.length);
+            element.dateDoc = dat.getDate() + '/' + (dat.getMonth() + 1) + '/' + dat.getFullYear();
+            element.dateHDoc = dat.getHours() + ':' + dat.getMinutes() + ':' + dat.getSeconds();
+            element.userName = 'UserTestPdf'; // TODO: pendiente Obtener Usuario logueado.
+
+            element.rutCop = elementSocio.rut_cop;
+            element.codCop = elementSocio.cod_cop;
+            element.nombreCompleto = elementSocio.nombres + ' ' + elementSocio.ape_pat + ' ' + elementSocio.ape_mat;
+            element.direccionSector = elementSocio.sec_cop.descrip;
+            element.cuotaParticipacion = elementSocio.acc_tra == 0 ? ',00' : elementSocio.acc_tra.toString();
+            element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear();// 06/10/2003
+
+            const options = {
+                format: "Carta",// unidades permitidas: A3, A4, A5, Legal, Carta, Tabloide
+                orientation: "portrait", // retrato u portrait
+                border: "10mm",
+            };
+            const document = {
+                html: template,
+                data: {
+                    body: element
+                },
+                path: './pdfs/myNewPdfCert.pdf',
+                type: "",
+            };
+            // console.log('method getPdfDocumentImg - 4');
+            pdf
+                .create(document, options)
+                .then(async (res) => {
+                    // console.log(res);
+                    var bitmap: Buffer = await fs.readFileSync(res.filename);
+                    resp.data = bitmap.toString('base64');
+                    return response.send(resp);
+                })
+                .catch((error) => {
+                    // console.log(JSON.stringify(error));
+                    resp.code = '-1';
+                    resp.message = StatusCode.ERROR;
+                    resp.data = null;
+                    return response.send(resp);
+                });
         } catch (error) {
             // console.log(JSON.stringify(error));
             resp.code = '-1';
@@ -329,14 +368,14 @@ export class KapmaeController {
                 element.indexImg = itemIndex.substring((itemIndex.length - 9), itemIndex.length);
                 element.dateDoc = dat.getDate() + '/' + (dat.getMonth() + 1) + '/' + dat.getFullYear();
                 element.dateHDoc = dat.getHours() + ':' + dat.getMinutes() + ':' + dat.getSeconds();
-                element.userName = 'UserTestPdf';
+                element.userName = 'UserTestPdf'; // TODO: pendiente Obtener Usuario logueado.
 
                 element.rutCop = elementSocio.rut_cop;
                 element.codCop = elementSocio.cod_cop;
                 element.nombreCompleto = elementSocio.nombres + ' ' + elementSocio.ape_pat + ' ' + elementSocio.ape_mat;
                 element.direccionSector = elementSocio.sec_cop.descrip;
                 element.cuotaParticipacion = elementSocio.acc_tra == 0 ? ',00' : elementSocio.acc_tra.toString();
-                element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear(); elementSocio.fec_inc;// 06/10/2003
+                element.fec_inc = elementSocio.fec_inc.getDate() + '/' + (elementSocio.fec_inc.getMonth() + 1) + '/' + elementSocio.fec_inc.getFullYear();// 06/10/2003
                 listImgPdf.push(element);
             }
             listImgPdf[listImgPdf.length - 1].lastPage = true;
