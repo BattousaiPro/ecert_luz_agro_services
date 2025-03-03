@@ -110,7 +110,7 @@ CREATE TABLE KAPMAE (
     ano_tra int(11),
     kap_tra decimal(12,0),
     fec_tra date,
-    acc_tra decimal(10,0),
+    acc_tra decimal(10,0) NULL,
     acc_ret decimal(10,0),
     acc_apo decimal(10,0),
     fec_act date,
